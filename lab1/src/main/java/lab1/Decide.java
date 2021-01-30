@@ -39,13 +39,13 @@ public class Decide {
 	double[] coordinatey;
 	int numpoints;
 
-	public Connectors[][] lcm;
+	public Connectors[][] lcm = new Connectors[15][15];
 
-	public boolean[][] pum;
+	public boolean[][] pum = new boolean[15][15];
 
-	public boolean[] cmv;
+	public boolean[] cmv = new boolean[15];
 
-	public boolean[] fuv;
+	public boolean[] fuv = new boolean[15];
 
 	boolean launch;
 
@@ -87,6 +87,29 @@ public class Decide {
 		return false;
 	}
 
+
+	//check if there exists to consecutive data points with a distance greater than length parameter
+	boolean LIC0(Paramenters_t param) {
+		
+		cmv[0] = false;
+		
+		for(int i = 0; i < numpoints-1; i++) {
+			double dist = Math.sqrt(Math.pow((coordinatex[i+1]-coordinatex[i]),2) + Math.pow((coordinatey[i+1]-coordinatey[i]),2));
+			if(dist > param.length) {
+				
+				cmv[0] = true;
+			}
+		}
+		if(cmv[0] == true) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
+
+
 	/**
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
 	 * (xj yj) where xj - xi < 0 => xj < xi
@@ -104,7 +127,9 @@ public class Decide {
 		return false;
 	}
 
+
 	boolean decide() {
 		return false;
 	}
+
 }
