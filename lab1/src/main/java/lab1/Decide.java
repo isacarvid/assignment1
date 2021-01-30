@@ -1,5 +1,6 @@
 package lab1;
 import java.lang.Math;
+import java.util.Arrays;
 
 public class Decide {
 	enum Connectors {
@@ -42,12 +43,15 @@ public class Decide {
 	
 	public boolean[][] pum;
 	
-	public boolean[] cmv;
+	public boolean[] cmv = new boolean[15];
 
 	public boolean[] fuv;
 	
 	boolean launch;
-	
+
+	/**
+	 * If a < b return LT
+	 */
 	Comptype doublecompere(double a, double b) {
 		if(Math.abs(a-b) < 0.000001) {
 			return Comptype.EQ;
@@ -61,11 +65,16 @@ public class Decide {
 	boolean decide() {
 		return false;
 	}
-	//check if there exists to consecutive data points with a distance greater than parameters.length
-	boolean LIC0() {
+
+	//check if there exists to consecutive data points with a distance greater than length parameter
+	boolean LIC0(Paramenters_t param) {
+		
+		cmv[0] = false;
+		
 		for(int i = 0; i < numpoints-1; i++) {
-			double dist = Math.sqrt(Math.pow((coordinatex[i+1]-coordinatex[i]),2) +Math.pow((coordinatey[i+1]-coordinatey[i]),2) );
-			if(dist > parameters.length) {
+			double dist = Math.sqrt(Math.pow((coordinatex[i+1]-coordinatex[i]),2) + Math.pow((coordinatey[i+1]-coordinatey[i]),2));
+			if(dist > param.length) {
+				
 				cmv[0] = true;
 			}
 		}
@@ -77,9 +86,21 @@ public class Decide {
 	}
 	
 	
-	
-	
-	
-	
-	
+
+	/**
+	 * Returns true if there exists at least two consecutive
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0 => xj < xi
+	 */
+	// ideas for tests : list w consecutive data points which fulfill this and which does not fulfill this
+	// remove parameter ?
+	boolean LIC5(Paramenters_t parameters) {
+		for(int i = 0; i < numpoints-1; i++) {
+			// next nb is smaller than curr => true
+			if(doublecompere(coordinatex[i+1], coordinatex[i]) == Comptype.LT) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
