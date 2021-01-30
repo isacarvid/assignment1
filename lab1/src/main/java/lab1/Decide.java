@@ -62,5 +62,41 @@ public class Decide {
 		return false;
 	}
 	
-	
+	/**
+	 * Check if 3 points gapped by aPts and bPts can fit or not in radius1 and radius2 
+	 * @return true if the 3 points do not fit in radius1 and 3 pts fit in radius2
+	 */
+	boolean lic13(int numpoints, double[] x, double[] y, int aPts, int bPts, int radius1, int radius2) {
+		if(numpoints < 5) return false;
+		double someRadius;
+		double length12, length13, length23;
+		for(int i = 0; i < numpoints - (aPt + bPts) - 2; i++) {
+			pt1x = x[i]; pt1y = y[i];
+			pt2x = x[i+aPts+1]; pt2y = y[i+aPts+1];
+			pt3x = x[i+bPts+1]; pt3y = y[i+bPts+1];
+
+			length12 = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
+			length13 = Math.sqrt((pt1x-pt3x)*(pt1x-pt3x) + (pt1y-pt3y)*(pt1y-pt3y));
+			length23 = Math.sqrt((pt2x-pt3x)*(pt2x-pt3x) + (pt2y-pt3y)*(pt2y-pt3y));
+			
+			// check if the pts do NOT fit in circle of radius 1
+			if(doublecompere(length12, 2*radius1) == Comptype.GT) {
+				if(doublecompere(length13, 2*radius1) == Comptype.GT) {
+					if(doublecompere(length23, 2*radius1) == Comptype.GT) {
+						return true;
+					}
+				}
+			}
+
+			// check if the pts do fit in circle of radius 2
+			if(doublecompere(length12, 2*radius2) != Comptype.GT) {
+				if(doublecompere(length13, 2*radius2) != Comptype.GT) {
+					if(doublecompere(length23, 2*radius2) != Comptype.GT) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
