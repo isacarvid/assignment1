@@ -1,5 +1,4 @@
 language: java
 script: 
 - gradle build
-- gradle tasks
-- 
+- gradle compileTestJava
