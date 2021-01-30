@@ -61,6 +61,19 @@ public class Decide {
 	boolean decide() {
 		return false;
 	}
-	
-	
+
+	/**
+	 * Returns true if there exists at least two consecutive
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0
+	 */
+	// ideas for tests : list w consecutive data points which fulfill this and which does not fulfill this
+	// remove parameter ?
+	boolean LIC5(Paramenters_t parameters) {
+		for(int i = 0; i < numpoints-1; i++) {
+			if(coordinatex[i+1] - coordinatex[i] < 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
