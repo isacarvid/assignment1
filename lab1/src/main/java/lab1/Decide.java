@@ -62,5 +62,34 @@ public class Decide {
 		return false;
 	}
 	
-	
+	/**
+	 * Check if 3 points gapped by ePts and fPts for a triangle with area less or more than area1 and area2
+	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less than area2
+	 */
+	boolean lic14(int numpoints, double[] x, double[] y, int ePts, int fPts, int area1, int area2) {
+		if(numpoints < 5) return false;
+		double someRadius;
+		double length12, length13, length23;
+		boolean a1, a2 = false;
+		for(int i = 0; i < numpoints - (aPt + bPts) - 2; i++) {
+			pt1x = x[i]; pt1y = y[i];
+			pt2x = x[i+aPts+1]; pt2y = y[i+aPts+1];
+			pt3x = x[i+bPts+1]; pt3y = y[i+bPts+1];
+
+			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
+			
+			// check if the pts triangle area is more than area1
+			if(doublecompere(someArea, area1) == Comptype.GT) {
+				a1 = true;
+				if(a2) return true;
+			}
+
+			// check if the pts triangle area is less than area2
+			if(doublecompere(someArea, area2) == Comptype.LT) {
+				a2 = true;
+				if(a1) return true;
+			};
+		}
+		return false;
+	}
 }
