@@ -1,5 +1,6 @@
 package lab1;
 import java.lang.Math;
+import java.util.Arrays;
 
 public class Decide {
 	enum Connectors {
@@ -47,7 +48,10 @@ public class Decide {
 	public boolean[] fuv;
 	
 	boolean launch;
-	
+
+	/**
+	 * If a < b return LT
+	 */
 	Comptype doublecompere(double a, double b) {
 		if(Math.abs(a-b) < 0.000001) {
 			return Comptype.EQ;
@@ -102,6 +106,22 @@ public class Decide {
 						if(r1) return true;
 					}
 				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if there exists at least two consecutive
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0 => xj < xi
+	 */
+	// ideas for tests : list w consecutive data points which fulfill this and which does not fulfill this
+	// remove parameter ?
+	boolean LIC5(Paramenters_t parameters) {
+		for(int i = 0; i < numpoints-1; i++) {
+			// next nb is smaller than curr => true
+			if(doublecompere(coordinatex[i+1], coordinatex[i]) == Comptype.LT) {
+				return true;
 			}
 		}
 		return false;
