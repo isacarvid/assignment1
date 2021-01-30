@@ -1,5 +1,6 @@
 package lab1;
 import java.lang.Math;
+import java.util.Arrays;
 
 public class Decide {
 	enum Connectors {
@@ -47,7 +48,10 @@ public class Decide {
 	public boolean[] fuv;
 	
 	boolean launch;
-	
+
+	/**
+	 * If a < b return LT
+	 */
 	Comptype doublecompere(double a, double b) {
 		if(Math.abs(a-b) < 0.000001) {
 			return Comptype.EQ;
@@ -65,10 +69,6 @@ public class Decide {
 	/**
 	 * There exists at least one set of three consecutive data points 
 	 * that are the vertices of a triangle with area greater than AREA1
-	 * @param numpoints
-	 * @param x
-	 * @param y
-	 * @param area1
 	 * @return yes there exists such 3 pts
 	 */
 	boolean lic3(int numpoints, double[] x, double[] y, double area1) {
@@ -83,5 +83,21 @@ public class Decide {
 			if(doublecompere(someArea, area1) == Comptype.GT) return true;
 		}
 		return false;	
+	}
+
+	/**
+	 * Returns true if there exists at least two consecutive
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0 => xj < xi
+	 */
+	// ideas for tests : list w consecutive data points which fulfill this and which does not fulfill this
+	// remove parameter ?
+	boolean LIC5(Paramenters_t parameters) {
+		for(int i = 0; i < numpoints-1; i++) {
+			// next nb is smaller than curr => true
+			if(doublecompere(coordinatex[i+1], coordinatex[i]) == Comptype.LT) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
