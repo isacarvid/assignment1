@@ -1,4 +1,5 @@
 language: java
+before_install: cd lab1
 script: 
 - gradle build
 - gradle test
