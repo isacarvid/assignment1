@@ -62,5 +62,25 @@ public class Decide {
 		return false;
 	}
 	
+	/**
+	 * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
+	 * exactly G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) The
+	 * condition is not met when NUMPOINTS < 3
+	 * @param numpoints
+	 * @param x
+	 * @param y
+	 * @param gPts
+	 * @return
+	 */
+	boolean lic11(int numpoints, double[] x, double[] y, int gPts) {
+		if(numpoints < 3) return false;
+		for(int i = 0; i < numpoints - gPts; i++) {
+			pt1x = x[i]; pt1y = y[i];
+			pt2x = x[i+gPts+1]; pt2y = y[i+gPts+1];
+
+			if(doublecompere(pt1x, pt2x) == Comptype.GT) return true;
+		}
+		return false;
+	}
 	
 }
