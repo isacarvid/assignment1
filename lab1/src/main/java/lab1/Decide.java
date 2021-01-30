@@ -70,6 +70,7 @@ public class Decide {
 		if(numpoints < 5) return false;
 		double someRadius;
 		double length12, length13, length23;
+		boolean r1, r2 = false;
 		for(int i = 0; i < numpoints - (aPt + bPts) - 2; i++) {
 			pt1x = x[i]; pt1y = y[i];
 			pt2x = x[i+aPts+1]; pt2y = y[i+aPts+1];
@@ -81,18 +82,24 @@ public class Decide {
 			
 			// check if the pts do NOT fit in circle of radius 1
 			if(doublecompere(length12, 2*radius1) == Comptype.GT) {
-				if(doublecompere(length13, 2*radius1) == Comptype.GT) {
-					if(doublecompere(length23, 2*radius1) == Comptype.GT) {
-						return true;
-					}
-				}
+				r1 = true;
+				if(r2) return true;
+			}
+			else if(doublecompere(length13, 2*radius1) == Comptype.GT) {
+				r1 = true;
+				if(r2) return true;
+			}
+			else if(doublecompere(length23, 2*radius1) == Comptype.GT) {
+				r1 = true;
+				if(r2) return true;
 			}
 
 			// check if the pts do fit in circle of radius 2
 			if(doublecompere(length12, 2*radius2) != Comptype.GT) {
 				if(doublecompere(length13, 2*radius2) != Comptype.GT) {
 					if(doublecompere(length23, 2*radius2) != Comptype.GT) {
-						return true;
+						r2 = true;
+						if(r1) return true;
 					}
 				}
 			}
