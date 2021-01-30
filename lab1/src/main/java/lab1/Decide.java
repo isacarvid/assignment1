@@ -77,7 +77,7 @@ public class Decide {
 	boolean lic7(int numpoints, double[] x, double[] y, double length1, int kPts) {
 		if(numpoints < 3) return false;
 		double someLength;
-		for(int i = 0; i < numpoints - kPts; i++) {
+		for(int i = 0; i < numpoints - kPts - 1; i++) {
 			pt1x = x[i]; pt1y = y[i];
 			pt2x = x[i+kPts+1]; pt2y = y[i+kPts+1];
 
