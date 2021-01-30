@@ -1,6 +1,7 @@
 package lab1;
 
 import java.lang.Math;
+import java.util.Arrays;
 
 public class Decide {
 	enum Connectors {
@@ -48,6 +49,9 @@ public class Decide {
 
 	boolean launch;
 
+	/**
+	 * If a < b return LT
+	 */
 	Comptype doublecompere(double a, double b) {
 		if (Math.abs(a - b) < 0.000001) {
 			return Comptype.EQ;
@@ -58,36 +62,49 @@ public class Decide {
 		return Comptype.GT;
 	}
 
+	// if the angle of three consecutive points are within PI +- some margin epsilon
+	// return true
 	boolean lic2() {
 		for (int i = 1; i < numpoints - 1; i++) {
-			if (!( (coordinatex[i-1] == coordinatex[i] && coordinatey[i-1] == coordinatey[i]) || (coordinatex[i+1] == coordinatex[i] && coordinatey[i+1] == coordinatey[i]))) {
-				double angle = Math.atan(
-						Math.tan(coordinatex[i + 1] - coordinatex[i - 1] / coordinatey[i + 1] - coordinatey[i - 1]));
+			if (!((coordinatex[i - 1] == coordinatex[i] && coordinatey[i - 1] == coordinatey[i])
+					|| (coordinatex[i + 1] == coordinatex[i] && coordinatey[i + 1] == coordinatey[i]))) {
+				
+				double xDiff1 = coordinatex[i - 1] - coordinatex[i];
+				double yDiff1 = coordinatey[i - 1] - coordinatey[i];
+				double xDiff2 = coordinatex[i + 1] - coordinatex[i];
+				double yDiff2 = coordinatey[i + 1] - coordinatey[i];
+				
+				double dotProduct = xDiff1 * xDiff2 + yDiff1 * yDiff2; 
+				
+				double normA = Math.sqrt(Math.pow(xDiff1,2) + Math.pow(yDiff1,2));
+				double normB = Math.sqrt(Math.pow(xDiff2,2) + Math.pow(yDiff2,2));
+				double angle = Math.acos(dotProduct/(normA * normB));
 				if (angle < (Math.PI - parameters.epsilon) || angle > (Math.PI + parameters.epsilon)) {
 					return true;
 				}
 			}
 		}
-
-		return false;
-	}
-
-	boolean decide() {
 		return false;
 	}
 
 	/**
-	 * Returns true if there exists at least two consecutive
-	 * data pts (xi yi) and (xj yj) where xj - xi < 0
+	 * Returns true if there exists at least two consecutive data pts (xi yi) and
+	 * (xj yj) where xj - xi < 0 => xj < xi
 	 */
-	// ideas for tests : list w consecutive data points which fulfill this and which does not fulfill this
+	// ideas for tests : list w consecutive data points which fulfill this and which
+	// does not fulfill this
 	// remove parameter ?
 	boolean LIC5(Paramenters_t parameters) {
-		for(int i = 0; i < numpoints-1; i++) {
-			if(coordinatex[i+1] - coordinatex[i] < 0) {
+		for (int i = 0; i < numpoints - 1; i++) {
+			// next nb is smaller than curr => true
+			if (doublecompere(coordinatex[i + 1], coordinatex[i]) == Comptype.LT) {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	boolean decide() {
 		return false;
 	}
 }
