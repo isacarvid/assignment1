@@ -1,4 +1,5 @@
 package lab1;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -9,13 +10,13 @@ import org.junit.Before;
 import static org.junit.Assert.assertFalse;
 
 
-
 public class TestDecide {
     // here should probably put arrays which test like all the lics
     @Before
     public void setUp() {
         System.out.println("setup");
     }
+
 	
 	@Test
 	public void testLIC0() {
@@ -59,7 +60,6 @@ public class TestDecide {
 	}
 	
 
-
     @Test
     //Returns true if there exists at least two consecutive
     //data pts (xi yi) and (xj yj) where xj - xi < 0
@@ -80,5 +80,9 @@ public class TestDecide {
         decide2.coordinatey = LIC5Falsey;
         assertFalse(decide2.LIC5(decide2.parameters));
     }
+
 }
+
+
+
 

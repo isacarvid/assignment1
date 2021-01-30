@@ -66,6 +66,7 @@ public class Decide {
 		return false;
 	}
 
+
 	//check if there exists to consecutive data points with a distance greater than length parameter
 	boolean LIC0(Paramenters_t param) {
 		
@@ -86,6 +87,7 @@ public class Decide {
 	}
 	
 	
+
 
 	/**
 	 * Returns true if there exists at least two consecutive
