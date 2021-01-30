@@ -11,6 +11,27 @@ import static org.junit.Assert.assertFalse;
 
 
 public class TestDecide {
+	@Test
+	public void LIC2test() {
+		double[] x = {1, 3, 5};
+		double[] y = {2, 2, 2}; 
+		Decide decide = new Decide();
+		decide.parameters.epsilon =0.1;
+		decide.numpoints = 3;
+		decide.coordinatex = x;
+		decide.coordinatey = y;
+		boolean tmp = decide.lic2();
+		assertFalse(decide.lic2());
+		
+		double[] x2 = {1, 5, 7};
+		double[] y2 = {2, 10, 2}; 
+		Decide decide2 = new Decide();
+		decide2.parameters.epsilon =0.1;
+		decide2.numpoints = 3;
+		decide2.coordinatex = x2;
+		decide2.coordinatey = y2;
+		assertTrue(decide2.lic2());
+	}
     // here should probably put arrays which test like all the lics
     @Before
     public void setUp() {
