@@ -1,5 +1,6 @@
 package lab1;
 import java.lang.Math;
+import java.util.Arrays;
 
 public class Decide {
 	enum Connectors {
@@ -47,7 +48,10 @@ public class Decide {
 	public boolean[] fuv;
 	
 	boolean launch;
-	
+
+	/**
+	 * If a < b return LT
+	 */
 	Comptype doublecompere(double a, double b) {
 		if(Math.abs(a-b) < 0.000001) {
 			return Comptype.EQ;
@@ -61,18 +65,29 @@ public class Decide {
 	boolean decide() {
 		return false;
 	}
-	
-	
+
+	/**
+	 * Returns true if there exists at least two consecutive
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0 => xj < xi
+	 */
+	// ideas for tests : list w consecutive data points which fulfill this and which does not fulfill this
+	// remove parameter ?
+	boolean LIC5(Paramenters_t parameters) {
+		for(int i = 0; i < numpoints-1; i++) {
+			// next nb is smaller than curr => true
+			if(doublecompere(coordinatex[i+1], coordinatex[i]) == Comptype.LT) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening
 	 * points that are a distance greater than the length, LENGTH1, apart. The condition
 	 * is not met when NUMPOINTS < 3
-	 * @param numpoints
-	 * @param x
-	 * @param y
-	 * @param length1
 	 * @param kPts num pts in between the two pts to be compared
-	 * @return yes there exists such 2 pts
+	 * @return true if yes there exists such 2 pts
 	 */
 	boolean lic7(int numpoints, double[] x, double[] y, double length1, int kPts) {
 		if(numpoints < 3) return false;
@@ -81,7 +96,7 @@ public class Decide {
 			pt1x = x[i]; pt1y = y[i];
 			pt2x = x[i+kPts+1]; pt2y = y[i+kPts+1];
 
-			someLength = Math.abs(pt1x - pt2x);
+			someLength = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
 			if(doublecompere(someLength, length1) == Comptype.GT) return true;
 		}
 		return false;
