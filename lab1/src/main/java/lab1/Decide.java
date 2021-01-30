@@ -63,4 +63,27 @@ public class Decide {
 	}
 	
 	
+	/**
+	 * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening
+	 * points that are a distance greater than the length, LENGTH1, apart. The condition
+	 * is not met when NUMPOINTS < 3
+	 * @param numpoints
+	 * @param x
+	 * @param y
+	 * @param length1
+	 * @param kPts num pts in between the two pts to be compared
+	 * @return yes there exists such 2 pts
+	 */
+	boolean lic7(int numpoints, double[] x, double[] y, double length1, int kPts) {
+		if(numpoints < 3) return false;
+		double someLength;
+		for(int i = 0; i < numpoints - kPts; i++) {
+			pt1x = x[i]; pt1y = y[i];
+			pt2x = x[i+kPts+1]; pt2y = y[i+kPts+1];
+
+			someLength = Math.abs(pt1x - pt2x);
+			if(doublecompere(someLength, length1) == Comptype.GT) return true;
+		}
+		return false;
+	}
 }
