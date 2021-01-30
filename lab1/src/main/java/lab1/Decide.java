@@ -61,6 +61,25 @@ public class Decide {
 	boolean decide() {
 		return false;
 	}
+	//check if there exists to consecutive data points with a distance greater than parameters.length
+	boolean LIC0() {
+		for(int i = 0; i < numpoints-1; i++) {
+			double dist = Math.sqrt(Math.pow((coordinatex[i+1]-coordinatex[i]),2) +Math.pow((coordinatey[i+1]-coordinatey[i]),2) );
+			if(dist > parameters.length) {
+				cmv[0] = true;
+			}
+		}
+		if(cmv[0] == true) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
 	
 	
 }
