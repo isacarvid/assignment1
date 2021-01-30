@@ -62,5 +62,26 @@ public class Decide {
 		return false;
 	}
 	
-	
+	/**
+	 * There exists at least one set of three consecutive data points 
+	 * that are the vertices of a triangle with area greater than AREA1
+	 * @param numpoints
+	 * @param x
+	 * @param y
+	 * @param area1
+	 * @return yes there exists such 3 pts
+	 */
+	boolean lic3(int numpoints, double[] x, double[] y, double area1) {
+		if(numpoints < 3) return false;
+		double someArea;
+		for(int i = 0; i < numpoints - 2; i++) {
+			pt1x = x[i]; pt1y = y[i];
+			pt2x = x[i+1]; pt2y = y[i+1];
+			pt3x = x[i+2]; pt3y = y[i+2];
+
+			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
+			if(doublecompere(someArea, area1) == Comptype.GT) return true;
+		}
+		return false;	
+	}
 }
