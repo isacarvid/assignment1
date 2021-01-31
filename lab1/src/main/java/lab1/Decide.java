@@ -93,7 +93,7 @@ public class Decide {
 	 * Check if 3 points gapped by aPts and bPts can fit or not in radius1 and radius2 
 	 * @return true if the 3 points do not fit in radius1 and 3 pts fit in radius2
 	 */
-	boolean lic13(int numpoints, double[] x, double[] y, int aPts, int bPts, int radius1, int radius2) {
+	boolean LIC13(int numpoints, double[] x, double[] y, int aPts, int bPts, int radius1, int radius2) {
 		if(numpoints < 5) return false;
 		double someRadius;
 		double length12, length13, length23;
