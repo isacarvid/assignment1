@@ -37,7 +37,27 @@ public class TestDecide {
     public void setUp() {
         System.out.println("setup");
     }
+	@Test
+	public void LIC6test() {
+		double[] x = {1, 3, 5};
+		double[] y = {2, 4, 2}; 
+		Decide decide = new Decide();
+		decide.numpoints = 3;
+		decide.parameters.nPts = 3;
+		decide.parameters.dist = 1;
+		decide.coordinatex = x;
+		decide.coordinatey = y;
+		assertTrue(decide.lic6());
 
+		Decide decide2 = new Decide();
+		decide2.numpoints = 3;
+		decide2.parameters.nPts = 3;
+		decide2.parameters.dist = 3;
+		decide2.coordinatex = x;
+		decide2.coordinatey = y;
+		assertFalse(decide2.lic6());
+		
+	}
 	
 	@Test
 	public void testLIC0() {

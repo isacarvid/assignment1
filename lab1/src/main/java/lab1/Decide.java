@@ -68,19 +68,19 @@ public class Decide {
 		for (int i = 1; i < numpoints - 1; i++) {
 			if (!((coordinatex[i - 1] == coordinatex[i] && coordinatey[i - 1] == coordinatey[i])
 					|| (coordinatex[i + 1] == coordinatex[i] && coordinatey[i + 1] == coordinatey[i]))) {
-				
+
 				double xDiff1 = coordinatex[i - 1] - coordinatex[i];
 				double yDiff1 = coordinatey[i - 1] - coordinatey[i];
 				double xDiff2 = coordinatex[i + 1] - coordinatex[i];
 				double yDiff2 = coordinatey[i + 1] - coordinatey[i];
-				
-				double dotProduct = xDiff1 * xDiff2 + yDiff1 * yDiff2; 
-				
-				double normA = Math.sqrt(Math.pow(xDiff1,2) + Math.pow(yDiff1,2));
-				double normB = Math.sqrt(Math.pow(xDiff2,2) + Math.pow(yDiff2,2));
-				double angle = Math.acos(dotProduct/(normA * normB));
+
+				double dotProduct = xDiff1 * xDiff2 + yDiff1 * yDiff2;
+
+				double normA = Math.sqrt(Math.pow(xDiff1, 2) + Math.pow(yDiff1, 2));
+				double normB = Math.sqrt(Math.pow(xDiff2, 2) + Math.pow(yDiff2, 2));
+				double angle = Math.acos(dotProduct / (normA * normB));
 				if (angle < (Math.PI - parameters.epsilon) || angle > (Math.PI + parameters.epsilon)) {
-					cmv[2] = true; 
+					cmv[2] = true;
 					return cmv[2];
 				}
 			}
@@ -89,28 +89,26 @@ public class Decide {
 		return false;
 	}
 
-
-	//check if there exists to consecutive data points with a distance greater than length parameter
+	// check if there exists to consecutive data points with a distance greater than
+	// length parameter
 	boolean LIC0(Paramenters_t param) {
-		
+
 		cmv[0] = false;
-		
-		for(int i = 0; i < numpoints-1; i++) {
-			double dist = Math.sqrt(Math.pow((coordinatex[i+1]-coordinatex[i]),2) + Math.pow((coordinatey[i+1]-coordinatey[i]),2));
-			if(dist > param.length) {
-				
+
+		for (int i = 0; i < numpoints - 1; i++) {
+			double dist = Math.sqrt(Math.pow((coordinatex[i + 1] - coordinatex[i]), 2)
+					+ Math.pow((coordinatey[i + 1] - coordinatey[i]), 2));
+			if (dist > param.length) {
+
 				cmv[0] = true;
 			}
 		}
-		if(cmv[0] == true) {
+		if (cmv[0] == true) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
-	
-
 
 	/**
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
@@ -129,6 +127,36 @@ public class Decide {
 		return false;
 	}
 
+	/**
+	 * Checks if there exists a point within a interval from i -> i + nPts that has
+	 * a distance greater than dist. The distance in question is the one between the
+	 * point in the interval and the line drawn from point point(i) to point(i +
+	 * npts). Formula for distance between point and line
+	 * at:(https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)
+	 */
+	boolean lic6() {
+		for (int i = 0; i < numpoints + 1 - parameters.nPts; i++) {
+			double[] startPoint = { coordinatex[i], coordinatey[i] };
+			double[] endPoint = { coordinatex[i + parameters.nPts-1], coordinatey[i + parameters.nPts-1] };
+			double k = (endPoint[1] - startPoint[1]) / (endPoint[0] - startPoint[0]);
+			double m = startPoint[1] - k * startPoint[0];
+
+			for (int j = i + 1; j < i + parameters.nPts - 1; j++) { 
+				double dist = Math
+						.abs((endPoint[0] - startPoint[0]) * (startPoint[1] - coordinatey[j])
+								- (startPoint[0] - coordinatex[j]) * (endPoint[1] - startPoint[1]))
+						/ Math.sqrt(Math.pow((endPoint[0] - startPoint[0]), 2)
+								+ Math.pow((endPoint[1] - startPoint[1]), 2));
+
+				if (dist > parameters.dist) {
+					cmv[6] = true;
+					return cmv[6];
+				}
+			}
+		}
+		cmv[6] = false;
+		return cmv[6];
+	}
 
 	boolean decide() {
 		return false;
