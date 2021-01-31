@@ -98,6 +98,42 @@ public class TestDecide {
         assertFalse(decide2.LIC5(decide2.parameters));
     }
 
+    @Test
+    /**
+     * Returns true if two cons pts seperated by kPts
+     * are at a distance greater than provided length
+     * Returns false if equal or less than
+     * Returns false if numpoints < 3
+     */
+	public void testLIC7() {
+        Decide program = new Decide();
+
+        program.numpoints = 3;
+        double[] t1cx = {0, 0, 0};
+        double[] t1cy = {0, 0, 0};
+        double[] t2cx = {0, 2, 2};
+        double[] t2cy = {0, 2, 0};
+        double[] t3cx = {0, 4, 4};
+        double[] t3cy = {0, 4, 0};
+        program.parameters.kPts = 1;
+        program.parameters.length = 2;
+
+		// Less than: test for pts with length 0
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC7(program.parameters));
+
+        // Equal to: test for pts with length 2
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC7(program.parameters));
+
+        // Greater than: test for pts with length 4
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC7(program.parameters));
+    }
+
 	@Test
 	// Return true: exists 3 cons pts sep by exactly
 	// C_PTS and D_PTS cons intervening pts, forming an angle s.t.
