@@ -94,13 +94,6 @@ public class Decide {
 	 * @return true if the 3 points do not fit in radius1 and 3 pts fit in radius2
 	 */
 	boolean LIC13(Paramenters_t parameters) {
-		int numpoints = parameters.numpoints;
-		double[] x = parameters.coordinatex;
-		double[] y = parameters.coordinatey;
-		int aPts = parameters.aPts;
-		int bPts = parameters.bPts;
-		int radius1 = parameters.radius;
-		int radius2 = parameters.radius2;
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someRadius;
 		double length12, length13, length23;
