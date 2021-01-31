@@ -75,6 +75,26 @@ public class TestDecide {
 		program.coordinatey = falseCoorY;
 		assertTrue(!program.LIC0(program.parameters));
 	}
+	
+	/**
+	 * There exists at least one set of three consecutive data points
+	 * with aPts and bPts distance between them
+	 * that cannot all be contained in a circle of radius1
+	 */
+	@Test
+	public void testLIC8() {
+		double[] x = {0, 4, 9};
+		double[] y = {0, 4, 9};
+		Decide program = new Decide();
+		program.numpoints = 10;
+		program.parameters.radius = 3;
+		program.coordinatex = x;
+		program.coordinatey = y;
+		assertTrue(program.LIC8());
+		program.parameters.radius = 9;
+		assertFalse(program.LIC8());
+		
+	}
 
 	/**
 	 * There exists at least one set of three consecutive data points

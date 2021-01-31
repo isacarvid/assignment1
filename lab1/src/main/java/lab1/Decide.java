@@ -277,21 +277,81 @@ public class Decide {
 	
 	
 	
-	
-	
-	
-	
-	
+	/**
+	 * There exists at least one set of three consecutive data points with aPts and bPts consecutive points 
+	 *  in between each other that CANNOT all be contained in a circle of radius radius1
+	 *  (parameters.aPts < 1 || parameters.bPts < 1 || ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5) holds
+	 * */
 	
 	boolean LIC8() {
-		if(parameters.aPts < 1 || parameters.bPts < 1 || ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5) {
-			return false;
-		}
-		for(int i = 0; i < numpoints; i++) {
-			
-		}
 		
-		return false;
+		double radius1 = parameters.radius;
+		for(int i = 0; i < numpoints; i++) {
+			if(!(i + parameters.aPts + parameters.bPts + 2 <= numpoints -1)) {
+				break;
+			}
+			
+			double x1 = coordinatex[i];
+			double y1 = coordinatey[i];
+			double x2 = coordinatex[i + parameters.aPts + 1];
+			double y2 = coordinatey[i + parameters.aPts + 1];
+			double x3 = coordinatex[i + parameters.aPts + parameters.bPts + 2];
+			double y3 = coordinatey[i + parameters.aPts + parameters.bPts + 2];
+			
+			double dist1 = distance(x1, y1, x2, y2);
+			double dist2 = distance(x2, y2, x3, y3);
+			double dist3 = distance(x1, y1, x3, y3);
+
+			// distance bigger than diameter => cannot fit
+			if (doublecompere(dist1, 2 * radius1) == Comptype.GT) {
+				return true;
+			} else if (doublecompere(dist2, 2 * radius1) == Comptype.GT) {
+				return true;
+			} else if (doublecompere(dist3, 2 * radius1) == Comptype.GT) {
+				return true;
+			}
+
+			// points with max dist between them
+			double maxDist = 0;
+			double maxDist1x = 0;
+			double maxDist1y = 0;
+			double maxDist2x = 0;
+			double maxDist2y = 0;
+			double extraPointx = 0;
+			double extraPointy = 0;
+			if(dist1 > dist2 && dist1 > dist3) {
+				maxDist1x = x1;
+				maxDist1y = y1;
+				maxDist2x = x2;
+				maxDist2y = y2;
+				extraPointx = x3;
+				extraPointy = y3;
+			}
+			else if(dist2 > dist1 && dist2 > dist3) {
+				maxDist1x = x2;
+				maxDist1y = y2;
+				maxDist2x = x3;
+				maxDist2y = y3;
+				extraPointx = x1;
+				extraPointy = y1;
+			}
+			if(dist3 > dist1 && dist3 > dist1) {
+				maxDist1x = x1;
+				maxDist1y = y1;
+				maxDist2x = x3;
+				maxDist2y = y3;
+				extraPointx = x2;
+				extraPointy = y2;
+			}
+			//distance between extra point and the others less than r :
+			// return false because it can be contained
+			if(distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius1 ||
+					distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius1
+			) {
+				return false;
+			}
+		}
+		return true;
 		
 		
 		
