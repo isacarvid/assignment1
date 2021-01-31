@@ -95,38 +95,37 @@ public class Decide {
 	 */
 	boolean LIC13(Paramenters_t parameters) {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
-		double someRadius;
 		double length12, length13, length23;
-		boolean r1, r2 = false;
+		boolean r1 = false, r2 = false;
 		
 		if(numpoints < 5) return false;
-		for(int i = 0; i < numpoints - (aPt + bPts) - 2; i++) {
+		for(int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
 			pt1x = coordinatex[i]; pt1y = coordinatey[i];
-			pt2x = coordinatex[i+aPts+1]; pt2y = coordinatey[i+aPts+1];
-			pt3x = coordinatex[i+bPts+1]; pt3y = coordinatey[i+bPts+1];
+			pt2x = coordinatex[i+parameters.aPts+1]; pt2y = coordinatey[i+parameters.aPts+1];
+			pt3x = coordinatex[i+parameters.bPts+1]; pt3y = coordinatey[i+parameters.bPts+1];
 
 			length12 = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
 			length13 = Math.sqrt((pt1x-pt3x)*(pt1x-pt3x) + (pt1y-pt3y)*(pt1y-pt3y));
 			length23 = Math.sqrt((pt2x-pt3x)*(pt2x-pt3x) + (pt2y-pt3y)*(pt2y-pt3y));
 			
 			// check if the pts do NOT fit in circle of radius 1
-			if(doublecompere(length12, 2*radius) == Comptype.GT) {
+			if(doublecompere(length12, 2*parameters.radius) == Comptype.GT) {
 				r1 = true;
 				if(r2) return true;
 			}
-			else if(doublecompere(length13, 2*radius) == Comptype.GT) {
+			else if(doublecompere(length13, 2*parameters.radius) == Comptype.GT) {
 				r1 = true;
 				if(r2) return true;
 			}
-			else if(doublecompere(length23, 2*radius) == Comptype.GT) {
+			else if(doublecompere(length23, 2*parameters.radius) == Comptype.GT) {
 				r1 = true;
 				if(r2) return true;
 			}
 
 			// check if the pts do fit in circle of radius 2
-			if(doublecompere(length12, 2*radius2) != Comptype.GT) {
-				if(doublecompere(length13, 2*radius2) != Comptype.GT) {
-					if(doublecompere(length23, 2*radius2) != Comptype.GT) {
+			if(doublecompere(length12, 2*parameters.radius2) != Comptype.GT) {
+				if(doublecompere(length13, 2*parameters.radius2) != Comptype.GT) {
+					if(doublecompere(length23, 2*parameters.radius2) != Comptype.GT) {
 						r2 = true;
 						if(r1) return true;
 					}
