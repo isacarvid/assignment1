@@ -101,24 +101,24 @@ public class Decide {
 		
 		if(numpoints < 5) return false;
 		for(int i = 0; i < numpoints - (aPt + bPts) - 2; i++) {
-			pt1x = x[i]; pt1y = y[i];
-			pt2x = x[i+aPts+1]; pt2y = y[i+aPts+1];
-			pt3x = x[i+bPts+1]; pt3y = y[i+bPts+1];
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+aPts+1]; pt2y = coordinatey[i+aPts+1];
+			pt3x = coordinatex[i+bPts+1]; pt3y = coordinatey[i+bPts+1];
 
 			length12 = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
 			length13 = Math.sqrt((pt1x-pt3x)*(pt1x-pt3x) + (pt1y-pt3y)*(pt1y-pt3y));
 			length23 = Math.sqrt((pt2x-pt3x)*(pt2x-pt3x) + (pt2y-pt3y)*(pt2y-pt3y));
 			
 			// check if the pts do NOT fit in circle of radius 1
-			if(doublecompere(length12, 2*radius1) == Comptype.GT) {
+			if(doublecompere(length12, 2*radius) == Comptype.GT) {
 				r1 = true;
 				if(r2) return true;
 			}
-			else if(doublecompere(length13, 2*radius1) == Comptype.GT) {
+			else if(doublecompere(length13, 2*radius) == Comptype.GT) {
 				r1 = true;
 				if(r2) return true;
 			}
-			else if(doublecompere(length23, 2*radius1) == Comptype.GT) {
+			else if(doublecompere(length23, 2*radius) == Comptype.GT) {
 				r1 = true;
 				if(r2) return true;
 			}
