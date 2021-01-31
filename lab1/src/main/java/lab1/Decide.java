@@ -2,7 +2,6 @@ package lab1;
 
 import java.lang.Math;
 import java.util.Arrays;
-
 import static java.awt.geom.Point2D.distance;
 
 public class Decide {
@@ -157,6 +156,36 @@ public class Decide {
 			j++;
 			k++;
 		}
+		return false;
+	}
+	
+	boolean lic10() {
+		if(!(parameters.ePts >= 1) || !(parameters.fPts >= 1) || !(parameters.ePts + parameters.fPts <= numpoints-2) || numpoints <= 5) {
+			return false;
+		}
+		int i = 0;
+		int j = i + parameters.ePts+1;
+		int k = j + parameters.fPts+1;
+		
+		while(k < numpoints) {
+			double x1 = coordinatex[i];
+			double y1 = coordinatey[i];
+			double x2 = coordinatex[j];
+			double y2 = coordinatey[j];
+			double x3 = coordinatex[k];
+			double y3 = coordinatey[k];
+			
+			if ((x1 != x2 || y1 != y2) && (x2 != x3 || y2 != y3)) {
+				double area = Math.abs((x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)) / 2);
+				if(area > parameters.area1) {
+					return true;
+				}
+			}
+			i++;
+			j++;
+			k++;	
+		}
+		
 		return false;
 	}
 

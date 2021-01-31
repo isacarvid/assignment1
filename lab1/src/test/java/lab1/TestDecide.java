@@ -97,7 +97,34 @@ public class TestDecide {
         decide2.coordinatey = LIC5Falsey;
         assertFalse(decide2.LIC5(decide2.parameters));
     }
-
+    /**
+     * calc area and checks if it is bigger than area1. The real area in both tests are 2.0.
+     * */
+    @Test
+    public void LIC10() {
+    	double[] x =  { 1,2,3,4,4,3};
+    	double[] y = {1, 1, 3, 3, 3, 1};
+    	Decide decide = new Decide();
+    	decide.numpoints = 6;
+    	decide.parameters.ePts = 1;
+    	decide.parameters.fPts = 2;
+    	decide.parameters.area1 = 1;
+    	decide.coordinatex = x;
+    	decide.coordinatey = y;
+    	assertTrue(decide.lic10());
+    	
+    	double[] x2 =  { 1,2,3,4,4,3};
+    	double[] y2 = {1, 1, 3, 3, 3, 1};
+    	Decide decide2 = new Decide();
+    	decide2.numpoints = 6;
+    	decide2.parameters.ePts = 1;
+    	decide2.parameters.fPts = 2;
+    	decide2.parameters.area1 = 2;
+    	decide2.coordinatex = x2;
+    	decide2.coordinatey = y2;
+    	assertFalse(decide2.lic10());
+    }
+    
 	@Test
 	// Return true: exists 3 cons pts sep by exactly
 	// C_PTS and D_PTS cons intervening pts, forming an angle s.t.
