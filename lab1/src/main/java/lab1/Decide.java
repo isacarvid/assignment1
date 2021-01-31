@@ -3,6 +3,8 @@ package lab1;
 import java.lang.Math;
 import java.util.Arrays;
 
+import static java.awt.geom.Point2D.distance;
+
 public class Decide {
 	enum Connectors {
 		NOTUSED, ORR, ANDD
@@ -12,7 +14,7 @@ public class Decide {
 		LT, EQ, GT
 	}
 
-	class Paramenters_t {
+	 class Paramenters_t {
 		double length; // L e n gt h i n L ICs 0 , 7 , 12
 		double radius; // R a di u s i n L ICs 1 , 8 , 13
 		double epsilon; // D e v i a t i o n f r om P I i n L ICs 2 , 9
@@ -132,9 +134,6 @@ public class Decide {
 			return false;
 		}
 	}
-	
-	
-
 
 	/**
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
@@ -153,9 +152,48 @@ public class Decide {
 		return false;
 	}
 
-
-	boolean decide() {
+	/**
+	 * Return true if: exist 3 consecutive data pts separated
+	 * by exactly C_PTS and D_PTS consecutive intervening pts, forming an angle s.t.
+	 * angle < pi - epsilon or angle > pi+epsilon (2nd pt is always vertex)
+	 * if numpoints < 5 : return false
+	 * if first or 3rd point == vertex : cannot be true for those pts
+	 */
+	boolean LIC9(Paramenters_t parameters) {
+		int i = 0;
+		int j = i + parameters.cPts+1;
+		int k = j + parameters.dPts+1;
+		while(k < numpoints) {
+			double x1 = coordinatex[i];
+			double y1 = coordinatey[i];
+			double x2 = coordinatex[j];
+			double y2 = coordinatey[j];
+			double x3 = coordinatex[k];
+			double y3 = coordinatey[k];
+			// checks that points 1 and 3 are not the same as 2
+			if ((x1 != x2 || y1 != y2) && (x2 != x3 || y2 != y3)) {
+				double angle = getAngle(x1, y1, x2, y2, x3, y3);
+				if (angle < Math.PI - parameters.epsilon || angle > Math.PI + parameters.epsilon) {
+					return true;
+				}
+			}
+			i++;
+			j++;
+			k++;
+		}
 		return false;
 	}
 
+	/**
+	 * helper function to get the angle between three points
+	 * https://math.stackexchange.com/questions/361412/finding-the-angle-between-three-points
+	 */
+	double getAngle(double x1, double y1, double x2, double y2, double x3,double y3) {
+		double dist1 = distance(x1,y1,x2,y2);
+		double dist2 = distance(x2,y2,x3,y3);
+		double dist3 = distance(x1,y1,x3,y3);
+		double angle = Math.acos((Math.pow(dist1,2)+Math.pow(dist3,2)-Math.pow(dist2,2))/(2*dist1*dist3));
+		System.out.println(angle);
+		return angle;
+	}
 }
