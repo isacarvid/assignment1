@@ -159,6 +159,51 @@ public class Decide {
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	boolean LIC8() {
+		if(parameters.aPts < 1 || parameters.bPts < 1 || ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5) {
+			return false;
+		}
+		for(int i = 0; i < numpoints; i++) {
+			
+		}
+		
+		return false;
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * helper function to get the angle between three points
