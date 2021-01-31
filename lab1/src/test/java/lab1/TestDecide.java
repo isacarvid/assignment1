@@ -169,7 +169,44 @@ public class TestDecide {
         decide2.coordinatex = LIC5Falsex;
         decide2.coordinatey = LIC5Falsey;
         assertFalse(decide2.LIC5(decide2.parameters));
+	}
+
+	@Test
+    /**
+     * Returns true if two cons pts seperated by kPts
+     * are at a distance greater than provided length
+     * Returns false if equal or less than
+     * Returns false if numpoints < 3
+     */
+	public void testLIC7() {
+        Decide program = new Decide();
+
+        program.numpoints = 3;
+        double[] t1cx = {0, 0, 0};
+        double[] t1cy = {0, 0, 0};
+        double[] t2cx = {0, 2, 2};
+        double[] t2cy = {0, 2, 0};
+        double[] t3cx = {0, 4, 4};
+        double[] t3cy = {0, 4, 0};
+        program.parameters.kPts = 1;
+        program.parameters.length = 2;
+
+		// Less than: test for pts with length 0
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC7(program.parameters));
+
+        // Equal to: test for pts with length 2
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC7(program.parameters));
+
+        // Greater than: test for pts with length 4
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC7(program.parameters));
     }
+	
     /**
      * calc area and checks if it is bigger than area1. The real area in both tests are 2.0.
      * */
@@ -196,8 +233,8 @@ public class TestDecide {
     	decide2.coordinatex = x2;
     	decide2.coordinatey = y2;
     	assertFalse(decide2.lic10());
-    }
-    
+	}
+	
 	@Test
 	// Return true: exists 3 cons pts sep by exactly
 	// C_PTS and D_PTS cons intervening pts, forming an angle s.t.

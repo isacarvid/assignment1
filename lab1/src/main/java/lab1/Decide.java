@@ -260,6 +260,27 @@ public class Decide {
 	}
 
 	/**
+	 * There exists at least two data points separated by K_PTS consecutive intervening
+	 * points that are a distance greater than LENGTH1, apart. The condition
+	 * is not met when NUMPOINTS < 3
+	 * @return true if yes there exists such 2 pts
+	 */
+	boolean LIC7(Paramenters_t parameters) {
+		double pt1x, pt1y, pt2x, pt2y;
+		double someLength;
+
+		if(numpoints < 3) return false;
+		for(int i = 0; i < numpoints - parameters.kPts - 1; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+parameters.kPts+1]; pt2y = coordinatey[i+parameters.kPts+1];
+
+			someLength = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
+			if(doublecompere(someLength, parameters.length) == Comptype.GT) return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Return true if: exist 3 consecutive data pts separated
 	 * by exactly C_PTS and D_PTS consecutive intervening pts, forming an angle s.t.
 	 * angle < pi - epsilon or angle > pi+epsilon (2nd pt is always vertex)
