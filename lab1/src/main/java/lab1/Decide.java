@@ -65,6 +65,76 @@ public class Decide {
 		return Comptype.GT;
 	}
 
+	/**
+	 * There exists at least one set of three consecutive data points
+	 * than CANNOT all be contained in a circle of radius radius1
+	 * */
+	boolean LIC1(Paramenters_t parameters) {
+		double radius1 = parameters.radius;
+		for (int i = 0; i < numpoints - 2; i++) {
+			double x1 = coordinatex[i];
+			double y1 = coordinatey[i];
+			double x2 = coordinatex[i + 1];
+			double y2 = coordinatey[i + 1];
+			double x3 = coordinatex[i + 2];
+			double y3 = coordinatey[i + 2];
+
+			double dist1 = distance(x1, y1, x2, y2);
+			double dist2 = distance(x2, y2, x3, y3);
+			double dist3 = distance(x1, y1, x3, y3);
+
+			// distance bigger than diameter => cannot fit
+			if (doublecompere(dist1, 2 * radius1) == Comptype.GT) {
+				return true;
+			} else if (doublecompere(dist2, 2 * radius1) == Comptype.GT) {
+				return true;
+			} else if (doublecompere(dist3, 2 * radius1) == Comptype.GT) {
+				return true;
+			}
+
+			// points with max dist between them
+			double maxDist = 0;
+			double maxDist1x = 0;
+			double maxDist1y = 0;
+			double maxDist2x = 0;
+			double maxDist2y = 0;
+			double extraPointx = 0;
+			double extraPointy = 0;
+			if(dist1 > dist2 && dist1 > dist3) {
+				maxDist1x = x1;
+				maxDist1y = y1;
+				maxDist2x = x2;
+				maxDist2y = y2;
+				extraPointx = x3;
+				extraPointy = y3;
+			}
+			else if(dist2 > dist1 && dist2 > dist3) {
+				maxDist1x = x2;
+				maxDist1y = y2;
+				maxDist2x = x3;
+				maxDist2y = y3;
+				extraPointx = x1;
+				extraPointy = y1;
+			}
+			if(dist3 > dist1 && dist3 > dist1) {
+				maxDist1x = x1;
+				maxDist1y = y1;
+				maxDist2x = x3;
+				maxDist2y = y3;
+				extraPointx = x2;
+				extraPointy = y2;
+			}
+			//distance between extra point and the others less than r :
+			// return false because it can be contained
+			if(distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius1 ||
+					distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius1
+			) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	// if the angle of three consecutive points are within PI +- some margin epsilon
 	// return true
 	boolean lic2() {
