@@ -108,9 +108,6 @@ public class Decide {
 			return false;
 		}
 	}
-	
-	
-
 
 	/**
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
@@ -140,7 +137,6 @@ public class Decide {
 		int i = 0;
 		int j = i + parameters.cPts+1;
 		int k = j + parameters.dPts+1;
-
 		while(k < numpoints) {
 			double x1 = coordinatex[i];
 			double y1 = coordinatey[i];
@@ -170,6 +166,8 @@ public class Decide {
 		double dist1 = distance(x1,y1,x2,y2);
 		double dist2 = distance(x2,y2,x3,y3);
 		double dist3 = distance(x1,y1,x3,y3);
-		return Math.acos(Math.pow(dist1,2)+Math.pow(dist3,2)-Math.pow(dist2,2)/2*dist1*dist3);
+		double angle = Math.acos((Math.pow(dist1,2)+Math.pow(dist3,2)-Math.pow(dist2,2))/(2*dist1*dist3));
+		System.out.println(angle);
+		return angle;
 	}
 }
