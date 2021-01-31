@@ -185,7 +185,7 @@ public class TestDecide {
 	public void testLIC14() {
         Decide program = new Decide();
 
-        program.numpoints = 3;
+        program.numpoints = 5;
         double[] t1cx = {0, 0, 5, 0, 5};
         double[] t1cy = {0, 0, 0, 0, 5};
         double[] t2cx = {0, 0, 0, 0, 0};

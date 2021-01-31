@@ -280,10 +280,10 @@ public class Decide {
 		double someArea;
 		boolean a1 = false, a2 = false;
 		if(numpoints < 5) return false;
-		for(int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
+		for(int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
 			pt1x = coordinatex[i]; pt1y = coordinatey[i];
-			pt2x = coordinatex[i+parameters.aPts+1]; pt2y = coordinatey[i+parameters.aPts+1];
-			pt3x = coordinatex[i+parameters.bPts+1]; pt3y = coordinatey[i+parameters.bPts+1];
+			pt2x = coordinatex[i+parameters.ePts+1]; pt2y = coordinatey[i+parameters.ePts+1];
+			pt3x = coordinatex[i+parameters.ePts+parameters.fPts+2]; pt3y = coordinatey[i+parameters.ePts+parameters.fPts+2];
 
 			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
 			
