@@ -91,12 +91,12 @@ public class TestDecide {
 		//test for a pts triangle with area 0
         program.coordinatex = t1cx;
         program.coordinatey = t1cy;
-        assertTrue(!program.LIC0(program.parameters));
+        assertTrue(!program.LIC3(program.parameters));
 
         //test for a pts triangle with area 8
         program.coordinatex = t2cx;
         program.coordinatey = t2cy;
-        assertTrue(program.LIC0(program.parameters));
+        assertTrue(program.LIC3(program.parameters));
     }
     
     @Test
