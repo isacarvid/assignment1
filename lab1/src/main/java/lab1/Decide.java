@@ -164,7 +164,7 @@ public class Decide {
 	 * There exists at least two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
 	 * G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) 
 	 * The condition is not met when NUMPOINTS < 3
-	 * @return true if an earlier point i has a lower x coordinate than a latter point j
+	 * @return true if an earlier point i has a greater x coordinate than a latter point j
 	 */
 	boolean LIC11(Paramenters_t parameters) {
 		double pt1x, pt2x;
