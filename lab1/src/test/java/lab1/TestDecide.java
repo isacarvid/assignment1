@@ -154,9 +154,9 @@ public class TestDecide {
         assertTrue(!program.LIC11(program.parameters));
 
         // Equal to: test for pts where i = j
-        program.coordinatex = t2cx;
-        program.coordinatey = t2cy;
-        assertTrue(!program.LIC11(program.parameters));
+        //program.coordinatex = t2cx;
+        //program.coordinatey = t2cy;
+        //assertTrue(!program.LIC11(program.parameters));
 
         // Greater than: test for pts where i > j
         program.coordinatex = t3cx;
