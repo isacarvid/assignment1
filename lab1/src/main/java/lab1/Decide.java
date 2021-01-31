@@ -115,6 +115,9 @@ public class Decide {
 	//check if there exists a set of Q_PTS consecutive data points lie in more than quads quadrants
 	boolean LIC4() {
 		boolean[] inhabitedQuads = new boolean[3];
+		if(parameters.qPts < 2 || parameters.qPts > numpoints || parameters.quads < 1 || parameters.quads > 3) {
+			return false;
+		}
 		for(int i= 0; i < numpoints; i++) {
 		if((i + parameters.qPts) <= numpoints ){
 			
