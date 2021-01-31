@@ -80,10 +80,12 @@ public class Decide {
 				double normB = Math.sqrt(Math.pow(xDiff2,2) + Math.pow(yDiff2,2));
 				double angle = Math.acos(dotProduct/(normA * normB));
 				if (angle < (Math.PI - parameters.epsilon) || angle > (Math.PI + parameters.epsilon)) {
-					return true;
+					cmv[2] = true; 
+					return cmv[2];
 				}
 			}
 		}
+		cmv[2] = false;
 		return false;
 	}
 
