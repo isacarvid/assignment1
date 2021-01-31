@@ -190,8 +190,8 @@ public class TestDecide {
         double[] t1cy = {0, 0, 0, 0, 5};
         double[] t2cx = {0, 0, 0, 0, 0};
 		double[] t2cy = {0, 0, 0, 0, 0};
-		double[] t2cx = {0, 0, 4, 0, 4};
-		double[] t2cy = {0, 0, 0, 0, 4};
+		double[] t3cx = {0, 0, 4, 0, 4};
+		double[] t3cy = {0, 0, 0, 0, 4};
 		program.parameters.ePts = 1;
 		program.parameters.fPts = 1;
 		program.parameters.area1 = 5;
