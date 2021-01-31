@@ -76,6 +76,27 @@ public class TestDecide {
 		assertTrue(!program.LIC0(program.parameters));
 	}
 	
+	//Asserts true if LIC4 correctly checks that there exists a set of qPts that is greater than quads
+	@Test
+	public void testLIC4() {
+		Decide program = new Decide();
+		program.numpoints = 3;
+		program.parameters.qPts = 3;
+		program.parameters.quads = 2;
+		double[] trueCoorX = {1, -2, -1};
+		double[] trueCoorY = {3, 3, -1};
+		program.coordinatex = trueCoorX;
+		program.coordinatey = trueCoorY;
+		assertTrue(program.LIC4());
+		program.parameters.quads = 1;
+		double[] falseCoorX = {1,2,3};
+		double[] falseCoorY = {1,3,4};
+		program.coordinatex = falseCoorX;
+		program.coordinatey = falseCoorY;
+		assertTrue(!program.LIC4());
+		
+	}
+	
 
     @Test
     //Returns true if there exists at least two consecutive
