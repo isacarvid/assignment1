@@ -161,8 +161,7 @@ public class Decide {
 		cmv[2] = false;
 		return false;
 	}
-
-
+	
 	//check if there exists to consecutive data points with a distance greater than length parameter
 	boolean LIC0(Paramenters_t param) {
 		
@@ -223,8 +222,6 @@ public class Decide {
 		
 	}
 	
-
-
 	/**
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
 	 * (xj yj) where xj - xi < 0 => xj < xi
@@ -270,6 +267,37 @@ public class Decide {
 			i++;
 			j++;
 			k++;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if 3 points gapped by ePts and fPts for a triangle with area less or more than area1 and area2
+	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less than area2
+	 */
+	boolean LIC14(Paramenters_t parameters) {
+		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
+		double someArea;
+		boolean a1 = false, a2 = false;
+		if(numpoints < 5) return false;
+		for(int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+parameters.ePts+1]; pt2y = coordinatey[i+parameters.ePts+1];
+			pt3x = coordinatex[i+parameters.ePts+parameters.fPts+2]; pt3y = coordinatey[i+parameters.ePts+parameters.fPts+2];
+
+			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
+			
+			// check if the pts triangle area is more than area1
+			if(doublecompere(someArea, parameters.area1) == Comptype.GT) {
+				a1 = true;
+				if(a2) return true;
+			}
+
+			// check if the pts triangle area is less than area2
+			if(doublecompere(someArea, parameters.area2) == Comptype.LT) {
+				a2 = true;
+				if(a1) return true;
+			};
 		}
 		return false;
 	}
