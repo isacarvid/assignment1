@@ -71,7 +71,12 @@ public class Decide {
 	 * that are the vertices of a triangle with area greater than AREA1
 	 * @return yes there exists such 3 pts
 	 */
-	boolean LIC3(int numpoints, double[] x, double[] y, double area1) {
+	boolean LIC3(Paramenters_t parameters) {
+		int numpoints = parameters.numpoints;
+		double[] x = parameters.coordinatex;
+		double[] y = parameters.coordinatey;
+		double area1 = parameters.area1;
+
 		if(numpoints < 3) return false;
 		double someArea;
 		for(int i = 0; i < numpoints - 2; i++) {
