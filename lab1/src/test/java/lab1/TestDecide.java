@@ -84,8 +84,8 @@ public class TestDecide {
         program.numpoints = 3;
         double[] t1cx = {1, 2, 3};
         double[] t1cy = {1, 2, 3};
-        double[] t2cx = {0, 2, 2};
-        double[] t2cy = {0, 0, 2};
+        double[] t2cx = {0, 4, 4};
+        double[] t2cy = {0, 0, 4};
         program.parameters.area1 = 5;
 		
 		//test for a pts triangle with area 0
@@ -94,9 +94,9 @@ public class TestDecide {
         assertTrue(!program.LIC3(program.parameters));
 
         //test for a pts triangle with area 8
-        //program.coordinatex = t2cx;
-        //program.coordinatey = t2cy;
-        //assertTrue(program.LIC3(program.parameters));
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(program.LIC3(program.parameters));
     }
     
     @Test
