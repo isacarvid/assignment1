@@ -123,6 +123,33 @@ public class TestDecide {
 	}
 	
 
+	@Test
+	/**
+     * Return true if the 3pts triangle area is greater than area1
+     * Return false otherwise
+     * Return false if numpoints < 3
+     */
+	public void testLIC3() {
+        Decide program = new Decide();
+        
+        program.numpoints = 3;
+        double[] t1cx = {1, 2, 3};
+        double[] t1cy = {1, 2, 3};
+        double[] t2cx = {0, 4, 4};
+        double[] t2cy = {0, 0, 4};
+        program.parameters.area1 = 5;
+		
+		//test for a pts triangle with area 0
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC3(program.parameters));
+
+        //test for a pts triangle with area 8
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(program.LIC3(program.parameters));
+    }
+    
     @Test
     //Returns true if there exists at least two consecutive
     //data pts (xi yi) and (xj yj) where xj - xi < 0
