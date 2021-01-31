@@ -276,14 +276,14 @@ public class Decide {
 	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less than area2
 	 */
 	boolean LIC14(Paramenters_t parameters) {
-		double pt1x, ptx, pt2x, pt2x, pt3x, pt3x;
-		double someRadius;
+		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
+		double someArea;
 		boolean a1 = false, a2 = false;
 		if(numpoints < 5) return false;
-		for(int i = 0; i < numpoints - (parameters.aPt + parameters.bPts) - 2; i++) {
-			pt1x = x[i]; pt1y = y[i];
-			pt2x = x[i+parameters.aPts+1]; pt2y = y[i+parameters.aPts+1];
-			pt3x = x[i+parameters.bPts+1]; pt3y = y[i+parameters.bPts+1];
+		for(int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+parameters.aPts+1]; pt2y = coordinatey[i+parameters.aPts+1];
+			pt3x = coordinatex[i+parameters.bPts+1]; pt3y = coordinatey[i+parameters.bPts+1];
 
 			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
 			
