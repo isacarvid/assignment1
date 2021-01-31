@@ -13,6 +13,28 @@ public class TestDecide {
     }
 
     @Test
+	public void testLIC3() {
+        Decide program = new Decide();
+        
+        program.numpoints = 3;
+        double[] t1cx = {1, 2, 3};
+        double[] t1cy = {1, 2, 3};
+        double[] t2cx = {0, 2, 2};
+        double[] t2cy = {0, 0, 2};
+        program.parameters.area1 = 5;
+		
+		//test for a pts triangle with area 0
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC0(program.parameters));
+
+        //test for a pts triangle with area 8
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(program.LIC0(program.parameters));
+    }
+    
+    @Test
     //Returns true if there exists at least two consecutive
     //data pts (xi yi) and (xj yj) where xj - xi < 0
     public void LIC5test() {
