@@ -186,29 +186,31 @@ public class TestDecide {
         Decide program = new Decide();
 
         program.numpoints = 3;
-        double[] t1cx = {0, 5, 5};
-        double[] t1cy = {0, 0, 5};
-        double[] t2cx = {0, 0, 0};
-		double[] t2cy = {0, 0, 0};
-		double[] t2cx = {0, 4, 4};
-        double[] t2cy = {0, 0, 4};
+        double[] t1cx = {0, 0, 5, 0, 5};
+        double[] t1cy = {0, 0, 0, 0, 5};
+        double[] t2cx = {0, 0, 0, 0, 0};
+		double[] t2cy = {0, 0, 0, 0, 0};
+		double[] t2cx = {0, 0, 4, 0, 4};
+		double[] t2cy = {0, 0, 0, 0, 4};
+		program.parameters.ePts = 1;
+		program.parameters.fPts = 1;
 		program.parameters.area1 = 5;
 		program.parameters.area2 = 10;
 
 		// 12.5: greater than area 1 && greater than area 2
         program.coordinatex = t1cx;
         program.coordinatey = t1cy;
-		assertTrue(!program.LIC3(program.parameters));
+		assertTrue(!program.LIC14(program.parameters));
 		
 		// 0: less than area 1 && less than area 2
         program.coordinatex = t2cx;
         program.coordinatey = t2cy;
-        assertTrue(!program.LIC3(program.parameters));
+        assertTrue(!program.LIC14(program.parameters));
 
         // 8: greater than area 1 && less than area 2
         program.coordinatex = t3cx;
         program.coordinatey = t3cy;
-        assertTrue(program.LIC3(program.parameters));
+        assertTrue(program.LIC14(program.parameters));
     }
 
 }
