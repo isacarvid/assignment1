@@ -127,7 +127,36 @@ public class TestDecide {
 		decide2.coordinatey = LIC9Falsey;
 		assertFalse(decide2.LIC9(decide2.parameters));
 	}
+	
+	
+	@Test
+	
+	public void testLIC12() {
+		Decide program = new Decide();
+		program.numpoints = 5;
+		program.parameters.kPts = 2;
+		double[] trueCoorX = {1,3,5,8, 9};
+		double[] trueCoorY = {6,8,5,8, 6};
+		program.coordinatex = trueCoorX;
+		program.coordinatey = trueCoorY;
+		program.parameters.length = 6;
+		program.parameters.length2 = 10;
+		assertTrue(program.LIC12());
+		program.parameters.kPts = 3;
+		//should fail on the below
+		program.parameters.length = 10;
+		assertFalse(program.LIC12());
+		
+		
+	}
 
+	
+	
+	
+	
+	
+	
+	
 }
 
 

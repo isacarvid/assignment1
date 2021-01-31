@@ -172,4 +172,57 @@ public class Decide {
 		System.out.println(angle);
 		return angle;
 	}
+	
+	
+	
+	boolean LIC12() {
+		boolean[] conds= new boolean[2];
+		for(int i = 0; i < numpoints; i++) {
+			if(i + parameters.kPts +1<= numpoints-1) {
+			if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) > parameters.length) {
+				conds[0] = true;
+				break;
+			}
+			
+		}
+	}
+		for(int i = 0; i < numpoints; i++) {
+			if(i + parameters.kPts +1<= numpoints-1) {
+			if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) < parameters.length2) {
+				conds[1] = true;
+				break;
+			}
+			
+		}
+	}
+		
+		
+		
+		int counter = 0;
+		for(int i = 0; i < 2; i++) {
+			if(conds[i] == true) {
+				counter++;
+			}
+		}
+		if(counter == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
