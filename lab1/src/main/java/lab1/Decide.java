@@ -101,6 +101,7 @@ public class Decide {
 		double[] x = parameters.coordinatex;
 		double[] y = parameters.coordinatey;
 		double area1 = parameters.area1;
+		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 
 		if(numpoints < 3) return false;
 		double someArea;
