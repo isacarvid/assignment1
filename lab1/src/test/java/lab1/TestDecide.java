@@ -75,6 +75,31 @@ public class TestDecide {
 		program.coordinatey = falseCoorY;
 		assertTrue(!program.LIC0(program.parameters));
 	}
+
+	/**
+	 * There exists at least one set of three consecutive data points
+	 * than CANNOT all be contained in a circle of radius radius1
+	 * */
+	@Test
+	public void LIC1test() {
+		double[] x = {0, 4, 9};
+		double[] y = {0, 4, 9};
+		Decide decide = new Decide();
+		decide.parameters.radius = 3;
+		decide.numpoints = 3;
+		decide.coordinatex = x;
+		decide.coordinatey = y;
+		assertTrue(decide.LIC1(decide.parameters));
+
+		double[] x2 = {0, 1, 2};
+		double[] y2 = {0, 1, 2};
+		Decide decide2 = new Decide();
+		decide.parameters.radius = 10;
+		decide2.numpoints = 3;
+		decide2.coordinatex = x2;
+		decide2.coordinatey = y2;
+		assertFalse(decide2.LIC1(decide.parameters));
+	}
 	
 
     @Test
