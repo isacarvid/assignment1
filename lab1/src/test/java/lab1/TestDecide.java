@@ -146,7 +146,7 @@ public class TestDecide {
         double[] t2cy = {0, 0, 0};
         double[] t3cx = {1, 0, 0};
         double[] t3cy = {0, 0, 0};
-        program.parameters.kPts = 1;
+        program.parameters.gPts = 1;
 
 		// Less than: test for pts where i < j
         program.coordinatex = t1cx;
