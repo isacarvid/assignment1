@@ -97,21 +97,17 @@ public class Decide {
 	 * @return yes there exists such 3 pts
 	 */
 	boolean LIC3(Paramenters_t parameters) {
-		int numpoints = parameters.numpoints;
-		double[] x = parameters.coordinatex;
-		double[] y = parameters.coordinatey;
-		double area1 = parameters.area1;
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
+		double someArea;
 
 		if(numpoints < 3) return false;
-		double someArea;
 		for(int i = 0; i < numpoints - 2; i++) {
-			pt1x = x[i]; pt1y = y[i];
-			pt2x = x[i+1]; pt2y = y[i+1];
-			pt3x = x[i+2]; pt3y = y[i+2];
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+1]; pt2y = coordinatey[i+1];
+			pt3x = coordinatex[i+2]; pt3y = coordinatey[i+2];
 
 			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
-			if(doublecompere(someArea, area1) == Comptype.GT) return true;
+			if(doublecompere(someArea, parameters.area1) == Comptype.GT) return true;
 		}
 		return false;	
 	}
