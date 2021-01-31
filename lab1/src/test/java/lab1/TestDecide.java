@@ -174,6 +174,43 @@ public class TestDecide {
 		assertFalse(decide2.LIC9(decide2.parameters));
 	}
 
+	
+	@Test
+	/**
+     * Return true if some 3pts triangle area gapped by ePts and fPts
+	 * is greater than area1 and some 3pts less than area2
+     * Return false otherwise
+     * Return false if numpoints < 5
+     */
+	public void testLIC14() {
+        Decide program = new Decide();
+
+        program.numpoints = 3;
+        double[] t1cx = {0, 5, 5};
+        double[] t1cy = {0, 0, 5};
+        double[] t2cx = {0, 0, 0};
+		double[] t2cy = {0, 0, 0};
+		double[] t2cx = {0, 4, 4};
+        double[] t2cy = {0, 0, 4};
+		program.parameters.area1 = 5;
+		program.parameters.area2 = 10;
+
+		// 12.5: greater than area 1 && greater than area 2
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+		assertTrue(!program.LIC3(program.parameters));
+		
+		// 0: less than area 1 && less than area 2
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC3(program.parameters));
+
+        // 8: greater than area 1 && less than area 2
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC3(program.parameters));
+    }
+
 }
 
 

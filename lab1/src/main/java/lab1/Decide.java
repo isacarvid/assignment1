@@ -278,24 +278,23 @@ public class Decide {
 	boolean LIC14(Paramenters_t parameters) {
 		double pt1x, ptx, pt2x, pt2x, pt3x, pt3x;
 		double someRadius;
-		double length12, length13, length23;
-		boolean a1, a2 = false;
+		boolean a1 = false, a2 = false;
 		if(numpoints < 5) return false;
-		for(int i = 0; i < numpoints - (aPt + bPts) - 2; i++) {
+		for(int i = 0; i < numpoints - (parameters.aPt + parameters.bPts) - 2; i++) {
 			pt1x = x[i]; pt1y = y[i];
-			pt2x = x[i+aPts+1]; pt2y = y[i+aPts+1];
-			pt3x = x[i+bPts+1]; pt3y = y[i+bPts+1];
+			pt2x = x[i+parameters.aPts+1]; pt2y = y[i+parameters.aPts+1];
+			pt3x = x[i+parameters.bPts+1]; pt3y = y[i+parameters.bPts+1];
 
 			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
 			
 			// check if the pts triangle area is more than area1
-			if(doublecompere(someArea, area1) == Comptype.GT) {
+			if(doublecompere(someArea, parameters.area1) == Comptype.GT) {
 				a1 = true;
 				if(a2) return true;
 			}
 
 			// check if the pts triangle area is less than area2
-			if(doublecompere(someArea, area2) == Comptype.LT) {
+			if(doublecompere(someArea, parameters.area2) == Comptype.LT) {
 				a2 = true;
 				if(a1) return true;
 			};
