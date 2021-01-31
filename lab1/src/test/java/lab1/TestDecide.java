@@ -77,7 +77,12 @@ public class TestDecide {
 	}
 	
 
-    @Test
+	@Test
+	/**
+     * Return true if the 3pts triangle area is greater than area1
+     * Return false otherwise
+     * Return false if numpoints < 3
+     */
 	public void testLIC3() {
         Decide program = new Decide();
         
