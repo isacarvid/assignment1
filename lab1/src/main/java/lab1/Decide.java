@@ -1,5 +1,6 @@
 package lab1;
 
+
 import java.lang.Math;
 import java.util.Arrays;
 
@@ -105,6 +106,43 @@ public class Decide {
 		}else {
 			return false;
 		}
+	}
+	//check if there exists a set of Q_PTS consecutive data points lie in more than quads quadrants
+	boolean LIC4() {
+		boolean[] inhabitedQuads = new boolean[3];
+		for(int i= 0; i < numpoints; i++) {
+		if((i + parameters.qPts) <= numpoints ){
+			
+			for(int j = 0; j < parameters.qPts; j++) {
+				if(coordinatex[i + j] >= 0 && coordinatey[i + j] >= 0 && inhabitedQuads[0] != true) {
+					inhabitedQuads[0] = true;
+					
+				} else if(coordinatex[i + j] < 0 && coordinatey[i + j] >= 0 && inhabitedQuads[1] != true) {
+					inhabitedQuads[1] = true;
+				} else if(coordinatex[i + j] <= 0 && coordinatey[i + j] < 0 && inhabitedQuads[2] != true) {
+					inhabitedQuads[2] = true;
+				}
+			}
+			
+			int counter = 0;
+			for(int j = 0; j < 3; j++) {
+				if(inhabitedQuads[j] == true) {
+					counter++;
+				}
+			}
+			
+			if(counter > parameters.quads) {
+				return true;
+			} else {
+				Arrays.fill(inhabitedQuads,Boolean.FALSE);
+				
+			}	
+		}
+		}
+		
+		return false;
+	
+		
 	}
 	
 	
