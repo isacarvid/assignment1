@@ -126,7 +126,43 @@ public class TestDecide {
 		decide2.coordinatex = LIC9Falsex;
 		decide2.coordinatey = LIC9Falsey;
 		assertFalse(decide2.LIC9(decide2.parameters));
-	}
+    }
+    
+    @Test
+    /**
+     * Returns true if two pts seperated by gPts
+     * where i is a pt in the list earlier than j
+     * such that x[i] > x[j]
+     * Returns false if equal or less than
+     * Returns false if numpoints < 3
+     */
+	public void testLIC11() {
+        Decide program = new Decide();
+
+        program.numpoints = 3;
+        double[] t1cx = {0, 0, 1};
+        double[] t1cy = {0, 0, 0};
+        double[] t2cx = {1, 0, 1};
+        double[] t2cy = {0, 0, 0};
+        double[] t3cx = {1, 0, 0};
+        double[] t3cy = {0, 0, 0};
+        program.parameters.kPts = 1;
+
+		// Less than: test for pts where i < j
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC11(program.parameters));
+
+        // Equal to: test for pts where i = j
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC11(program.parameters));
+
+        // Greater than: test for pts where i > j
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC11(program.parameters));
+    }
 
 }
 
