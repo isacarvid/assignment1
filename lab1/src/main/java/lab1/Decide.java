@@ -83,21 +83,22 @@ public class Decide {
 	}
 
 	/**
-	 * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening
-	 * points that are a distance greater than the length, LENGTH1, apart. The condition
+	 * There exists at least two data points separated by K_PTS consecutive intervening
+	 * points that are a distance greater than LENGTH1, apart. The condition
 	 * is not met when NUMPOINTS < 3
-	 * @param kPts num pts in between the two pts to be compared
 	 * @return true if yes there exists such 2 pts
 	 */
-	boolean lic7(int numpoints, double[] x, double[] y, double length1, int kPts) {
-		if(numpoints < 3) return false;
+	boolean LIC7(Paramenters_t parameters) {
+		double pt1x, pt1y, pt2x, pt2y;
 		double someLength;
-		for(int i = 0; i < numpoints - kPts - 1; i++) {
-			pt1x = x[i]; pt1y = y[i];
-			pt2x = x[i+kPts+1]; pt2y = y[i+kPts+1];
+
+		if(numpoints < 3) return false;
+		for(int i = 0; i < numpoints - parameters.kPts - 1; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+parameters.kPts+1]; pt2y = coordinatey[i+parameters.kPts+1];
 
 			someLength = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
-			if(doublecompere(someLength, length1) == Comptype.GT) return true;
+			if(doublecompere(someLength, parameters.length) == Comptype.GT) return true;
 		}
 		return false;
 	}
