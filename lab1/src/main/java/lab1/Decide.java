@@ -418,7 +418,7 @@ public class Decide {
 
 		if (numpoints < 5)
 			return false;
-		if (parameters.radius < 0) {
+		if (parameters.radius2 < 0) {
 			return false;
 		}
 		for (int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
@@ -454,6 +454,9 @@ public class Decide {
 		boolean a1 = false, a2 = false;
 		if (numpoints < 5)
 			return false;
+		if (parameters.area2 < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];
