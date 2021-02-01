@@ -1,8 +1,8 @@
 package lab1;
 
+
 import java.lang.Math;
 import java.util.Arrays;
-
 import static java.awt.geom.Point2D.distance;
 
 public class Decide {
@@ -64,6 +64,76 @@ public class Decide {
 		return Comptype.GT;
 	}
 
+	/**
+	 * There exists at least one set of three consecutive data points
+	 * than CANNOT all be contained in a circle of radius radius1
+	 * */
+	boolean LIC1(Paramenters_t parameters) {
+		double radius1 = parameters.radius;
+		for (int i = 0; i < numpoints - 2; i++) {
+			double x1 = coordinatex[i];
+			double y1 = coordinatey[i];
+			double x2 = coordinatex[i + 1];
+			double y2 = coordinatey[i + 1];
+			double x3 = coordinatex[i + 2];
+			double y3 = coordinatey[i + 2];
+
+			double dist1 = distance(x1, y1, x2, y2);
+			double dist2 = distance(x2, y2, x3, y3);
+			double dist3 = distance(x1, y1, x3, y3);
+
+			// distance bigger than diameter => cannot fit
+			if (doublecompere(dist1, 2 * radius1) == Comptype.GT) {
+				return true;
+			} else if (doublecompere(dist2, 2 * radius1) == Comptype.GT) {
+				return true;
+			} else if (doublecompere(dist3, 2 * radius1) == Comptype.GT) {
+				return true;
+			}
+
+			// points with max dist between them
+			double maxDist = 0;
+			double maxDist1x = 0;
+			double maxDist1y = 0;
+			double maxDist2x = 0;
+			double maxDist2y = 0;
+			double extraPointx = 0;
+			double extraPointy = 0;
+			if(dist1 > dist2 && dist1 > dist3) {
+				maxDist1x = x1;
+				maxDist1y = y1;
+				maxDist2x = x2;
+				maxDist2y = y2;
+				extraPointx = x3;
+				extraPointy = y3;
+			}
+			else if(dist2 > dist1 && dist2 > dist3) {
+				maxDist1x = x2;
+				maxDist1y = y2;
+				maxDist2x = x3;
+				maxDist2y = y3;
+				extraPointx = x1;
+				extraPointy = y1;
+			}
+			if(dist3 > dist1 && dist3 > dist1) {
+				maxDist1x = x1;
+				maxDist1y = y1;
+				maxDist2x = x3;
+				maxDist2y = y3;
+				extraPointx = x2;
+				extraPointy = y2;
+			}
+			//distance between extra point and the others less than r :
+			// return false because it can be contained
+			if(distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius1 ||
+					distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius1
+			) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	// if the angle of three consecutive points are within PI +- some margin epsilon
 	// return true
 	boolean lic2() {
@@ -90,9 +160,32 @@ public class Decide {
 		cmv[2] = false;
 		return false;
 	}
+	
+	/**
+	 * There exists at least one set of three consecutive data points 
+	 * that are the vertices of a triangle with area greater than AREA1
+	 * @return yes there exists such 3 pts
+	 */
+	boolean LIC3(Paramenters_t parameters) {
+		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
+		double someArea;
+
 
 	// check if there exists to consecutive data points with a distance greater than
 	// length parameter
+		if(numpoints < 3) return false;
+		for(int i = 0; i < numpoints - 2; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+1]; pt2y = coordinatey[i+1];
+			pt3x = coordinatex[i+2]; pt3y = coordinatey[i+2];
+
+			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
+			if(doublecompere(someArea, parameters.area1) == Comptype.GT) return true;
+		}
+		return false;	
+	}
+
+	//check if there exists to consecutive data points with a distance greater than length parameter
 	boolean LIC0(Paramenters_t param) {
 
 		cmv[0] = false;
@@ -112,6 +205,47 @@ public class Decide {
 		}
 	}
 
+	//check if there exists a set of Q_PTS consecutive data points lie in more than quads quadrants
+	boolean LIC4() {
+		boolean[] inhabitedQuads = new boolean[3];
+		if(parameters.qPts < 2 || parameters.qPts > numpoints || parameters.quads < 1 || parameters.quads > 3) {
+			return false;
+		}
+		for(int i= 0; i < numpoints; i++) {
+		if((i + parameters.qPts) <= numpoints ){
+			
+			for(int j = 0; j < parameters.qPts; j++) {
+				if(coordinatex[i + j] >= 0 && coordinatey[i + j] >= 0 && inhabitedQuads[0] != true) {
+					inhabitedQuads[0] = true;
+					
+				} else if(coordinatex[i + j] < 0 && coordinatey[i + j] >= 0 && inhabitedQuads[1] != true) {
+					inhabitedQuads[1] = true;
+				} else if(coordinatex[i + j] <= 0 && coordinatey[i + j] < 0 && inhabitedQuads[2] != true) {
+					inhabitedQuads[2] = true;
+				}
+			}
+			
+			int counter = 0;
+			for(int j = 0; j < 3; j++) {
+				if(inhabitedQuads[j] == true) {
+					counter++;
+				}
+			}
+			
+			if(counter > parameters.quads) {
+				return true;
+			} else {
+				Arrays.fill(inhabitedQuads,Boolean.FALSE);
+				
+			}	
+		}
+		}
+		
+		return false;
+	
+		
+	}
+	
 	/**
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
 	 * (xj yj) where xj - xi < 0 => xj < xi
@@ -163,6 +297,28 @@ public class Decide {
 	boolean decide() {
 		return false;
 	}
+/**
+	 * There exists at least two data points separated by K_PTS consecutive intervening
+	 * points that are a distance greater than LENGTH1, apart. The condition
+	 * is not met when NUMPOINTS < 3
+	 * @return true if yes there exists such 2 pts
+	 */
+	boolean LIC7(Paramenters_t parameters) {
+		double pt1x, pt1y, pt2x, pt2y;
+		double someLength;
+
+		if(numpoints < 3) return false;
+		for(int i = 0; i < numpoints - parameters.kPts - 1; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+parameters.kPts+1]; pt2y = coordinatey[i+parameters.kPts+1];
+
+			someLength = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
+			if(doublecompere(someLength, parameters.length) == Comptype.GT) return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * Return true if: exist 3 consecutive data pts separated
 	 * by exactly C_PTS and D_PTS consecutive intervening pts, forming an angle s.t.
@@ -193,6 +349,85 @@ public class Decide {
 			k++;
 		}
 
+		return false;
+	}
+	
+	boolean lic10() {
+		if(!(parameters.ePts >= 1) || !(parameters.fPts >= 1) || !(parameters.ePts + parameters.fPts <= numpoints-2) || numpoints <= 5) {
+			return false;
+		}
+		int i = 0;
+		int j = i + parameters.ePts+1;
+		int k = j + parameters.fPts+1;
+		
+		while(k < numpoints) {
+			double x1 = coordinatex[i];
+			double y1 = coordinatey[i];
+			double x2 = coordinatex[j];
+			double y2 = coordinatey[j];
+			double x3 = coordinatex[k];
+			double y3 = coordinatey[k];
+			
+			if ((x1 != x2 || y1 != y2) && (x2 != x3 || y2 != y3)) {
+				double area = Math.abs((x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)) / 2);
+				if(area > parameters.area1) {
+					return true;
+				}
+			}
+			i++;
+			j++;
+			k++;	
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Check if 3 points gapped by ePts and fPts for a triangle with area less or more than area1 and area2
+	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less than area2
+	 */
+	boolean LIC14(Paramenters_t parameters) {
+		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
+		double someArea;
+		boolean a1 = false, a2 = false;
+		if(numpoints < 5) return false;
+		for(int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+parameters.ePts+1]; pt2y = coordinatey[i+parameters.ePts+1];
+			pt3x = coordinatex[i+parameters.ePts+parameters.fPts+2]; pt3y = coordinatey[i+parameters.ePts+parameters.fPts+2];
+
+			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
+			
+			// check if the pts triangle area is more than area1
+			if(doublecompere(someArea, parameters.area1) == Comptype.GT) {
+				a1 = true;
+				if(a2) return true;
+			}
+
+			// check if the pts triangle area is less than area2
+			if(doublecompere(someArea, parameters.area2) == Comptype.LT) {
+				a2 = true;
+				if(a1) return true;
+			};
+		}
+		return false;
+	}
+
+	/**
+	 * There exists at least two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
+	 * G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) 
+	 * The condition is not met when NUMPOINTS < 3
+	 * @return true if an earlier point i has a greater x coordinate than a latter point j
+	 */
+	boolean LIC11(Paramenters_t parameters) {
+		double pt1x, pt2x;
+		if(numpoints < 3) return false;
+		for(int i = 0; i < numpoints - parameters.gPts - 1; i++) {
+			pt1x = coordinatex[i];
+			pt2x = coordinatex[i+parameters.gPts+1];
+
+			if(doublecompere(pt1x, pt2x) == Comptype.GT) return true;
+		}
 		return false;
 	}
 
