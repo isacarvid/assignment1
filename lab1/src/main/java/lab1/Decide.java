@@ -48,8 +48,32 @@ public class Decide {
 
 	boolean launch;
 
+	/**
+	 * This function decides whether to launch a missile
+	 * Input: the variables numpoints, parameters, coordinates, lcm and puv.
+	 * */
 	boolean decide() {
-		return false;
+		cmv[0] = LIC0();
+		cmv[1] = LIC1();
+		cmv[2] = LIC2();
+		cmv[3] = LIC3();
+		cmv[4] = LIC4();
+		cmv[5] = LIC5();
+		cmv[6] = LIC6();
+		cmv[7] = LIC7();
+		cmv[8] = LIC8();
+		cmv[9] = LIC9();
+		cmv[10] = LIC10();
+		cmv[11] = LIC11();
+		cmv[12] = LIC12();
+		cmv[13] = LIC13();
+		cmv[14] = LIC14();
+		
+		createPUMWithCmv();
+		fuv = createFUV();
+		
+		launch = launch();
+		return launch;
 	}
 
 	/**
@@ -125,9 +149,9 @@ public class Decide {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
 
-		// check if there exists to consecutive data points with a distance greater than
-		// length parameter
 		if (numpoints < 3)
+			return false;
+		if (parameters.area1 < 0)
 			return false;
 		for (int i = 0; i < numpoints - 2; i++) {
 			pt1x = coordinatex[i];
@@ -237,6 +261,8 @@ public class Decide {
 		double someLength;
 
 		if (numpoints < 3)
+			return false;
+		if (parameters.kPts < 1 || parameters.kPts > numpoints - 2)
 			return false;
 		for (int i = 0; i < numpoints - parameters.kPts - 1; i++) {
 			pt1x = coordinatex[i];
@@ -359,10 +385,12 @@ public class Decide {
 		double pt1x, pt2x;
 		if (numpoints < 3)
 			return false;
+		if (parameters.gPts < 1 || parameters.gPts > numpoints -2)
+			return false;
 		for (int i = 0; i < numpoints - parameters.gPts - 1; i++) {
 			pt1x = coordinatex[i];
 			pt2x = coordinatex[i + parameters.gPts + 1];
-
+			
 			if (doubleCompare(pt1x, pt2x) == Comptype.GT)
 				return true;
 		}
@@ -419,6 +447,9 @@ public class Decide {
 
 		if (numpoints < 5)
 			return false;
+		if (parameters.radius2 < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];
@@ -453,6 +484,9 @@ public class Decide {
 		boolean a1 = false, a2 = false;
 		if (numpoints < 5)
 			return false;
+		if (parameters.area2 < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];
