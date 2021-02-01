@@ -44,6 +44,7 @@ public class Decide {
 	public boolean[][] pum = new boolean[15][15];
 	public boolean[] cmv = new boolean[15];
 	public boolean[] fuv = new boolean[15];
+	public boolean[] puv = new boolean[15];
 
 	boolean launch;
 
@@ -514,6 +515,30 @@ public class Decide {
 	    return tmp;
 	}
 	
+	/**
+	 * 
+	 */
+	public boolean[] createFUV() {
+		boolean[] tmp = new boolean[15];
+		for(int i=0; i<15; i++) {
+			// PUV[i] is false || all elements in PUM row i are true
+			if(!puv[i]) {
+				tmp[i] = true;
+			}
+
+			else {
+				boolean checkLIC = true;
+				for(int j=0; j<15; j++) {
+					if(!pum[i][j]) {
+						checkLIC = false;
+						break;
+					}
+				}
+				tmp[i] = checkLIC; // all conditions were true in pum row
+			}
+		}
+		return tmp; 
+	}
 
 	/**
 	 * Returns true if all points can be contained in circle
