@@ -342,7 +342,44 @@ public class TestDecide {
         assertTrue(program.LIC11(program.parameters));
     }
 
-	
+	@Test
+	/**
+     * Return true if some 3pts gapped by ePts and fPts
+	 * dont fit in radius1 circle and some 3pts fit radius2
+     * Return false otherwise
+     * Return false if numpoints < 5
+     */
+	public void testLIC13() {
+        Decide program = new Decide();
+
+        program.numpoints = 5;
+        double[] t1cx = {0, 0, 1, 0, 0};
+        double[] t1cy = {0, 0, 0, 0, 1};
+        double[] t2cx = {0, 0, 10, 0, 0};
+		double[] t2cy = {0, 0, 0, 0, 10};
+		double[] t3cx = {0, 0, 5, 0, 0};
+		double[] t3cy = {0, 0, 0, 0, 5};
+		program.parameters.aPts = 1;
+		program.parameters.bPts = 1;
+		program.parameters.radius = 2;
+		program.parameters.radius2 = 4;
+
+		// fits radius1 && fits radius2
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+		assertTrue(!program.LIC13(program.parameters));
+		
+		// no fit radius1 && no fit radius2
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC13(program.parameters));
+
+        // no fit radius1 && fits radius2
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC13(program.parameters));
+    }
+
 	@Test
 	/**
      * Return true if some 3pts triangle area gapped by ePts and fPts

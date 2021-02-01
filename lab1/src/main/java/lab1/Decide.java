@@ -383,6 +383,97 @@ public class Decide {
 	}
 
 	/**
+	 * Check if 3 points gapped by aPts and bPts can fit or not in radius1 and radius2 
+	 * @return true if 3 points do not fit in radius1 and 3 pts do fit in radius2
+	 */
+	boolean LIC13(Paramenters_t parameters) {
+		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
+		double dist1, dist2, dist3, max1, max2;
+		boolean r1 = false, r2 = false;
+		
+		if(numpoints < 5) return false;
+		for(int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
+			pt1x = coordinatex[i]; pt1y = coordinatey[i];
+			pt2x = coordinatex[i+parameters.aPts+1]; pt2y = coordinatey[i+parameters.aPts+1];
+			pt3x = coordinatex[i+parameters.bPts+1]; pt3y = coordinatey[i+parameters.bPts+1];
+
+			dist1 = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
+			dist2 = Math.sqrt((pt2x-pt3x)*(pt2x-pt3x) + (pt2y-pt3y)*(pt2y-pt3y));
+			dist3 = Math.sqrt((pt1x-pt3x)*(pt1x-pt3x) + (pt1y-pt3y)*(pt1y-pt3y));
+
+			// points with max dist between them
+			double maxDist1x = 0;
+			double maxDist1y = 0;
+			double maxDist2x = 0;
+			double maxDist2y = 0;
+			double extraPointx = 0;
+			double extraPointy = 0;
+			if(dist1 > dist2 && dist1 > dist3) {
+				maxDist1x = pt1x;
+				maxDist1y = pt1y;
+				maxDist2x = pt2x;
+				maxDist2y = pt2y;
+				extraPointx = pt3x;
+				extraPointy = pt3y;
+			}
+			else if(dist2 > dist1 && dist2 > dist3) {
+				maxDist1x = pt2x;
+				maxDist1y = pt2y;
+				maxDist2x = pt3x;
+				maxDist2y = pt3y;
+				extraPointx = pt1x;
+				extraPointy = pt1y;
+			}
+			if(dist3 > dist1 && dist3 > dist1) {
+				maxDist1x = pt1x;
+				maxDist1y = pt1y;
+				maxDist2x = pt3x;
+				maxDist2y = pt3y;
+				extraPointx = pt2x;
+				extraPointy = pt2y;
+			}
+
+			//distance between extra point and the others
+			max1 = Math.sqrt((extraPointx-maxDist1x)*(extraPointx-maxDist1x) + (extraPointy-maxDist1y)*(extraPointy-maxDist1y));
+			max2 = Math.sqrt((extraPointx-maxDist2x)*(extraPointx-maxDist2x) + (extraPointy-maxDist2y)*(extraPointy-maxDist2y));
+
+			// check if the pts do NOT fit in circle of radius 1
+			if(doublecompere(dist1, 2*parameters.radius) == Comptype.GT) {
+				r1 = true;
+				if(r2) return true;
+			}
+			else if(doublecompere(dist2, 2*parameters.radius) == Comptype.GT) {
+				r1 = true;
+				if(r2) return true;
+			}
+			else if(doublecompere(dist3, 2*parameters.radius) == Comptype.GT) {
+				r1 = true;
+				if(r2) return true;
+			}
+			else if(max1 > parameters.radius && max2 > parameters.radius) {
+				r1 = true;
+				if(r2) return true;
+			}
+
+			// check if the pts do fit in circle of radius 2
+			if(doublecompere(dist1, 2*parameters.radius2) == Comptype.GT) {
+				continue;
+			}
+			if(doublecompere(dist2, 2*parameters.radius2) == Comptype.GT) {
+				continue;
+			}
+			if(doublecompere(dist3, 2*parameters.radius2) == Comptype.GT) {
+				continue;
+			}
+			if(max1 < parameters.radius2 || max2 < parameters.radius2) {
+				r2 = true;
+				if(r1) return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Check if 3 points gapped by ePts and fPts for a triangle with area less or more than area1 and area2
 	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less than area2
 	 */
