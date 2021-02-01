@@ -644,6 +644,9 @@ public class Decide {
 	
 	
 	boolean LIC12() {
+		if(numpoints < 3) {
+			return false;
+		}
 		boolean[] conds= new boolean[2];
 		for(int i = 0; i < numpoints; i++) {
 			if(i + parameters.kPts +1<= numpoints-1) {
