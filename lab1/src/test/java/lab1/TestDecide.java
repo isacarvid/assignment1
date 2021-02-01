@@ -1,6 +1,9 @@
 package lab1;
 
 import org.junit.Test;
+
+import lab1.Decide.Connectors;
+
 import static org.junit.Assert.assertArrayEquals; // remove ?
 import static org.junit.Assert.assertEquals; // remove ?
 import static org.junit.Assert.assertTrue;
@@ -434,4 +437,86 @@ public class TestDecide {
         program.coordinatey = t3cy;
         assertTrue(program.LIC14(program.parameters));
     }
+	
+	/**
+	 * Fills values ov cmv with true/false
+	 * Fills values of the matrix lcm with ANDD
+	 * one assert should be True and one should be False
+	 * */
+	@Test
+	public void testPUM() {
+		
+		//checks if all values are true
+		Decide program = new Decide();
+		program.cmv[0] = true;
+		program.cmv[1] = true;
+		program.cmv[2] = true;
+		program.cmv[3] = true;
+		program.cmv[4] = true;
+		program.cmv[5] = true;
+		program.cmv[6] = true;
+		program.cmv[7] = true;
+		program.cmv[8] = true;
+		program.cmv[9] = true;
+		program.cmv[10] = true;
+		program.cmv[11] = true;
+		program.cmv[12] = true;
+		program.cmv[13] = true;
+		program.cmv[14] = true;
+		
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				program.lcm[i][j] = Connectors.ANDD;
+			}
+		}
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				program.pum = program.createPUM();
+			}
+		}
+		boolean result = true;
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				if(program.pum[i][j] == false) {
+					result = false;
+					break;
+				}
+			}
+		}
+		
+		//check if all values are false
+		program.cmv[0] = false;
+		program.cmv[1] = false;
+		program.cmv[2] = false;
+		program.cmv[3] = false;
+		program.cmv[4] = false;
+		program.cmv[5] = false;
+		program.cmv[6] = false;
+		program.cmv[7] = false;
+		program.cmv[8] = false;
+		program.cmv[9] = false;
+		program.cmv[10] = false;
+		program.cmv[11] = false;
+		program.cmv[12] = false;
+		program.cmv[13] = false;
+		program.cmv[14] = false;
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				program.pum = program.createPUM();
+			}
+		}
+		result = false;
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				if(program.pum[i][j] == true) {
+					result = true;
+					break;
+				}
+			}
+		}
+		assertFalse(result);
+		
+		
+	}
+	
 }
