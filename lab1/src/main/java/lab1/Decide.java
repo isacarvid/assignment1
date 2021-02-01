@@ -120,6 +120,7 @@ public class Decide {
 	 * 
 	 * @return yes there exists such 3 pts
 	 */
+
 	boolean LIC3() {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
@@ -352,7 +353,9 @@ public class Decide {
 	 * @return true if an earlier point i has a greater x coordinate than a latter
 	 *         point j
 	 */
+
 	boolean LIC11() {
+
 		double pt1x, pt2x;
 		if (numpoints < 3)
 			return false;
@@ -441,6 +444,7 @@ public class Decide {
 	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less
 	 *         than area2
 	 */
+
 	boolean LIC14() {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
@@ -492,6 +496,7 @@ public class Decide {
 		cmv[12] = LIC12();
 		cmv[13] = LIC13();
 		cmv[14] = LIC14();
+
 	}
 
 	/**
