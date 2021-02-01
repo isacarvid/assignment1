@@ -19,11 +19,19 @@ public class TestDecide {
 		System.out.println("setup");
 	}
 
+	/**
+	 * Checks  distance between consecutive points is > length parameter set to 0
+	 * ,7 and 12 for sets of points where the condition holds. Also test 
+	 * that function correctly returns false if given points where the distance
+	 * between them is not greater than the length parameter.
+	 * 
+	 */
 	@Test
 	public void testLIC0() {
 		Decide program = new Decide();
 		program.numpoints = 3;
-		// Length in LICs 0 , 7 , 12 : test that dist > than LIC length 0
+		// Length in LICs 0 , 7 , 12 : 
+		//test that dist > than LIC length 0
 		program.parameters.length = 0;
 		double[] trueCoorX1 = { 1, 2, 3 };
 		double[] trueCoorY1 = { 1, 2, 3 };
@@ -135,13 +143,15 @@ public class TestDecide {
 	}
 
 	/**
-	 * Asserts true if LIC4 correctly checks that there exists a set of qPts that is
-	 * greater than quads
+	 * Asserts if LIC4 correctly checks that there exists a set of qPts that is
+	 * greater than quads. 
 	 */
 	@Test
 	public void testLIC4() {
 		Decide program = new Decide();
-
+		//check that the points, which are located in 3
+		//different quadrants is determined to 
+		//be greater than quads which is 2
 		program.numpoints = 3;
 		program.parameters.qPts = 3;
 		program.parameters.quads = 2;
@@ -150,7 +160,9 @@ public class TestDecide {
 		program.coordinatex = trueCoorX;
 		program.coordinatey = trueCoorY;
 		assertTrue(program.LIC4());
-
+		//check that LIC4 asserts false when 
+		//points which are located in only one quadrant
+		//is not greater than quad equal to 1
 		program.parameters.quads = 1;
 		double[] falseCoorX = { 1, 2, 3 };
 		double[] falseCoorY = { 1, 3, 4 };
@@ -247,15 +259,21 @@ public class TestDecide {
 
 	/**
 	 * There exists at least one set of three consecutive data points with aPts and
-	 * bPts distance between them that cannot all be contained in a circle of
+	 * bPts distance between them that CANNOT all be contained in a circle of
 	 * radius1
 	 */
 	@Test
 	public void testLIC8() {
-		double[] x = { 0, 1, 4, 1, 9 };
-		double[] y = { 0, 1, 4, 1, 9 };
+		//points (0,0),(4,4) are 4 points away from each other
+		// and (4,4) and (9,9) are 4 points. 
+		//these cannot be contained in a circle of radius 3
+		//but it works for nine.
+		double[] x = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		double[] y = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		Decide program = new Decide();
-		program.numpoints = 5;
+		program.parameters.aPts = 3;
+		program.parameters.bPts = 4;
+		program.numpoints = 10;
 		program.parameters.radius = 3;
 		program.coordinatex = x;
 		program.coordinatey = y;
@@ -359,9 +377,26 @@ public class TestDecide {
 		assertTrue(program.LIC11());
 	}
 
+	/**
+	 * tests if LIC12 correctly determines if there exists at least one
+	 * set of 2 data points, separated by kPts consecutive intervening points,
+	 * which are a distance greater than length apart. There should
+	 * also be two data pts with kPts consecutive intervening pts between
+	 * them with distance less than length2 apart.
+	 * 
+	 */
 	@Test
 	public void testLIC12() {
+		
+		//
 		Decide program = new Decide();
+		
+		//checks if five points have a pair 
+		//of pts have, with kPts=2 consecutive intervening pts 
+		//between them, a distance greater than 6 and less than 10.
+		//one pair has approx dist 6 and the other has 7
+		//which satisfies the cond.
+		//than 
 		program.numpoints = 5;
 		program.parameters.kPts = 2;
 		double[] trueCoorX = { 1, 3, 5, 8, 9 };
@@ -371,8 +406,13 @@ public class TestDecide {
 		program.parameters.length = 6;
 		program.parameters.length2 = 10;
 		assertTrue(program.LIC12());
+		//same as above, only that it checks
+		//for 3 intervening points, the real 
+		//dist is 8 between the possible pair,
+		//but 8 is not both greater than 10
+		//and less than 10 at the same time (length==length2==10)
+		//so LIC12 should return false
 		program.parameters.kPts = 3;
-		// should fail on the below
 		program.parameters.length = 10;
 		assertFalse(program.LIC12());
 	}
@@ -454,7 +494,7 @@ public class TestDecide {
 	}
 
 	/**
-	 * Fills values ov cmv with true/false Fills values of the matrix lcm with ANDD
+	 * Fills values of cmv with true/false Fills values of the matrix lcm with ANDD
 	 * one assert should be True and one should be False
 	 */
 	@Test
