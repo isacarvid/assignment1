@@ -316,8 +316,8 @@ public class TestDecide {
         double[] t1cy = {0, 0, 0, 0, 1};
         double[] t2cx = {0, 0, 10, 0, 0};
 		double[] t2cy = {0, 0, 0, 0, 10};
-		double[] t3cx = {0, 0, 3, 0, 0};
-		double[] t3cy = {0, 0, 0, 0, 3};
+		double[] t3cx = {0, 0, 5, 0, 0};
+		double[] t3cy = {0, 0, 0, 0, 5};
 		program.parameters.aPts = 1;
 		program.parameters.bPts = 1;
 		program.parameters.radius = 2;
