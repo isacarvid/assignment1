@@ -509,6 +509,9 @@ public class TestDecide {
 		assertFalse(result);
 
 	}
+	/**
+	 * tests that if all elements in fuv are true then assert true. otherwise assert false
+	 * */
 	@Test
 	public void testLaunch() {
 		Decide program = new Decide();
