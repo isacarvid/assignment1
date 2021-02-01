@@ -1,6 +1,5 @@
 package lab1;
 
-
 import java.lang.Math;
 import java.util.Arrays;
 import static java.awt.geom.Point2D.distance;
@@ -14,7 +13,7 @@ public class Decide {
 		LT, EQ, GT
 	}
 
-	 class Paramenters_t {
+	static class Parameters {
 		double length; // L e n gt h i n L ICs 0 , 7 , 12
 		double radius; // R a di u s i n L ICs 1 , 8 , 13
 		double epsilon; // D e v i a t i o n f r om P I i n L ICs 2 , 9
@@ -36,39 +35,42 @@ public class Decide {
 		double area2; // Maximum a r e a i n LIC 14
 	}
 
-	Paramenters_t parameters = new Paramenters_t();
+	Parameters parameters = new Parameters();
 	double[] coordinatex;
 	double[] coordinatey;
 	int numpoints;
 
 	public Connectors[][] lcm = new Connectors[15][15];
-
 	public boolean[][] pum = new boolean[15][15];
-
 	public boolean[] cmv = new boolean[15];
-
 	public boolean[] fuv = new boolean[15];
 
 	boolean launch;
 
-	/**
-	 * If a < b return LT
-	 */
-	Comptype doublecompere(double a, double b) {
-		if (Math.abs(a - b) < 0.000001) {
-			return Comptype.EQ;
-		}
-		if (a < b) {
-			return Comptype.LT;
-		}
-		return Comptype.GT;
+	boolean decide() {
+		return false;
 	}
 
 	/**
-	 * There exists at least one set of three consecutive data points
+	 * Check if there exists to consecutive data points with a
+	 * distance greater than length parameter
+	 */
+	boolean LIC0() {
+		for (int i = 0; i < numpoints - 1; i++) {
+			double dist = Math.sqrt(Math.pow((coordinatex[i + 1] - coordinatex[i]), 2)
+					+ Math.pow((coordinatey[i + 1] - coordinatey[i]), 2));
+			if (dist > parameters.length) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Return true : There exists at least one set of three consecutive data points
 	 * than CANNOT all be contained in a circle of radius radius1
-	 * */
-	boolean LIC1(Paramenters_t parameters) {
+	 */
+	boolean LIC1() {
 		double radius1 = parameters.radius;
 		for (int i = 0; i < numpoints - 2; i++) {
 			double x1 = coordinatex[i];
@@ -77,70 +79,22 @@ public class Decide {
 			double y2 = coordinatey[i + 1];
 			double x3 = coordinatex[i + 2];
 			double y3 = coordinatey[i + 2];
-
-			double dist1 = distance(x1, y1, x2, y2);
-			double dist2 = distance(x2, y2, x3, y3);
-			double dist3 = distance(x1, y1, x3, y3);
-
-			// distance bigger than diameter => cannot fit
-			if (doublecompere(dist1, 2 * radius1) == Comptype.GT) {
+			// checkNotInRadius returns false if the pts can be contained in rad
+			if(checkNotInRadius(x1, y1, x2, y2, x3, y3, radius1)) {
 				return true;
-			} else if (doublecompere(dist2, 2 * radius1) == Comptype.GT) {
-				return true;
-			} else if (doublecompere(dist3, 2 * radius1) == Comptype.GT) {
-				return true;
-			}
-
-			// points with max dist between them
-			double maxDist = 0;
-			double maxDist1x = 0;
-			double maxDist1y = 0;
-			double maxDist2x = 0;
-			double maxDist2y = 0;
-			double extraPointx = 0;
-			double extraPointy = 0;
-			if(dist1 > dist2 && dist1 > dist3) {
-				maxDist1x = x1;
-				maxDist1y = y1;
-				maxDist2x = x2;
-				maxDist2y = y2;
-				extraPointx = x3;
-				extraPointy = y3;
-			}
-			else if(dist2 > dist1 && dist2 > dist3) {
-				maxDist1x = x2;
-				maxDist1y = y2;
-				maxDist2x = x3;
-				maxDist2y = y3;
-				extraPointx = x1;
-				extraPointy = y1;
-			}
-			if(dist3 > dist1 && dist3 > dist1) {
-				maxDist1x = x1;
-				maxDist1y = y1;
-				maxDist2x = x3;
-				maxDist2y = y3;
-				extraPointx = x2;
-				extraPointy = y2;
-			}
-			//distance between extra point and the others less than r :
-			// return false because it can be contained
-			if(distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius1 ||
-					distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius1
-			) {
-				return false;
 			}
 		}
-		return true;
+		return false;
 	}
 
-	// if the angle of three consecutive points are within PI +- some margin epsilon
-	// return true
-	boolean lic2() {
+	/**
+	 * if the angle of three consecutive points are within PI +- some margin epsilon
+	 * return true
+	 */
+	boolean LIC2() {
 		for (int i = 1; i < numpoints - 1; i++) {
 			if (!((coordinatex[i - 1] == coordinatex[i] && coordinatey[i - 1] == coordinatey[i])
 					|| (coordinatex[i + 1] == coordinatex[i] && coordinatey[i + 1] == coordinatey[i]))) {
-
 				double xDiff1 = coordinatex[i - 1] - coordinatex[i];
 				double yDiff1 = coordinatey[i - 1] - coordinatey[i];
 				double xDiff2 = coordinatex[i + 1] - coordinatex[i];
@@ -152,111 +106,86 @@ public class Decide {
 				double normB = Math.sqrt(Math.pow(xDiff2, 2) + Math.pow(yDiff2, 2));
 				double angle = Math.acos(dotProduct / (normA * normB));
 				if (angle < (Math.PI - parameters.epsilon) || angle > (Math.PI + parameters.epsilon)) {
-					cmv[2] = true;
-					return cmv[2];
+					return true;
 				}
 			}
 		}
-		cmv[2] = false;
 		return false;
 	}
-	
+
 	/**
-	 * There exists at least one set of three consecutive data points 
+	 * There exists at least one set of three consecutive data points
 	 * that are the vertices of a triangle with area greater than AREA1
 	 * @return yes there exists such 3 pts
 	 */
-	boolean LIC3(Paramenters_t parameters) {
+	boolean LIC3 (Parameters parameters){
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
 
+		// check if there exists to consecutive data points with a distance greater than
+		// length parameter
+		if (numpoints < 3) return false;
+		for (int i = 0; i < numpoints - 2; i++) {
+			pt1x = coordinatex[i];
+			pt1y = coordinatey[i];
+			pt2x = coordinatex[i + 1];
+			pt2y = coordinatey[i + 1];
+			pt3x = coordinatex[i + 2];
+			pt3y = coordinatey[i + 2];
 
-	// check if there exists to consecutive data points with a distance greater than
-	// length parameter
-		if(numpoints < 3) return false;
-		for(int i = 0; i < numpoints - 2; i++) {
-			pt1x = coordinatex[i]; pt1y = coordinatey[i];
-			pt2x = coordinatex[i+1]; pt2y = coordinatey[i+1];
-			pt3x = coordinatex[i+2]; pt3y = coordinatey[i+2];
-
-			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
-			if(doublecompere(someArea, parameters.area1) == Comptype.GT) return true;
+			someArea = 0.5 * (pt1x * (pt2y - pt3y) + pt2x * (pt3y - pt1y) + pt3x * (pt1y - pt2y));
+			if (doubleCompare(someArea, parameters.area1) == Comptype.GT) return true;
 		}
-		return false;	
+		return false;
 	}
 
-	//check if there exists to consecutive data points with a distance greater than length parameter
-	boolean LIC0(Paramenters_t param) {
-
-		cmv[0] = false;
-
-		for (int i = 0; i < numpoints - 1; i++) {
-			double dist = Math.sqrt(Math.pow((coordinatex[i + 1] - coordinatex[i]), 2)
-					+ Math.pow((coordinatey[i + 1] - coordinatey[i]), 2));
-			if (dist > param.length) {
-
-				cmv[0] = true;
-			}
-		}
-		if (cmv[0] == true) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	//check if there exists a set of Q_PTS consecutive data points lie in more than quads quadrants
+	/**
+	 * Check if there exists a set of Q_PTS
+	 * consecutive data points lie in more than quads quadrants
+	 */
 	boolean LIC4() {
 		boolean[] inhabitedQuads = new boolean[3];
-		if(parameters.qPts < 2 || parameters.qPts > numpoints || parameters.quads < 1 || parameters.quads > 3) {
+		if (parameters.qPts < 2 || parameters.qPts > numpoints || parameters.quads < 1 || parameters.quads > 3) {
 			return false;
 		}
-		for(int i= 0; i < numpoints; i++) {
-		if((i + parameters.qPts) <= numpoints ){
-			
-			for(int j = 0; j < parameters.qPts; j++) {
-				if(coordinatex[i + j] >= 0 && coordinatey[i + j] >= 0 && inhabitedQuads[0] != true) {
-					inhabitedQuads[0] = true;
-					
-				} else if(coordinatex[i + j] < 0 && coordinatey[i + j] >= 0 && inhabitedQuads[1] != true) {
-					inhabitedQuads[1] = true;
-				} else if(coordinatex[i + j] <= 0 && coordinatey[i + j] < 0 && inhabitedQuads[2] != true) {
-					inhabitedQuads[2] = true;
+		for (int i = 0; i < numpoints; i++) {
+			if ((i + parameters.qPts) <= numpoints) {
+
+				for (int j = 0; j < parameters.qPts; j++) {
+					if (coordinatex[i + j] >= 0 && coordinatey[i + j] >= 0 && !inhabitedQuads[0]) {
+						inhabitedQuads[0] = true;
+					} else if (coordinatex[i + j] < 0 && coordinatey[i + j] >= 0 && !inhabitedQuads[1]) {
+						inhabitedQuads[1] = true;
+					} else if (coordinatex[i + j] <= 0 && coordinatey[i + j] < 0 && !inhabitedQuads[2]) {
+						inhabitedQuads[2] = true;
+					}
+				}
+
+				int counter = 0;
+				for (int j = 0; j < 3; j++) {
+					if (inhabitedQuads[j]) {
+						counter++;
+					}
+				}
+
+				if (counter > parameters.quads) {
+					return true;
+				} else {
+					Arrays.fill(inhabitedQuads, Boolean.FALSE);
 				}
 			}
-			
-			int counter = 0;
-			for(int j = 0; j < 3; j++) {
-				if(inhabitedQuads[j] == true) {
-					counter++;
-				}
-			}
-			
-			if(counter > parameters.quads) {
-				return true;
-			} else {
-				Arrays.fill(inhabitedQuads,Boolean.FALSE);
-				
-			}	
 		}
-		}
-		
 		return false;
-	
-		
 	}
-	
+
 	/**
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
 	 * (xj yj) where xj - xi < 0 => xj < xi
 	 */
-	// ideas for tests : list w consecutive data points which fulfill this and which
-	// does not fulfill this
-	// remove parameter ?
-	boolean LIC5(Paramenters_t parameters) {
+	boolean LIC5(){
 		for (int i = 0; i < numpoints - 1; i++) {
 			// next nb is smaller than curr => true
-			if (doublecompere(coordinatex[i + 1], coordinatex[i]) == Comptype.LT) {
+			if (doubleCompare(coordinatex[i + 1], coordinatex[i]) == Comptype.LT) {
 				return true;
 			}
 		}
@@ -270,54 +199,76 @@ public class Decide {
 	 * npts). Formula for distance between point and line
 	 * at:(https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)
 	 */
-	boolean lic6() {
+	boolean LIC6() {
 		for (int i = 0; i < numpoints + 1 - parameters.nPts; i++) {
-			double[] startPoint = { coordinatex[i], coordinatey[i] };
-			double[] endPoint = { coordinatex[i + parameters.nPts-1], coordinatey[i + parameters.nPts-1] };
+			double[] startPoint = {coordinatex[i], coordinatey[i]};
+			double[] endPoint = {coordinatex[i + parameters.nPts - 1], coordinatey[i + parameters.nPts - 1]};
 			double k = (endPoint[1] - startPoint[1]) / (endPoint[0] - startPoint[0]);
-			double m = startPoint[1] - k * startPoint[0];
 
-			for (int j = i + 1; j < i + parameters.nPts - 1; j++) { 
+			for (int j = i + 1; j < i + parameters.nPts - 1; j++) {
 				double dist = Math
 						.abs((endPoint[0] - startPoint[0]) * (startPoint[1] - coordinatey[j])
 								- (startPoint[0] - coordinatex[j]) * (endPoint[1] - startPoint[1]))
 						/ Math.sqrt(Math.pow((endPoint[0] - startPoint[0]), 2)
-								+ Math.pow((endPoint[1] - startPoint[1]), 2));
+						+ Math.pow((endPoint[1] - startPoint[1]), 2));
 
 				if (dist > parameters.dist) {
-					cmv[6] = true;
-					return cmv[6];
+					return true;
 				}
 			}
 		}
-		cmv[6] = false;
-		return cmv[6];
-	}
-
-	boolean decide() {
 		return false;
 	}
-/**
-	 * There exists at least two data points separated by K_PTS consecutive intervening
-	 * points that are a distance greater than LENGTH1, apart. The condition
-	 * is not met when NUMPOINTS < 3
-	 * @return true if yes there exists such 2 pts
-	 */
-	boolean LIC7(Paramenters_t parameters) {
+
+	/**
+	* There exists at least two data points separated by K_PTS consecutive intervening
+	* points that are a distance greater than LENGTH1, apart. The condition
+	* is not met when NUMPOINTS < 3
+	* @return true if yes there exists such 2 pts
+	*/
+	boolean LIC7(){
 		double pt1x, pt1y, pt2x, pt2y;
 		double someLength;
 
-		if(numpoints < 3) return false;
-		for(int i = 0; i < numpoints - parameters.kPts - 1; i++) {
-			pt1x = coordinatex[i]; pt1y = coordinatey[i];
-			pt2x = coordinatex[i+parameters.kPts+1]; pt2y = coordinatey[i+parameters.kPts+1];
+		if (numpoints < 3) return false;
+		for (int i = 0; i < numpoints - parameters.kPts - 1; i++) {
+			pt1x = coordinatex[i];
+			pt1y = coordinatey[i];
+			pt2x = coordinatex[i + parameters.kPts + 1];
+			pt2y = coordinatey[i + parameters.kPts + 1];
 
-			someLength = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
-			if(doublecompere(someLength, parameters.length) == Comptype.GT) return true;
+			someLength = Math.sqrt((pt1x - pt2x) * (pt1x - pt2x) + (pt1y - pt2y) * (pt1y - pt2y));
+			if (doubleCompare(someLength, parameters.length) == Comptype.GT) return true;
 		}
 		return false;
 	}
 
+	/**
+	 * There exists at least one set of three consecutive data points with aPts and bPts consecutive points
+	 *  in between each other that CANNOT all be contained in a circle of radius radius1
+	 *  (parameters.aPts < 1 || parameters.bPts < 1 || ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5) holds
+	 * */
+	boolean LIC8() {
+		if(numpoints < 5) {
+			return false;
+		}
+		double radius1 = parameters.radius;
+		for (int i = 0; i < numpoints; i++) {
+			if (!(i + parameters.aPts + parameters.bPts + 2 <= numpoints - 1)) {
+				break;
+			}
+			double x1 = coordinatex[i];
+			double y1 = coordinatey[i];
+			double x2 = coordinatex[i + parameters.aPts + 1];
+			double y2 = coordinatey[i + parameters.aPts + 1];
+			double x3 = coordinatex[i + parameters.aPts + parameters.bPts + 2];
+			double y3 = coordinatey[i + parameters.aPts + parameters.bPts + 2];
+			if(checkNotInRadius(x1, y1, x2, y2, x3, y3, radius1)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Return true if: exist 3 consecutive data pts separated
@@ -326,11 +277,11 @@ public class Decide {
 	 * if numpoints < 5 : return false
 	 * if first or 3rd point == vertex : cannot be true for those pts
 	 */
-	boolean LIC9(Paramenters_t parameters) {
+	boolean LIC9(){
 		int i = 0;
-		int j = i + parameters.cPts+1;
-		int k = j + parameters.dPts+1;
-		while(k < numpoints) {
+		int j = i + parameters.cPts + 1;
+		int k = j + parameters.dPts + 1;
+		while (k < numpoints) {
 			double x1 = coordinatex[i];
 			double y1 = coordinatey[i];
 			double x2 = coordinatex[j];
@@ -348,127 +299,120 @@ public class Decide {
 			j++;
 			k++;
 		}
-
 		return false;
 	}
-	
-	boolean lic10() {
-		if(!(parameters.ePts >= 1) || !(parameters.fPts >= 1) || !(parameters.ePts + parameters.fPts <= numpoints-2) || numpoints <= 5) {
+
+	/**
+	 * Return true if exists at least 3 pts sep by epts and fpts
+	 * cons pts, that are the vertices of a trianlge w area > area1
+	 */
+	boolean LIC10(){
+		if (!(parameters.ePts >= 1) || !(parameters.fPts >= 1) || !(parameters.ePts + parameters.fPts <= numpoints - 2) || numpoints <= 5) {
 			return false;
 		}
 		int i = 0;
-		int j = i + parameters.ePts+1;
-		int k = j + parameters.fPts+1;
-		
-		while(k < numpoints) {
+		int j = i + parameters.ePts + 1;
+		int k = j + parameters.fPts + 1;
+
+		while (k < numpoints) {
 			double x1 = coordinatex[i];
 			double y1 = coordinatey[i];
 			double x2 = coordinatex[j];
 			double y2 = coordinatey[j];
 			double x3 = coordinatex[k];
 			double y3 = coordinatey[k];
-			
+
 			if ((x1 != x2 || y1 != y2) && (x2 != x3 || y2 != y3)) {
-				double area = Math.abs((x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)) / 2);
-				if(area > parameters.area1) {
+				double area = Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2);
+				if (area > parameters.area1) {
 					return true;
 				}
 			}
 			i++;
 			j++;
-			k++;	
+			k++;
 		}
-		
 		return false;
 	}
 
 	/**
-	 * Check if 3 points gapped by aPts and bPts can fit or not in radius1 and radius2 
+	 * There exists at least two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
+	 * G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j )
+	 * The condition is not met when NUMPOINTS < 3
+	 * @return true if an earlier point i has a greater x coordinate than a latter point j
+	 */
+	boolean LIC11 (Parameters parameters){
+		double pt1x, pt2x;
+		if (numpoints < 3) return false;
+		for (int i = 0; i < numpoints - parameters.gPts - 1; i++) {
+			pt1x = coordinatex[i];
+			pt2x = coordinatex[i + parameters.gPts + 1];
+
+			if (doubleCompare(pt1x, pt2x) == Comptype.GT) return true;
+		}
+		return false;
+	}
+
+	/*
+	 * Exists at least one set of 2 data pts sep by kpts at
+	 * dist > length1. Also exists one set of data pts dep by kpts cons pts
+	 * that are at dist > length2
+	 */
+	boolean LIC12() {
+		if(numpoints < 3) {
+			return false;
+		}
+		boolean[] conds= new boolean[2];
+		for(int i = 0; i < numpoints; i++) {
+			if(i + parameters.kPts +1<= numpoints-1) {
+				if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) > parameters.length) {
+					conds[0] = true;
+					break;
+				}
+			}
+		}
+		for(int i = 0; i < numpoints; i++) {
+			if(i + parameters.kPts +1<= numpoints-1) {
+				if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) < parameters.length2) {
+					conds[1] = true;
+					break;
+				}
+			}
+		}
+		int counter = 0;
+		for(int i = 0; i < 2; i++) {
+			if(conds[i]) {
+				counter++;
+			}
+		}
+		return counter == 2;
+	}
+
+	/**
+	 * Check if 3 points gapped by aPts and bPts can fit or not in radius1 and radius2
 	 * @return true if 3 points do not fit in radius1 and 3 pts do fit in radius2
 	 */
-	boolean LIC13(Paramenters_t parameters) {
+	boolean LIC13 (){
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
-		double dist1, dist2, dist3, max1, max2;
 		boolean r1 = false, r2 = false;
-		
-		if(numpoints < 5) return false;
-		for(int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
-			pt1x = coordinatex[i]; pt1y = coordinatey[i];
-			pt2x = coordinatex[i+parameters.aPts+1]; pt2y = coordinatey[i+parameters.aPts+1];
-			pt3x = coordinatex[i+parameters.bPts+1]; pt3y = coordinatey[i+parameters.bPts+1];
 
-			dist1 = Math.sqrt((pt1x-pt2x)*(pt1x-pt2x) + (pt1y-pt2y)*(pt1y-pt2y));
-			dist2 = Math.sqrt((pt2x-pt3x)*(pt2x-pt3x) + (pt2y-pt3y)*(pt2y-pt3y));
-			dist3 = Math.sqrt((pt1x-pt3x)*(pt1x-pt3x) + (pt1y-pt3y)*(pt1y-pt3y));
-
-			// points with max dist between them
-			double maxDist1x = 0;
-			double maxDist1y = 0;
-			double maxDist2x = 0;
-			double maxDist2y = 0;
-			double extraPointx = 0;
-			double extraPointy = 0;
-			if(dist1 > dist2 && dist1 > dist3) {
-				maxDist1x = pt1x;
-				maxDist1y = pt1y;
-				maxDist2x = pt2x;
-				maxDist2y = pt2y;
-				extraPointx = pt3x;
-				extraPointy = pt3y;
-			}
-			else if(dist2 > dist1 && dist2 > dist3) {
-				maxDist1x = pt2x;
-				maxDist1y = pt2y;
-				maxDist2x = pt3x;
-				maxDist2y = pt3y;
-				extraPointx = pt1x;
-				extraPointy = pt1y;
-			}
-			if(dist3 > dist1 && dist3 > dist1) {
-				maxDist1x = pt1x;
-				maxDist1y = pt1y;
-				maxDist2x = pt3x;
-				maxDist2y = pt3y;
-				extraPointx = pt2x;
-				extraPointy = pt2y;
-			}
-
-			//distance between extra point and the others
-			max1 = Math.sqrt((extraPointx-maxDist1x)*(extraPointx-maxDist1x) + (extraPointy-maxDist1y)*(extraPointy-maxDist1y));
-			max2 = Math.sqrt((extraPointx-maxDist2x)*(extraPointx-maxDist2x) + (extraPointy-maxDist2y)*(extraPointy-maxDist2y));
-
-			// check if the pts do NOT fit in circle of radius 1
-			if(doublecompere(dist1, 2*parameters.radius) == Comptype.GT) {
+		if (numpoints < 5) return false;
+		for (int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
+			pt1x = coordinatex[i];
+			pt1y = coordinatey[i];
+			pt2x = coordinatex[i + parameters.aPts + 1];
+			pt2y = coordinatey[i + parameters.aPts + 1];
+			pt3x = coordinatex[i + parameters.bPts + 1];
+			pt3y = coordinatey[i + parameters.bPts + 1];
+			if(checkNotInRadius(pt1x, pt1y, pt2x, pt2y, pt3x, pt3y, parameters.radius)) {
 				r1 = true;
-				if(r2) return true;
 			}
-			else if(doublecompere(dist2, 2*parameters.radius) == Comptype.GT) {
-				r1 = true;
-				if(r2) return true;
-			}
-			else if(doublecompere(dist3, 2*parameters.radius) == Comptype.GT) {
-				r1 = true;
-				if(r2) return true;
-			}
-			else if(max1 > parameters.radius && max2 > parameters.radius) {
-				r1 = true;
-				if(r2) return true;
-			}
-
-			// check if the pts do fit in circle of radius 2
-			if(doublecompere(dist1, 2*parameters.radius2) == Comptype.GT) {
-				continue;
-			}
-			if(doublecompere(dist2, 2*parameters.radius2) == Comptype.GT) {
-				continue;
-			}
-			if(doublecompere(dist3, 2*parameters.radius2) == Comptype.GT) {
-				continue;
-			}
-			if(max1 < parameters.radius2 || max2 < parameters.radius2) {
+			if(checkNotInRadius(pt1x, pt1y, pt2x, pt2y, pt3x, pt3y, parameters.radius2)) {
 				r2 = true;
-				if(r1) return true;
 			}
+		}
+		if(r1 && !r2) {
+			return true;
 		}
 		return false;
 	}
@@ -477,155 +421,90 @@ public class Decide {
 	 * Check if 3 points gapped by ePts and fPts for a triangle with area less or more than area1 and area2
 	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less than area2
 	 */
-	boolean LIC14(Paramenters_t parameters) {
+	boolean LIC14 (Parameters parameters){
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
 		boolean a1 = false, a2 = false;
-		if(numpoints < 5) return false;
-		for(int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
-			pt1x = coordinatex[i]; pt1y = coordinatey[i];
-			pt2x = coordinatex[i+parameters.ePts+1]; pt2y = coordinatey[i+parameters.ePts+1];
-			pt3x = coordinatex[i+parameters.ePts+parameters.fPts+2]; pt3y = coordinatey[i+parameters.ePts+parameters.fPts+2];
-
-			someArea = 0.5 * (pt1x * (pt2y-pt3y) + pt2x * (pt3y-pt1y) + pt3x * (pt1y-pt2y));
-			
-			// check if the pts triangle area is more than area1
-			if(doublecompere(someArea, parameters.area1) == Comptype.GT) {
-				a1 = true;
-				if(a2) return true;
-			}
-
-			// check if the pts triangle area is less than area2
-			if(doublecompere(someArea, parameters.area2) == Comptype.LT) {
-				a2 = true;
-				if(a1) return true;
-			};
-		}
-		return false;
-	}
-
-	/**
-	 * There exists at least two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
-	 * G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) 
-	 * The condition is not met when NUMPOINTS < 3
-	 * @return true if an earlier point i has a greater x coordinate than a latter point j
-	 */
-	boolean LIC11(Paramenters_t parameters) {
-		double pt1x, pt2x;
-		if(numpoints < 3) return false;
-		for(int i = 0; i < numpoints - parameters.gPts - 1; i++) {
+		if (numpoints < 5) return false;
+		for (int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
 			pt1x = coordinatex[i];
-			pt2x = coordinatex[i+parameters.gPts+1];
+			pt1y = coordinatey[i];
+			pt2x = coordinatex[i + parameters.ePts + 1];
+			pt2y = coordinatey[i + parameters.ePts + 1];
+			pt3x = coordinatex[i + parameters.ePts + parameters.fPts + 2];
+			pt3y = coordinatey[i + parameters.ePts + parameters.fPts + 2];
 
-			if(doublecompere(pt1x, pt2x) == Comptype.GT) return true;
+			someArea = 0.5 * (pt1x * (pt2y - pt3y) + pt2x * (pt3y - pt1y) + pt3x * (pt1y - pt2y));
+
+			// check if the pts triangle area is more than area1
+			if (doubleCompare(someArea, parameters.area1) == Comptype.GT) {
+				a1 = true;
+				if (a2) return true;
+			}
+			// check if the pts triangle area is less than area2
+			if (doubleCompare(someArea, parameters.area2) == Comptype.LT) {
+				a2 = true;
+				if (a1) return true;
+			}
 		}
 		return false;
 	}
-	
-	
-	
-	
+
 	/**
-	 * There exists at least one set of three consecutive data points with aPts and bPts consecutive points 
-	 *  in between each other that CANNOT all be contained in a circle of radius radius1
-	 *  (parameters.aPts < 1 || parameters.bPts < 1 || ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5) holds
-	 * */
-	
-	boolean LIC8() {
-		
-		double radius1 = parameters.radius;
-		for(int i = 0; i < numpoints; i++) {
-			if(!(i + parameters.aPts + parameters.bPts + 2 <= numpoints -1)) {
-				break;
-			}
-			
-			double x1 = coordinatex[i];
-			double y1 = coordinatey[i];
-			double x2 = coordinatex[i + parameters.aPts + 1];
-			double y2 = coordinatey[i + parameters.aPts + 1];
-			double x3 = coordinatex[i + parameters.aPts + parameters.bPts + 2];
-			double y3 = coordinatey[i + parameters.aPts + parameters.bPts + 2];
-			
-			double dist1 = distance(x1, y1, x2, y2);
-			double dist2 = distance(x2, y2, x3, y3);
-			double dist3 = distance(x1, y1, x3, y3);
+	 * Returns true if all points can be contained in circle
+	 */
+	boolean checkNotInRadius(double x1, double y1, double x2, double y2, double x3, double y3, double radius) {
+		double dist1 = distance(x1, y1, x2, y2);
+		double dist2 = distance(x2, y2, x3, y3);
+		double dist3 = distance(x1, y1, x3, y3);
+		// distance bigger than diameter => cannot fit
+		if (doubleCompare(dist1, 2 * radius) == Comptype.GT) {
+			return true;
+		} else if (doubleCompare(dist2, 2 * radius) == Comptype.GT) {
+			return true;
+		} else if (doubleCompare(dist3, 2 * radius) == Comptype.GT) {
+			return true;
+		}
 
-			// distance bigger than diameter => cannot fit
-			if (doublecompere(dist1, 2 * radius1) == Comptype.GT) {
-				return true;
-			} else if (doublecompere(dist2, 2 * radius1) == Comptype.GT) {
-				return true;
-			} else if (doublecompere(dist3, 2 * radius1) == Comptype.GT) {
-				return true;
-			}
-
-			// points with max dist between them
-			double maxDist = 0;
-			double maxDist1x = 0;
-			double maxDist1y = 0;
-			double maxDist2x = 0;
-			double maxDist2y = 0;
-			double extraPointx = 0;
-			double extraPointy = 0;
-			if(dist1 > dist2 && dist1 > dist3) {
-				maxDist1x = x1;
-				maxDist1y = y1;
-				maxDist2x = x2;
-				maxDist2y = y2;
-				extraPointx = x3;
-				extraPointy = y3;
-			}
-			else if(dist2 > dist1 && dist2 > dist3) {
-				maxDist1x = x2;
-				maxDist1y = y2;
-				maxDist2x = x3;
-				maxDist2y = y3;
-				extraPointx = x1;
-				extraPointy = y1;
-			}
-			if(dist3 > dist1 && dist3 > dist1) {
-				maxDist1x = x1;
-				maxDist1y = y1;
-				maxDist2x = x3;
-				maxDist2y = y3;
-				extraPointx = x2;
-				extraPointy = y2;
-			}
-			//distance between extra point and the others less than r :
-			// return false because it can be contained
-			if(distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius1 ||
-					distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius1
-			) {
-				return false;
-			}
+		// points with max dist between them
+		double maxDist1x = 0;
+		double maxDist1y = 0;
+		double maxDist2x = 0;
+		double maxDist2y = 0;
+		double extraPointx = 0;
+		double extraPointy = 0;
+		if (dist1 > dist2 && dist1 > dist3) {
+			maxDist1x = x1;
+			maxDist1y = y1;
+			maxDist2x = x2;
+			maxDist2y = y2;
+			extraPointx = x3;
+			extraPointy = y3;
+		} else if (dist2 > dist1 && dist2 > dist3) {
+			maxDist1x = x2;
+			maxDist1y = y2;
+			maxDist2x = x3;
+			maxDist2y = y3;
+			extraPointx = x1;
+			extraPointy = y1;
+		}
+		if (dist3 > dist1 && dist3 > dist1) {
+			maxDist1x = x1;
+			maxDist1y = y1;
+			maxDist2x = x3;
+			maxDist2y = y3;
+			extraPointx = x2;
+			extraPointy = y2;
+		}
+		// distance between extra point and the others less than r :
+		// return false because it can be contained
+		if (distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius ||
+				distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius
+		) {
+			return false;
 		}
 		return true;
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	/**
 	 * helper function to get the angle between three points
@@ -640,62 +519,16 @@ public class Decide {
 		return angle;
 	}
 
-	
-	
-	
-	boolean LIC12() {
-		if(numpoints < 3) {
-			return false;
+	/**
+	 * If a < b return LT, a == b => EQ, else GT
+	 */
+	Comptype doubleCompare(double a, double b) {
+		if (Math.abs(a - b) < 0.000001) {
+			return Comptype.EQ;
 		}
-		boolean[] conds= new boolean[2];
-		for(int i = 0; i < numpoints; i++) {
-			if(i + parameters.kPts +1<= numpoints-1) {
-			if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) > parameters.length) {
-				conds[0] = true;
-				break;
-			}
-			
+		if (a < b) {
+			return Comptype.LT;
 		}
+		return Comptype.GT;
 	}
-		for(int i = 0; i < numpoints; i++) {
-			if(i + parameters.kPts +1<= numpoints-1) {
-			if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) < parameters.length2) {
-				conds[1] = true;
-				break;
-			}
-			
-		}
-	}
-		
-		
-		
-		int counter = 0;
-		for(int i = 0; i < 2; i++) {
-			if(conds[i] == true) {
-				counter++;
-			}
-		}
-		if(counter == 2) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
-
-
