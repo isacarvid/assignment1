@@ -37,6 +37,27 @@ public class TestDecide {
     public void setUp() {
         System.out.println("setup");
     }
+	@Test
+	public void LIC6test() {
+		double[] x = {1, 3, 5};
+		double[] y = {2, 4, 2}; 
+		Decide decide = new Decide();
+		decide.numpoints = 3;
+		decide.parameters.nPts = 3;
+		decide.parameters.dist = 1;
+		decide.coordinatex = x;
+		decide.coordinatey = y;
+		assertTrue(decide.lic6());
+
+		Decide decide2 = new Decide();
+		decide2.numpoints = 3;
+		decide2.parameters.nPts = 3;
+		decide2.parameters.dist = 3;
+		decide2.coordinatex = x;
+		decide2.coordinatey = y;
+		assertFalse(decide2.lic6());
+		
+	}
 
 	@Test
 	public void testLIC0() {
@@ -74,6 +95,26 @@ public class TestDecide {
 		program.coordinatex = falseCoorX;
 		program.coordinatey = falseCoorY;
 		assertTrue(!program.LIC0(program.parameters));
+	}
+	
+	/**
+	 * There exists at least one set of three consecutive data points
+	 * with aPts and bPts distance between them
+	 * that cannot all be contained in a circle of radius1
+	 */
+	@Test
+	public void testLIC8() {
+		double[] x = {0, 4, 9};
+		double[] y = {0, 4, 9};
+		Decide program = new Decide();
+		program.numpoints = 10;
+		program.parameters.radius = 3;
+		program.coordinatex = x;
+		program.coordinatey = y;
+		assertTrue(program.LIC8());
+		program.parameters.radius = 9;
+		assertFalse(program.LIC8());
+		
 	}
 
 	/**
@@ -123,6 +164,33 @@ public class TestDecide {
 	}
 	
 
+	@Test
+	/**
+     * Return true if the 3pts triangle area is greater than area1
+     * Return false otherwise
+     * Return false if numpoints < 3
+     */
+	public void testLIC3() {
+        Decide program = new Decide();
+        
+        program.numpoints = 3;
+        double[] t1cx = {1, 2, 3};
+        double[] t1cy = {1, 2, 3};
+        double[] t2cx = {0, 4, 4};
+        double[] t2cy = {0, 0, 4};
+        program.parameters.area1 = 5;
+		
+		//test for a pts triangle with area 0
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC3(program.parameters));
+
+        //test for a pts triangle with area 8
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(program.LIC3(program.parameters));
+    }
+    
     @Test
     //Returns true if there exists at least two consecutive
     //data pts (xi yi) and (xj yj) where xj - xi < 0
@@ -142,8 +210,72 @@ public class TestDecide {
         decide2.coordinatex = LIC5Falsex;
         decide2.coordinatey = LIC5Falsey;
         assertFalse(decide2.LIC5(decide2.parameters));
-    }
+	}
 
+	@Test
+    /**
+     * Returns true if two cons pts seperated by kPts
+     * are at a distance greater than provided length
+     * Returns false if equal or less than
+     * Returns false if numpoints < 3
+     */
+	public void testLIC7() {
+        Decide program = new Decide();
+
+        program.numpoints = 3;
+        double[] t1cx = {0, 0, 0};
+        double[] t1cy = {0, 0, 0};
+        double[] t2cx = {0, 2, 2};
+        double[] t2cy = {0, 2, 0};
+        double[] t3cx = {0, 4, 4};
+        double[] t3cy = {0, 4, 0};
+        program.parameters.kPts = 1;
+        program.parameters.length = 2;
+
+		// Less than: test for pts with length 0
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC7(program.parameters));
+
+        // Equal to: test for pts with length 2
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC7(program.parameters));
+
+        // Greater than: test for pts with length 4
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC7(program.parameters));
+    }
+	
+    /**
+     * calc area and checks if it is bigger than area1. The real area in both tests are 2.0.
+     * */
+    @Test
+    public void LIC10() {
+    	double[] x =  { 1,2,3,4,4,3};
+    	double[] y = {1, 1, 3, 3, 3, 1};
+    	Decide decide = new Decide();
+    	decide.numpoints = 6;
+    	decide.parameters.ePts = 1;
+    	decide.parameters.fPts = 2;
+    	decide.parameters.area1 = 1;
+    	decide.coordinatex = x;
+    	decide.coordinatey = y;
+    	assertTrue(decide.lic10());
+    	
+    	double[] x2 =  { 1,2,3,4,4,3};
+    	double[] y2 = {1, 1, 3, 3, 3, 1};
+    	Decide decide2 = new Decide();
+    	decide2.numpoints = 6;
+    	decide2.parameters.ePts = 1;
+    	decide2.parameters.fPts = 2;
+    	decide2.parameters.area1 = 2;
+    	decide2.coordinatex = x2;
+    	decide2.coordinatey = y2;
+    	assertFalse(decide2.lic10());
+	}
+	
 	@Test
 	// Return true: exists 3 cons pts sep by exactly
 	// C_PTS and D_PTS cons intervening pts, forming an angle s.t.
@@ -172,6 +304,7 @@ public class TestDecide {
 		decide2.coordinatex = LIC9Falsex;
 		decide2.coordinatey = LIC9Falsey;
 		assertFalse(decide2.LIC9(decide2.parameters));
+
 	}
 	
 	
@@ -195,6 +328,84 @@ public class TestDecide {
 		
 		
 	}
+
+    
+    
+    @Test
+    /**
+     * Returns true if two pts seperated by gPts
+     * where i is a pt in the list earlier than j
+     * such that x[i] > x[j]
+     * Returns false if equal or less than
+     * Returns false if numpoints < 3
+     */
+	public void testLIC11() {
+        Decide program = new Decide();
+
+        program.numpoints = 3;
+        double[] t1cx = {0, 0, 1};
+        double[] t1cy = {0, 0, 0};
+        double[] t2cx = {1, 0, 1};
+        double[] t2cy = {0, 0, 0};
+        double[] t3cx = {1, 0, 0};
+        double[] t3cy = {0, 0, 0};
+        program.parameters.gPts = 1;
+
+		// Less than: test for pts where i < j
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+        assertTrue(!program.LIC11(program.parameters));
+
+        // Equal to: test for pts where i = j
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC11(program.parameters));
+
+        // Greater than: test for pts where i > j
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC11(program.parameters));
+    }
+
+	
+	@Test
+	/**
+     * Return true if some 3pts triangle area gapped by ePts and fPts
+	 * is greater than area1 and some 3pts less than area2
+     * Return false otherwise
+     * Return false if numpoints < 5
+     */
+	public void testLIC14() {
+        Decide program = new Decide();
+
+        program.numpoints = 5;
+        double[] t1cx = {0, 0, 5, 0, 5};
+        double[] t1cy = {0, 0, 0, 0, 5};
+        double[] t2cx = {0, 0, 0, 0, 0};
+		double[] t2cy = {0, 0, 0, 0, 0};
+		double[] t3cx = {0, 0, 4, 0, 4};
+		double[] t3cy = {0, 0, 0, 0, 4};
+		program.parameters.ePts = 1;
+		program.parameters.fPts = 1;
+		program.parameters.area1 = 5;
+		program.parameters.area2 = 10;
+
+		// 12.5: greater than area 1 && greater than area 2
+        program.coordinatex = t1cx;
+        program.coordinatey = t1cy;
+		assertTrue(!program.LIC14(program.parameters));
+		
+		// 0: less than area 1 && less than area 2
+        program.coordinatex = t2cx;
+        program.coordinatey = t2cy;
+        assertTrue(!program.LIC14(program.parameters));
+
+        // 8: greater than area 1 && less than area 2
+        program.coordinatex = t3cx;
+        program.coordinatey = t3cy;
+        assertTrue(program.LIC14(program.parameters));
+    }
+
 
 	
 	
