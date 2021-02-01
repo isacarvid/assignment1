@@ -117,12 +117,12 @@ public class TestDecide {
 		double[] t2cy = { 0, 0, 4 };
 		program.parameters.area1 = 5;
 
-		// test for a pts triangle with area 0
+		// Less than: test for a pts triangle with area 0
 		program.coordinatex = t1cx;
 		program.coordinatey = t1cy;
 		assertFalse(program.LIC3());
 
-		// test for a pts triangle with area 8
+		// Greater than: test for a pts triangle with area 8
 		program.coordinatex = t2cx;
 		program.coordinatey = t2cy;
 		assertTrue(program.LIC3());
@@ -313,8 +313,8 @@ public class TestDecide {
 	@Test
 	/**
 	 * Returns true if two pts seperated by gPts where i is a pt in the list earlier
-	 * than j such that x[i] > x[j] Returns false if equal or less than Returns
-	 * false if numpoints < 3
+	 * than j such that x[i] > x[j] Returns false if equal or less than 
+	 * Returns false if numpoints < 3
 	 */
 	public void testLIC11() {
 		Decide program = new Decide();
@@ -364,8 +364,9 @@ public class TestDecide {
 	@Test
 	/**
 	 * Return true if some 3pts gapped by ePts and fPts dont fit in radius1 circle
-	 * and some 3pts fit radius2 Return false otherwise Return false if numpoints <
-	 * 5
+	 * and some 3pts fit radius2 
+	 * Return false otherwise 
+	 * Return false if numpoints < 5
 	 */
 	public void testLIC13() {
 		Decide program = new Decide();
@@ -401,8 +402,9 @@ public class TestDecide {
 	@Test
 	/**
 	 * Return true if some 3pts triangle area gapped by ePts and fPts is greater
-	 * than area1 and some 3pts less than area2 Return false otherwise Return false
-	 * if numpoints < 5
+	 * than area1 and some 3pts less than area2 
+	 * Return false otherwise 
+	 * Return false if numpoints < 5
 	 */
 	public void testLIC14() {
 		Decide program = new Decide();
@@ -524,11 +526,17 @@ public class TestDecide {
 		assertFalse(program.launch());
 	}
 	
+	/**
+	 * The FUV is a 15 element boolean vector
+	 * It is made using the elements of PUM and PUV
+	 * For details on the logic of its construction check
+	 * the createFUV function documentation 
+	 */
 	@Test
 	public void testFUV() {
 		Decide program = new Decide();
 
-		// Test FUV with PUM all false val
+		// Test FUV with PUM all false val & all PUV are true (false PUM test)
 		// create CMV
 		for(int i = 0; i < 15; i++) {
 			program.cmv[i] = false;
@@ -559,7 +567,7 @@ public class TestDecide {
 		}
 		assertFalse(result);
 
-		// Test FUV with PUM all true val
+		// Test FUV with PUM all true val & all PUV are true (true PUM test)
 		// create CMV
 		for(int i = 0; i < 15; i++) {
 			program.cmv[i] = true;
@@ -590,7 +598,7 @@ public class TestDecide {
 		}
 		assertTrue(result);
 
-		// Test FUV with PUM all false val & all PUV are false
+		// Test FUV with PUM all false val & all PUV are false (false PUV test)
 		// create CMV
 		for(int i = 0; i < 15; i++) {
 			program.cmv[i] = false;

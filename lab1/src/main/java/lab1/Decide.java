@@ -544,7 +544,12 @@ public class Decide {
 	}
 
 	/**
+	 * Uses the information from puv and pum to create a
+	 * final vector of unlocking conditions which should all be
+	 * true for launch. NPE checking for puv and pum is not needed
+	 * as their elements init to false when the class is instanced 
 	 * 
+	 * @return a list of 15 booleans
 	 */
 	public boolean[] createFUV() {
 		boolean[] tmp = new boolean[15];
