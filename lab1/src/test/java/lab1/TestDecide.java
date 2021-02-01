@@ -81,8 +81,13 @@ public class TestDecide {
 		assertFalse(decide2.LIC1());
 	}
 
+	/**
+	 * Tests if a the angle between three points is within the marign PI +- epsilon
+	 * 
+	 * */
 	@Test
 	public void testLIC2() {
+		// a straight line should result in PI exactly, hence it should assert false
 		double[] x = { 1, 3, 5 };
 		double[] y = { 2, 2, 2 };
 		Decide decide = new Decide();
@@ -91,7 +96,8 @@ public class TestDecide {
 		decide.coordinatex = x;
 		decide.coordinatey = y;
 		assertFalse(decide.LIC2());
-
+		
+		// a straight line should result an angle not within PI+-epsilon, hence it should assert true
 		double[] x2 = { 1, 5, 7 };
 		double[] y2 = { 2, 10, 2 };
 		Decide decide2 = new Decide();
@@ -174,8 +180,15 @@ public class TestDecide {
 		assertFalse(decide2.LIC5());
 	}
 
+	/**
+	 * Checks if there exists a point within a interval from i -> i + nPts that has
+	 * a distance greater than dist. The distance in question is the one between the
+	 * point in the interval and the line drawn from point point(i) to point(i +
+	 * npts).
+	 */
 	@Test
 	public void testLIC6() {
+		//forms a line between the first and last point that is constant y=2. the middle point should be 2 units away which is greater than 1.
 		double[] x = { 1, 3, 5 };
 		double[] y = { 2, 4, 2 };
 		Decide decide = new Decide();
@@ -186,6 +199,7 @@ public class TestDecide {
 		decide.coordinatey = y;
 		assertTrue(decide.LIC6());
 
+		//forms a line between the first and last point
 		Decide decide2 = new Decide();
 		decide2.numpoints = 3;
 		decide2.parameters.nPts = 3;
@@ -282,11 +296,12 @@ public class TestDecide {
 	}
 
 	/**
-	 * calc area and checks if it is bigger than area1. The real area in both tests
+	 * Calculate area and checks if it is bigger than area1. The real area in both cases
 	 * are 2.0.
 	 */
 	@Test
 	public void testLIC10() {
+		//the area is 2 which is greater than 1, assert true
 		double[] x = { 1, 2, 3, 4, 4, 3 };
 		double[] y = { 1, 1, 3, 3, 3, 1 };
 		Decide decide = new Decide();
@@ -297,7 +312,8 @@ public class TestDecide {
 		decide.coordinatex = x;
 		decide.coordinatey = y;
 		assertTrue(decide.LIC10());
-
+		
+		//the area is 2 which is not greater than 2, assert false
 		double[] x2 = { 1, 2, 3, 4, 4, 3 };
 		double[] y2 = { 1, 1, 3, 3, 3, 1 };
 		Decide decide2 = new Decide();
