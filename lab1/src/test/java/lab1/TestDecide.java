@@ -536,7 +536,7 @@ public class TestDecide {
 			}
 		}
 		// create PUM
-		program.pum = createPUM();
+		program.pum = program.createPUM();
 		// fill out PUV
 		for(i = 0; i < 15; i++) {
 			program.puv[i] = true; // true implies that the LIC impacts launch
@@ -547,7 +547,7 @@ public class TestDecide {
 
 		// check assertion that all FUV are false
 		boolean result = false;
-		for(int i = 0; i < 15; i++) {
+		for(i = 0; i < 15; i++) {
 			if(program.fuv[i] == true) {
 				result = true;
 				break;
@@ -557,17 +557,17 @@ public class TestDecide {
 
 		// Test FUV with PUM all true val
 		// create CMV
-		for(int i = 0; i < 15; i++) {
+		for(i = 0; i < 15; i++) {
 			program.cmv[i] = true;
 		}
 		// create LCM
 		for(i = 0; i < 15; i++) {
-			for(int j = 0; j < 15; j++) {
+			for(j = 0; j < 15; j++) {
 				program.lcm[i][j] = Connectors.ANDD;
 			}
 		}
 		// create PUM
-		program.pum = createPUM();
+		program.pum = program.createPUM();
 		// fill out PUV
 		for(i = 0; i < 15; i++) {
 			program.puv[i] = true; // true implies that the LIC impacts launch
@@ -577,8 +577,8 @@ public class TestDecide {
 		program.fuv = program.createFUV();
 
 		// check assertion that all FUV are true
-		boolean result = true;
-		for(int i = 0; i < 15; i++) {
+		result = true;
+		for(i = 0; i < 15; i++) {
 			if(program.fuv[i] == false) {
 				result = false;
 				break;
@@ -588,17 +588,17 @@ public class TestDecide {
 
 		// Test FUV with PUM all false val & all PUV are false
 		// create CMV
-		for(int i = 0; i < 15; i++) {
+		for(i = 0; i < 15; i++) {
 			program.cmv[i] = false;
 		}
 		// create LCM
 		for(i = 0; i < 15; i++) {
-			for(int j = 0; j < 15; j++) {
+			for(j = 0; j < 15; j++) {
 				program.lcm[i][j] = Connectors.ANDD;
 			}
 		}
 		// create PUM
-		program.pum = createPUM();
+		program.pum = program.createPUM();
 		// fill out PUV
 		for(i = 0; i < 15; i++) {
 			program.puv[i] = false; // false implies that the LIC doesnt impact launch
@@ -608,8 +608,8 @@ public class TestDecide {
 		program.fuv = program.createFUV();
 
 		// check assertion that all FUV are true
-		boolean result = true;
-		for(int i = 0; i < 15; i++) {
+		result = true;
+		for(i = 0; i < 15; i++) {
 			if(program.fuv[i] == false) {
 				result = false;
 				break;
