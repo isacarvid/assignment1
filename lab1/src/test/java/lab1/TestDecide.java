@@ -509,7 +509,6 @@ public class TestDecide {
 		assertFalse(result);
 
 	}
-	
 	@Test
 	public void testLaunch() {
 		Decide program = new Decide();
