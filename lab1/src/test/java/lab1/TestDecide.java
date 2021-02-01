@@ -120,12 +120,12 @@ public class TestDecide {
 		// test for a pts triangle with area 0
 		program.coordinatex = t1cx;
 		program.coordinatey = t1cy;
-		assertFalse(program.LIC3(program.parameters));
+		assertFalse(program.LIC3());
 
 		// test for a pts triangle with area 8
 		program.coordinatex = t2cx;
 		program.coordinatey = t2cy;
-		assertTrue(program.LIC3(program.parameters));
+		assertTrue(program.LIC3());
 	}
 
 	/**
@@ -330,17 +330,17 @@ public class TestDecide {
 		// Less than: test for pts where i < j
 		program.coordinatex = t1cx;
 		program.coordinatey = t1cy;
-		assertFalse(program.LIC11(program.parameters));
+		assertFalse(program.LIC11());
 
 		// Equal to: test for pts where i = j
 		program.coordinatex = t2cx;
 		program.coordinatey = t2cy;
-		assertFalse(program.LIC11(program.parameters));
+		assertFalse(program.LIC11());
 
 		// Greater than: test for pts where i > j
 		program.coordinatex = t3cx;
 		program.coordinatey = t3cy;
-		assertTrue(program.LIC11(program.parameters));
+		assertTrue(program.LIC11());
 	}
 
 	@Test
@@ -422,17 +422,17 @@ public class TestDecide {
 		// 12.5: greater than area 1 && greater than area 2
 		program.coordinatex = t1cx;
 		program.coordinatey = t1cy;
-		assertFalse(program.LIC14(program.parameters));
+		assertFalse(program.LIC14());
 
 		// 0: less than area 1 && less than area 2
 		program.coordinatex = t2cx;
 		program.coordinatey = t2cy;
-		assertFalse(program.LIC14(program.parameters));
+		assertFalse(program.LIC14());
 
 		// 8: greater than area 1 && less than area 2
 		program.coordinatex = t3cx;
 		program.coordinatey = t3cy;
-		assertTrue(program.LIC14(program.parameters));
+		assertTrue(program.LIC14());
 	}
 
 	/**
