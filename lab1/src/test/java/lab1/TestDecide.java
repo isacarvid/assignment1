@@ -511,6 +511,18 @@ public class TestDecide {
 	}
 	
 	@Test
+	public void testLaunch() {
+		Decide program = new Decide();
+		for(int i = 0; i < 15; i++) {
+			program.fuv[i] = true;
+		}
+		assertTrue(program.launch());
+		program.fuv[0] = false;
+		
+		assertFalse(program.launch());
+	}
+	
+	@Test
 	public void testFUV() {
 		Decide program = new Decide();
 
