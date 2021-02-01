@@ -53,8 +53,8 @@ public class Decide {
 	}
 
 	/**
-	 * Check if there exists to consecutive data points with a
-	 * distance greater than length parameter
+	 * Check if there exists to consecutive data points with a distance greater than
+	 * length parameter
 	 */
 	boolean LIC0() {
 		for (int i = 0; i < numpoints - 1; i++) {
@@ -81,7 +81,7 @@ public class Decide {
 			double x3 = coordinatex[i + 2];
 			double y3 = coordinatey[i + 2];
 			// checkNotInRadius returns false if the pts can be contained in rad
-			if(checkNotInRadius(x1, y1, x2, y2, x3, y3, radius1)) {
+			if (checkNotInRadius(x1, y1, x2, y2, x3, y3, radius1)) {
 				return true;
 			}
 		}
@@ -115,17 +115,19 @@ public class Decide {
 	}
 
 	/**
-	 * There exists at least one set of three consecutive data points
-	 * that are the vertices of a triangle with area greater than AREA1
+	 * There exists at least one set of three consecutive data points that are the
+	 * vertices of a triangle with area greater than AREA1
+	 * 
 	 * @return yes there exists such 3 pts
 	 */
-	boolean LIC3 (Parameters parameters){
+	boolean LIC3(Parameters parameters) {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
 
 		// check if there exists to consecutive data points with a distance greater than
 		// length parameter
-		if (numpoints < 3) return false;
+		if (numpoints < 3)
+			return false;
 		for (int i = 0; i < numpoints - 2; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];
@@ -135,14 +137,15 @@ public class Decide {
 			pt3y = coordinatey[i + 2];
 
 			someArea = 0.5 * (pt1x * (pt2y - pt3y) + pt2x * (pt3y - pt1y) + pt3x * (pt1y - pt2y));
-			if (doubleCompare(someArea, parameters.area1) == Comptype.GT) return true;
+			if (doubleCompare(someArea, parameters.area1) == Comptype.GT)
+				return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Check if there exists a set of Q_PTS
-	 * consecutive data points lie in more than quads quadrants
+	 * Check if there exists a set of Q_PTS consecutive data points lie in more than
+	 * quads quadrants
 	 */
 	boolean LIC4() {
 		boolean[] inhabitedQuads = new boolean[3];
@@ -183,7 +186,7 @@ public class Decide {
 	 * Returns true if there exists at least two consecutive data pts (xi yi) and
 	 * (xj yj) where xj - xi < 0 => xj < xi
 	 */
-	boolean LIC5(){
+	boolean LIC5() {
 		for (int i = 0; i < numpoints - 1; i++) {
 			// next nb is smaller than curr => true
 			if (doubleCompare(coordinatex[i + 1], coordinatex[i]) == Comptype.LT) {
@@ -202,8 +205,8 @@ public class Decide {
 	 */
 	boolean LIC6() {
 		for (int i = 0; i < numpoints + 1 - parameters.nPts; i++) {
-			double[] startPoint = {coordinatex[i], coordinatey[i]};
-			double[] endPoint = {coordinatex[i + parameters.nPts - 1], coordinatey[i + parameters.nPts - 1]};
+			double[] startPoint = { coordinatex[i], coordinatey[i] };
+			double[] endPoint = { coordinatex[i + parameters.nPts - 1], coordinatey[i + parameters.nPts - 1] };
 			double k = (endPoint[1] - startPoint[1]) / (endPoint[0] - startPoint[0]);
 
 			for (int j = i + 1; j < i + parameters.nPts - 1; j++) {
@@ -211,7 +214,7 @@ public class Decide {
 						.abs((endPoint[0] - startPoint[0]) * (startPoint[1] - coordinatey[j])
 								- (startPoint[0] - coordinatex[j]) * (endPoint[1] - startPoint[1]))
 						/ Math.sqrt(Math.pow((endPoint[0] - startPoint[0]), 2)
-						+ Math.pow((endPoint[1] - startPoint[1]), 2));
+								+ Math.pow((endPoint[1] - startPoint[1]), 2));
 
 				if (dist > parameters.dist) {
 					return true;
@@ -222,16 +225,18 @@ public class Decide {
 	}
 
 	/**
-	* There exists at least two data points separated by K_PTS consecutive intervening
-	* points that are a distance greater than LENGTH1, apart. The condition
-	* is not met when NUMPOINTS < 3
-	* @return true if yes there exists such 2 pts
-	*/
-	boolean LIC7(){
+	 * There exists at least two data points separated by K_PTS consecutive
+	 * intervening points that are a distance greater than LENGTH1, apart. The
+	 * condition is not met when NUMPOINTS < 3
+	 * 
+	 * @return true if yes there exists such 2 pts
+	 */
+	boolean LIC7() {
 		double pt1x, pt1y, pt2x, pt2y;
 		double someLength;
 
-		if (numpoints < 3) return false;
+		if (numpoints < 3)
+			return false;
 		for (int i = 0; i < numpoints - parameters.kPts - 1; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];
@@ -239,18 +244,21 @@ public class Decide {
 			pt2y = coordinatey[i + parameters.kPts + 1];
 
 			someLength = Math.sqrt((pt1x - pt2x) * (pt1x - pt2x) + (pt1y - pt2y) * (pt1y - pt2y));
-			if (doubleCompare(someLength, parameters.length) == Comptype.GT) return true;
+			if (doubleCompare(someLength, parameters.length) == Comptype.GT)
+				return true;
 		}
 		return false;
 	}
 
 	/**
-	 * There exists at least one set of three consecutive data points with aPts and bPts consecutive points
-	 *  in between each other that CANNOT all be contained in a circle of radius radius1
-	 *  (parameters.aPts < 1 || parameters.bPts < 1 || ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5) holds
-	 * */
+	 * There exists at least one set of three consecutive data points with aPts and
+	 * bPts consecutive points in between each other that CANNOT all be contained in
+	 * a circle of radius radius1 (parameters.aPts < 1 || parameters.bPts < 1 ||
+	 * ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5)
+	 * holds
+	 */
 	boolean LIC8() {
-		if(numpoints < 5) {
+		if (numpoints < 5) {
 			return false;
 		}
 		double radius1 = parameters.radius;
@@ -264,7 +272,7 @@ public class Decide {
 			double y2 = coordinatey[i + parameters.aPts + 1];
 			double x3 = coordinatex[i + parameters.aPts + parameters.bPts + 2];
 			double y3 = coordinatey[i + parameters.aPts + parameters.bPts + 2];
-			if(checkNotInRadius(x1, y1, x2, y2, x3, y3, radius1)) {
+			if (checkNotInRadius(x1, y1, x2, y2, x3, y3, radius1)) {
 				return true;
 			}
 		}
@@ -272,13 +280,12 @@ public class Decide {
 	}
 
 	/**
-	 * Return true if: exist 3 consecutive data pts separated
-	 * by exactly C_PTS and D_PTS consecutive intervening pts, forming an angle s.t.
-	 * angle < pi - epsilon or angle > pi+epsilon (2nd pt is always vertex)
-	 * if numpoints < 5 : return false
-	 * if first or 3rd point == vertex : cannot be true for those pts
+	 * Return true if: exist 3 consecutive data pts separated by exactly C_PTS and
+	 * D_PTS consecutive intervening pts, forming an angle s.t. angle < pi - epsilon
+	 * or angle > pi+epsilon (2nd pt is always vertex) if numpoints < 5 : return
+	 * false if first or 3rd point == vertex : cannot be true for those pts
 	 */
-	boolean LIC9(){
+	boolean LIC9() {
 		int i = 0;
 		int j = i + parameters.cPts + 1;
 		int k = j + parameters.dPts + 1;
@@ -304,11 +311,12 @@ public class Decide {
 	}
 
 	/**
-	 * Return true if exists at least 3 pts sep by epts and fpts
-	 * cons pts, that are the vertices of a trianlge w area > area1
+	 * Return true if exists at least 3 pts sep by epts and fpts cons pts, that are
+	 * the vertices of a trianlge w area > area1
 	 */
-	boolean LIC10(){
-		if (!(parameters.ePts >= 1) || !(parameters.fPts >= 1) || !(parameters.ePts + parameters.fPts <= numpoints - 2) || numpoints <= 5) {
+	boolean LIC10() {
+		if (!(parameters.ePts >= 1) || !(parameters.fPts >= 1) || !(parameters.ePts + parameters.fPts <= numpoints - 2)
+				|| numpoints <= 5) {
 			return false;
 		}
 		int i = 0;
@@ -337,52 +345,57 @@ public class Decide {
 	}
 
 	/**
-	 * There exists at least two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
-	 * G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j )
-	 * The condition is not met when NUMPOINTS < 3
-	 * @return true if an earlier point i has a greater x coordinate than a latter point j
+	 * There exists at least two data points, (X[i],Y[i]) and (X[j],Y[j]), separated
+	 * by G_PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i
+	 * < j ) The condition is not met when NUMPOINTS < 3
+	 * 
+	 * @return true if an earlier point i has a greater x coordinate than a latter
+	 *         point j
 	 */
-	boolean LIC11 (Parameters parameters){
+	boolean LIC11(Parameters parameters) {
 		double pt1x, pt2x;
-		if (numpoints < 3) return false;
+		if (numpoints < 3)
+			return false;
 		for (int i = 0; i < numpoints - parameters.gPts - 1; i++) {
 			pt1x = coordinatex[i];
 			pt2x = coordinatex[i + parameters.gPts + 1];
 
-			if (doubleCompare(pt1x, pt2x) == Comptype.GT) return true;
+			if (doubleCompare(pt1x, pt2x) == Comptype.GT)
+				return true;
 		}
 		return false;
 	}
 
 	/*
-	 * Exists at least one set of 2 data pts sep by kpts at
-	 * dist > length1. Also exists one set of data pts dep by kpts cons pts
-	 * that are at dist > length2
+	 * Exists at least one set of 2 data pts sep by kpts at dist > length1. Also
+	 * exists one set of data pts dep by kpts cons pts that are at dist > length2
 	 */
 	boolean LIC12() {
-		if(numpoints < 3) {
+		if (numpoints < 3) {
 			return false;
 		}
-		boolean[] conds= new boolean[2];
-		for(int i = 0; i < numpoints; i++) {
-			if(i + parameters.kPts +1<= numpoints-1) {
-				if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) > parameters.length) {
+		boolean[] conds = new boolean[2];
+		for (int i = 0; i < numpoints; i++) {
+			if (i + parameters.kPts + 1 <= numpoints - 1) {
+				if (distance(coordinatex[i], coordinatey[i], coordinatex[i + parameters.kPts + 1],
+						coordinatey[i + parameters.kPts + 1]) > parameters.length) {
 					conds[0] = true;
 					break;
 				}
 			}
 		}
-		for(int i = 0; i < numpoints; i++) {
-			if(i + parameters.kPts +1<= numpoints-1) {
-				if( distance(coordinatex[i],coordinatey[i],coordinatex[i+ parameters.kPts+1], coordinatey[i + parameters.kPts+1]) < parameters.length2) {
+		for (int i = 0; i < numpoints; i++) {
+			if (i + parameters.kPts + 1 <= numpoints - 1) {
+				if (distance(coordinatex[i], coordinatey[i], coordinatex[i + parameters.kPts + 1],
+						coordinatey[i + parameters.kPts + 1]) < parameters.length2) {
 					conds[1] = true;
 					break;
 				}
 			}
 		}
 		int counter = 0;
-		for(int i = 0; i < 2; i++) {
-			if(conds[i]) {
+		for (int i = 0; i < 2; i++) {
+			if (conds[i]) {
 				counter++;
 			}
 		}
@@ -390,14 +403,17 @@ public class Decide {
 	}
 
 	/**
-	 * Check if 3 points gapped by aPts and bPts can fit or not in radius1 and radius2
+	 * Check if 3 points gapped by aPts and bPts can fit or not in radius1 and
+	 * radius2
+	 * 
 	 * @return true if 3 points do not fit in radius1 and 3 pts do fit in radius2
 	 */
-	boolean LIC13 (){
+	boolean LIC13() {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		boolean r1 = false, r2 = false;
 
-		if (numpoints < 5) return false;
+		if (numpoints < 5)
+			return false;
 		for (int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];
@@ -405,28 +421,32 @@ public class Decide {
 			pt2y = coordinatey[i + parameters.aPts + 1];
 			pt3x = coordinatex[i + parameters.bPts + 1];
 			pt3y = coordinatey[i + parameters.bPts + 1];
-			if(checkNotInRadius(pt1x, pt1y, pt2x, pt2y, pt3x, pt3y, parameters.radius)) {
+			if (checkNotInRadius(pt1x, pt1y, pt2x, pt2y, pt3x, pt3y, parameters.radius)) {
 				r1 = true;
 			}
-			if(checkNotInRadius(pt1x, pt1y, pt2x, pt2y, pt3x, pt3y, parameters.radius2)) {
+			if (checkNotInRadius(pt1x, pt1y, pt2x, pt2y, pt3x, pt3y, parameters.radius2)) {
 				r2 = true;
 			}
 		}
-		if(r1 && !r2) {
+		if (r1 && !r2) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Check if 3 points gapped by ePts and fPts for a triangle with area less or more than area1 and area2
-	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less than area2
+	 * Check if 3 points gapped by ePts and fPts for a triangle with area less or
+	 * more than area1 and area2
+	 * 
+	 * @return true if 3 pts triangle area is more than area1 and some 3 pts less
+	 *         than area2
 	 */
-	boolean LIC14 (Parameters parameters){
+	boolean LIC14(Parameters parameters) {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
 		boolean a1 = false, a2 = false;
-		if (numpoints < 5) return false;
+		if (numpoints < 5)
+			return false;
 		for (int i = 0; i < numpoints - (parameters.ePts + parameters.fPts) - 2; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];
@@ -440,96 +460,99 @@ public class Decide {
 			// check if the pts triangle area is more than area1
 			if (doubleCompare(someArea, parameters.area1) == Comptype.GT) {
 				a1 = true;
-				if (a2) return true;
+				if (a2)
+					return true;
 			}
 			// check if the pts triangle area is less than area2
 			if (doubleCompare(someArea, parameters.area2) == Comptype.LT) {
 				a2 = true;
-				if (a1) return true;
+				if (a1)
+					return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * sets all indexes of cmv with all lic-functions return value
-	 * */
-	public void setCMV(){
-	    cmv[0] = LIC0();
-	    cmv[1] = LIC1();
-	    cmv[2] = LIC2();
-	    cmv[3] = LIC3(parameters);
-	    cmv[4] = LIC4();
-	    cmv[5] = LIC5();
-	    cmv[6] = LIC6();
-	    cmv[7] = LIC7();
-	    cmv[8] = LIC8();
-	    cmv[9] = LIC9();
-	    cmv[10] = LIC10();
-	    cmv[11] = LIC11(parameters);
-	    cmv[12] = LIC12();
-	    cmv[13] = LIC13();
-	    cmv[14] = LIC14(parameters);
+	 */
+	public void setCMV() {
+		cmv[0] = LIC0();
+		cmv[1] = LIC1();
+		cmv[2] = LIC2();
+		cmv[3] = LIC3(parameters);
+		cmv[4] = LIC4();
+		cmv[5] = LIC5();
+		cmv[6] = LIC6();
+		cmv[7] = LIC7();
+		cmv[8] = LIC8();
+		cmv[9] = LIC9();
+		cmv[10] = LIC10();
+		cmv[11] = LIC11(parameters);
+		cmv[12] = LIC12();
+		cmv[13] = LIC13();
+		cmv[14] = LIC14(parameters);
 	}
 
 	/**
 	 * creates PUM
-	 * */
-	public void createPUMWithCmv(){
-	    setCMV();
-	    this.pum = createPUM();
+	 */
+	public void createPUMWithCmv() {
+		setCMV();
+		this.pum = createPUM();
 	}
-	
+
 	/**
-	 * creates pum matrix by comparing lcm and cmv.
-	 * eg. lcm[i][j] = andd, cmv[i] = true, cmv[j] = false then -> pum[i][j] = false
+	 * creates pum matrix by comparing lcm and cmv. eg. lcm[i][j] = andd, cmv[i] =
+	 * true, cmv[j] = false then -> pum[i][j] = false
+	 * 
 	 * @return the pum matrix
-	 * */
-	public boolean[][] createPUM(){
-		boolean[][] tmp = new boolean[15][15]; 
-	    for(int i = 0; i< 15; i++){
-	        for(int j = 0; j< 15 ; j++){
-	            
-				switch(lcm[i][j]){
-	                case ORR:
-	                    if(cmv[i] || cmv[j]){
-	                    	tmp[i][j] = true;
-	                    } else{
-	                    	tmp[i][j] = false;
-	                    }
-	                break;
-	                case ANDD:
-	                    if(cmv[i] && cmv[j]){
-	                    	tmp[i][j] = true;
-	                    }else{
-	                    	tmp[i][j] = false;
-	                    }
-	                    
-	                break;
-	                case NOTUSED:
-	                	tmp[i][j] = true;
-	                break;
-	            }
-	        }      
-	    }
-	    return tmp;
+	 */
+	public boolean[][] createPUM() {
+		boolean[][] tmp = new boolean[15][15];
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+
+				switch (lcm[i][j]) {
+				case ORR:
+					if (cmv[i] || cmv[j]) {
+						tmp[i][j] = true;
+					} else {
+						tmp[i][j] = false;
+					}
+					break;
+				case ANDD:
+					if (cmv[i] && cmv[j]) {
+						tmp[i][j] = true;
+					} else {
+						tmp[i][j] = false;
+					}
+
+					break;
+				case NOTUSED:
+					tmp[i][j] = true;
+					break;
+				}
+			}
+		}
+		return tmp;
 	}
-	
+
 	/**
 	 * 
 	 */
 	public boolean[] createFUV() {
 		boolean[] tmp = new boolean[15];
-		for(int i=0; i<15; i++) {
+		for (int i = 0; i < 15; i++) {
 			// PUV[i] is false || all elements in PUM row i are true
-			if(!puv[i]) {
+			if (!puv[i]) {
 				tmp[i] = true;
 			}
 
 			else {
 				boolean checkLIC = true;
-				for(int j=0; j<15; j++) {
-					if(!pum[i][j]) {
+				for (int j = 0; j < 15; j++) {
+					if (!pum[i][j]) {
 						checkLIC = false;
 						break;
 					}
@@ -537,8 +560,21 @@ public class Decide {
 				tmp[i] = checkLIC; // all conditions were true in pum row
 			}
 		}
-		return tmp; 
+		return tmp;
 	}
+
+	/**
+	 * checks if all elements of fuv is set to true.
+	 */
+	public boolean launch() {
+		for (int i = 0; i < 15; i++) {
+			if (fuv[i] == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 
 	/**
 	 * Returns true if all points can be contained in circle
@@ -588,9 +624,8 @@ public class Decide {
 		}
 		// distance between extra point and the others less than r :
 		// return false because it can be contained
-		if (distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius ||
-				distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius
-		) {
+		if (distance(extraPointx, extraPointy, maxDist1x, maxDist1y) < radius
+				|| distance(extraPointx, extraPointy, maxDist2x, maxDist2y) < radius) {
 			return false;
 		}
 		return true;
@@ -600,11 +635,11 @@ public class Decide {
 	 * helper function to get the angle between three points
 	 * https://math.stackexchange.com/questions/361412/finding-the-angle-between-three-points
 	 */
-	double getAngle(double x1, double y1, double x2, double y2, double x3,double y3) {
-		double dist1 = distance(x1,y1,x2,y2);
-		double dist2 = distance(x2,y2,x3,y3);
-		double dist3 = distance(x1,y1,x3,y3);
-		double angle = Math.acos((Math.pow(dist1,2)+Math.pow(dist3,2)-Math.pow(dist2,2))/(2*dist1*dist3));
+	double getAngle(double x1, double y1, double x2, double y2, double x3, double y3) {
+		double dist1 = distance(x1, y1, x2, y2);
+		double dist2 = distance(x2, y2, x3, y3);
+		double dist3 = distance(x1, y1, x3, y3);
+		double angle = Math.acos((Math.pow(dist1, 2) + Math.pow(dist3, 2) - Math.pow(dist2, 2)) / (2 * dist1 * dist3));
 		System.out.println(angle);
 		return angle;
 	}
