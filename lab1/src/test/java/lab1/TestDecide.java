@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import static org.junit.Assert.assertFalse;
 
+
 public class TestDecide {
 
 	// here should probably put arrays which test like all the lics
@@ -508,5 +509,103 @@ public class TestDecide {
 		assertFalse(result);
 
 	}
+	
+	@Test
+	public void testFUV() {
+		Decide program = new Decide();
 
+		// Test FUV with PUM all false val
+		// create CMV
+		for(int i = 0; i < 15; i++) {
+			program.cmv[i] = false;
+		}
+		// create LCM
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				program.lcm[i][j] = Connectors.ANDD;
+			}
+		}
+		// create PUM
+		program.pum = program.createPUM();
+		// fill out PUV
+		for(int i = 0; i < 15; i++) {
+			program.puv[i] = true; // true implies that the LIC impacts launch
+		}
+
+		// create FUV
+		program.fuv = program.createFUV();
+
+		// check assertion that all FUV are false
+		boolean result = false;
+		for(int i = 0; i < 15; i++) {
+			if(program.fuv[i] == true) {
+				result = true;
+				break;
+			}
+		}
+		assertFalse(result);
+
+		// Test FUV with PUM all true val
+		// create CMV
+		for(int i = 0; i < 15; i++) {
+			program.cmv[i] = true;
+		}
+		// create LCM
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				program.lcm[i][j] = Connectors.ANDD;
+			}
+		}
+		// create PUM
+		program.pum = program.createPUM();
+		// fill out PUV
+		for(int i = 0; i < 15; i++) {
+			program.puv[i] = true; // true implies that the LIC impacts launch
+		}
+
+		// create FUV
+		program.fuv = program.createFUV();
+
+		// check assertion that all FUV are true
+		result = true;
+		for(int i = 0; i < 15; i++) {
+			if(program.fuv[i] == false) {
+				result = false;
+				break;
+			}
+		}
+		assertTrue(result);
+
+		// Test FUV with PUM all false val & all PUV are false
+		// create CMV
+		for(int i = 0; i < 15; i++) {
+			program.cmv[i] = false;
+		}
+		// create LCM
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 15; j++) {
+				program.lcm[i][j] = Connectors.ANDD;
+			}
+		}
+		// create PUM
+		program.pum = program.createPUM();
+		// fill out PUV
+		for(int i = 0; i < 15; i++) {
+			program.puv[i] = false; // false implies that the LIC doesnt impact launch
+		}
+
+		// create FUV
+		program.fuv = program.createFUV();
+
+		// check assertion that all FUV are true
+		result = true;
+		for(int i = 0; i < 15; i++) {
+			if(program.fuv[i] == false) {
+				result = false;
+				break;
+			}
+		}
+		assertTrue(result);
+
+	}
 }
