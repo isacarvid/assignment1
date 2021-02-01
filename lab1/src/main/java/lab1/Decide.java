@@ -124,9 +124,9 @@ public class Decide {
 		double pt1x, pt1y, pt2x, pt2y, pt3x, pt3y;
 		double someArea;
 
-		// check if there exists to consecutive data points with a distance greater than
-		// length parameter
 		if (numpoints < 3)
+			return false;
+		if (parameters.area1 < 0)
 			return false;
 		for (int i = 0; i < numpoints - 2; i++) {
 			pt1x = coordinatex[i];
@@ -236,6 +236,8 @@ public class Decide {
 		double someLength;
 
 		if (numpoints < 3)
+			return false;
+		if (parameters.kPts < 1 || parameters.kPts > numpoints - 2)
 			return false;
 		for (int i = 0; i < numpoints - parameters.kPts - 1; i++) {
 			pt1x = coordinatex[i];
@@ -356,10 +358,12 @@ public class Decide {
 		double pt1x, pt2x;
 		if (numpoints < 3)
 			return false;
+		if (parameters.gPts < 1 || parameters.gPts > numpoints -2)
+			return false;
 		for (int i = 0; i < numpoints - parameters.gPts - 1; i++) {
 			pt1x = coordinatex[i];
 			pt2x = coordinatex[i + parameters.gPts + 1];
-
+			
 			if (doubleCompare(pt1x, pt2x) == Comptype.GT)
 				return true;
 		}
@@ -414,6 +418,9 @@ public class Decide {
 
 		if (numpoints < 5)
 			return false;
+		if (parameters.radius < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints - (parameters.aPts + parameters.bPts) - 2; i++) {
 			pt1x = coordinatex[i];
 			pt1y = coordinatey[i];

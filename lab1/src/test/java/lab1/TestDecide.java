@@ -126,6 +126,10 @@ public class TestDecide {
 		program.coordinatex = t2cx;
 		program.coordinatey = t2cy;
 		assertTrue(program.LIC3());
+
+		// invalid input test: 0 > AREA
+		program.parameters.area1 = -1;
+		assertFalse(program.LIC3());
 	}
 
 	/**
@@ -198,9 +202,10 @@ public class TestDecide {
 
 	@Test
 	/**
-	 * Returns true if two cons pts seperated by kPts are at a distance greater than
-	 * provided length Returns false if equal or less than Returns false if
-	 * numpoints < 3
+	 * Returns true if two cons pts seperated by kPts are at a 
+	 * distance greater than provided length 
+	 * Returns false if equal or less than length
+	 * Returns false if numpoints < 3
 	 */
 	public void testLIC7() {
 		Decide program = new Decide();
@@ -229,6 +234,14 @@ public class TestDecide {
 		program.coordinatex = t3cx;
 		program.coordinatey = t3cy;
 		assertTrue(program.LIC7());
+
+		// invalid input test: 0 gap
+		program.parameters.kPts = 0;
+		assertFalse(program.LIC7());
+
+		// invalid input test: numpoints-1 gap
+		program.parameters.kPts = program.numpoints - 1;
+		assertFalse(program.LIC7());
 	}
 
 	/**
@@ -341,6 +354,14 @@ public class TestDecide {
 		program.coordinatex = t3cx;
 		program.coordinatey = t3cy;
 		assertTrue(program.LIC11());
+
+		// invalid input test: 0 gap
+		program.parameters.gPts = 0;
+		assertFalse(program.LIC11());
+
+		// invalid input test: numpoints-1 gap
+		program.parameters.gPts = program.numpoints - 1;
+		assertFalse(program.LIC11());
 	}
 
 	@Test
@@ -396,6 +417,10 @@ public class TestDecide {
 		program.coordinatex = t3cx;
 		program.coordinatey = t3cy;
 		assertTrue(program.LIC13());
+
+		// invalid input test: 0 > radius2
+		program.parameters.radius2 = -1;
+		assertFalse(program.LIC13());
 	}
 
 	@Test
@@ -433,6 +458,10 @@ public class TestDecide {
 		program.coordinatex = t3cx;
 		program.coordinatey = t3cy;
 		assertTrue(program.LIC14());
+
+		// invalid input test: 0 > area2
+		program.parameters.area2 = -1;
+		assertFalse(program.LIC14());
 	}
 
 	/**
