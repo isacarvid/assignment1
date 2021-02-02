@@ -30,6 +30,9 @@ public class TestDecide {
 	public void testLIC0() {
 		Decide program = new Decide();
 		program.numpoints = 3;
+		//test assert false for invalid input length -1
+		program.parameters.length = -1;
+		assertFalse(program.LIC0());
 		// Length in LICs 0 , 7 , 12 : 
 		//test that dist > than LIC length 0
 		program.parameters.length = 0;
@@ -152,7 +155,15 @@ public class TestDecide {
 	 */
 	@Test
 	public void testLIC4() {
+		
 		Decide program = new Decide();
+		
+		//check assertFalse for invalid input
+		program.parameters.qPts = 1;
+		program.parameters.quads = 4;
+		program.numpoints = 0;
+		assertFalse(program.LIC4());
+		
 		//check that the points, which are located in 3
 		//different quadrants is determined to 
 		//be greater than quads which is 2
@@ -277,13 +288,23 @@ public class TestDecide {
 	 */
 	@Test
 	public void testLIC8() {
+		//assert false for invalid input
+		Decide program = new Decide();
+		double[] faultArrX = { 0, 1, 2};
+		double[] faultArry = { 0, 6, 3};
+		program.coordinatex = faultArrX;
+		program.coordinatey = faultArry;
+		program.parameters.aPts = -1;
+		program.parameters.bPts = -1;
+		program.numpoints = 3;
+		assertFalse(program.LIC8());
 		//points (0,0),(4,4) are 4 points away from each other
 		// and (4,4) and (9,9) are 4 points. 
 		//these cannot be contained in a circle of radius 3
 		//but it works for nine.
 		double[] x = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		double[] y = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-		Decide program = new Decide();
+		
 		program.parameters.aPts = 3;
 		program.parameters.bPts = 4;
 		program.numpoints = 10;
@@ -409,8 +430,13 @@ public class TestDecide {
 	@Test
 	public void testLIC12() {
 		
-		//
+		
 		Decide program = new Decide();
+		//test assert false for faulty input
+		program.numpoints = 2;
+		program.parameters.length2 = -2;
+		program.parameters.kPts = 2;
+		assertFalse(program.LIC12());
 		
 		//checks if five points have a pair 
 		//of pts have, with kPts=2 consecutive intervening pts 

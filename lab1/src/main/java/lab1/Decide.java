@@ -81,6 +81,10 @@ public class Decide {
 	 * false if not.
 	 */
 	boolean LIC0() {
+		if(parameters.length < 0) {
+			return false;
+		}
+		
 		for (int i = 0; i < numpoints - 1; i++) {
 			double dist = Math.sqrt(Math.pow((coordinatex[i + 1] - coordinatex[i]), 2)
 					+ Math.pow((coordinatey[i + 1] - coordinatey[i]), 2));
@@ -285,8 +289,11 @@ public class Decide {
 	 * holds
 	 */
 	boolean LIC8() {
-		if (numpoints < 5) {
+		if (numpoints < 5 || parameters.aPts < 1 || parameters.bPts < 1) {
 			return false;
+		} else if((parameters.aPts + parameters.bPts) > (numpoints-3)) {
+			return false;
+			
 		}
 		double radius1 = parameters.radius;
 		for (int i = 0; i < numpoints; i++) {
@@ -404,7 +411,7 @@ public class Decide {
 	 * that are at distance > length2.
 	 */
 	boolean LIC12() {
-		if (numpoints < 3) {
+		if (numpoints < 3 || parameters.length2 < 0) {
 			return false;
 		}
 		boolean[] conds = new boolean[2];
