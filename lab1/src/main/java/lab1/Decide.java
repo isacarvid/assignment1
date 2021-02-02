@@ -4,6 +4,19 @@ import java.lang.Math;
 import java.util.Arrays;
 import static java.awt.geom.Point2D.distance;
 
+
+/**
+ * Contains the method decide and its sub-methods. 
+ * The decide function takes the following variables as input:
+ *  
+ *  NUMPOINTS The number of planar data points.
+ *  POINTS Array containing the coordinates of data points.
+ *  PARAMETERS Struct holding parameters for LIC’s (see below).
+ *  LCM Logical Connector Matrix.
+ *  PUV Preliminary Unlocking Vector.
+ *  
+ *  And decides if a missile should be launched or not. 
+ * */
 public class Decide {
 	enum Connectors {
 		NOTUSED, ORR, ANDD

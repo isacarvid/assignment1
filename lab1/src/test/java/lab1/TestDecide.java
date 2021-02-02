@@ -10,7 +10,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import static org.junit.Assert.assertFalse;
 
-
+/**
+ * Tests all methods in the lab1.Decide class.
+ * Each assert checks if the methods with both valid and invalid inputs.
+ * */
 public class TestDecide {
 
 	// here should probably put arrays which test like all the lics
