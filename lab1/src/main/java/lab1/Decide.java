@@ -77,8 +77,8 @@ public class Decide {
 	}
 
 	/**
-	 * Check if there exists to consecutive data points with a distance greater than
-	 * length parameter
+	 * @return true if there exists consecutive points with a distance greater than length parameter
+	 * false if not.
 	 */
 	boolean LIC0() {
 		for (int i = 0; i < numpoints - 1; i++) {
@@ -169,7 +169,7 @@ public class Decide {
 	}
 
 	/**
-	 * Check if there exists a set of Q_PTS consecutive data points lie in more than
+	 * @return true if there exists a set of Q_PTS consecutive data points that lie in more than
 	 * quads quadrants
 	 */
 	boolean LIC4() {
@@ -278,7 +278,7 @@ public class Decide {
 	}
 
 	/**
-	 * There exists at least one set of three consecutive data points with aPts and
+	 * @return true if there exists at least one set of three consecutive data points with aPts and
 	 * bPts consecutive points in between each other that CANNOT all be contained in
 	 * a circle of radius radius1 (parameters.aPts < 1 || parameters.bPts < 1 ||
 	 * ((parameters.aPts + parameters.bPts) > (numpoints - 3)) || numpoints < 5)
@@ -398,8 +398,10 @@ public class Decide {
 	}
 
 	/*
-	 * Exists at least one set of 2 data pts sep by kpts at dist > length1. Also
-	 * exists one set of data pts dep by kpts cons pts that are at dist > length2
+	 * @return true if there exists at least one set of 2 data points 
+	 * separated by kPts with distance between each other > length1 and if 
+	 * there exists one set of data points separated by Kpts consecutive points
+	 * that are at distance > length2.
 	 */
 	boolean LIC12() {
 		if (numpoints < 3) {
