@@ -114,6 +114,13 @@ public class TestDecide {
 		decide2.coordinatex = x2;
 		decide2.coordinatey = y2;
 		assertTrue(decide2.LIC2());
+		
+		//test invalid input. epsilon < 0
+		decide2.parameters.epsilon = -1;
+		assertFalse(decide2.LIC2());
+		//epsilon > PI
+		decide2.parameters.epsilon = 4;
+		assertFalse(decide2.LIC2());
 	}
 
 	@Test
@@ -222,6 +229,18 @@ public class TestDecide {
 		decide2.parameters.dist = 3;
 		decide2.coordinatex = x;
 		decide2.coordinatey = y;
+		assertFalse(decide2.LIC6());
+		
+		//test invalid input, dist < 0
+		decide2.parameters.dist = -1;
+		assertFalse(decide2.LIC6());
+		//nPts < 3
+		decide2.parameters.dist = 1;
+		decide2.parameters.nPts = 2;
+		assertFalse(decide2.LIC6());
+		//nPts > numpoints
+		decide2.numpoints = 5;
+		decide2.parameters.nPts = 6;
 		assertFalse(decide2.LIC6());
 
 	}
@@ -354,6 +373,19 @@ public class TestDecide {
 		decide2.parameters.area1 = 2;
 		decide2.coordinatex = x2;
 		decide2.coordinatey = y2;
+		assertFalse(decide2.LIC10());
+		
+		//testing invalid input
+		//	ePts < 1
+		decide2.numpoints = 6;
+		decide2.parameters.ePts = 0;
+		assertFalse(decide2.LIC10());
+		// fPts < 1
+		decide2.parameters.fPts = 0;
+		assertFalse(decide2.LIC10());
+		//ePts + fPts > numpoints-3
+		decide2.parameters.ePts = 5;
+		decide2.parameters.fPts = 5;
 		assertFalse(decide2.LIC10());
 	}
 
