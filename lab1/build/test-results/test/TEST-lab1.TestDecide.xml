@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="lab1.TestDecide" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-02-02T18:51:06" hostname="MacBook-Pro-de-Eva.local" time="0.012">
+  <properties/>
+  <testcase name="testLIC9" classname="lab1.TestDecide" time="0.012"/>
+  <system-out><![CDATA[setup
+0.15431877592611973
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -182,10 +182,10 @@ public class TestDecide {
 	@Test
 	/**
 	 * Check that LIC5 returns true if there exists at least two consecutive
-	 * data pts (xi yi) and (xj yj) where xj - xi < 0
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0 (xj smaller than xi)
 	 */
 	public void testLIC5() {
-		//
+		// xj = 2 smaller than xi = 3 so xj - xi = 2 - 3 < 0 => return true
 		double[] LIC5Truex = new double[] { 3, 2, 1 };
 		double[] LIC5Truey = new double[] { 0, -2, 9 };
 		Decide decide = new Decide();
@@ -194,6 +194,7 @@ public class TestDecide {
 		decide.coordinatey = LIC5Truey;
 		assertTrue(decide.LIC5());
 
+		// xj = 2 bigger than xi = 1 so xj - xi = 2 - 1 > 0 => return false
 		double[] LIC5Falsex = new double[] { 1, 2, 3 };
 		double[] LIC5Falsey = new double[] { 1, 2, 5 };
 		Decide decide2 = new Decide();
@@ -310,17 +311,22 @@ public class TestDecide {
 	 * or 3rd point == vertex : cannot be true for those pts
 	 */
 	public void testLIC9() {
+		// the tested points will be (0,0), (5,6) and (3,5),
+		// the angle they form = 0.412 radians > pi + 0.01
 		double[] LIC9Truex = new double[] { 0, 2, 5, 6, 8, 1, 3 };
 		double[] LIC9Truey = new double[] { 0, 1, 6, 8, 2, 4, 5 };
 		Decide decide = new Decide();
-		decide.parameters.epsilon = 0.1;
-		decide.parameters.cPts = 1; // 0,0 - 5,6 - 3,5
+		decide.parameters.epsilon = 0.01;
+		decide.parameters.cPts = 1;
 		decide.parameters.dPts = 3;
 		decide.numpoints = 7;
 		decide.coordinatex = LIC9Truex;
 		decide.coordinatey = LIC9Truey;
 		assertTrue(decide.LIC9());
 
+		// the tested points will be (1,1), (2,2) and (3,5),
+		// the angle they form = 2.678 radians not > pi + 0.1
+		// and not < pi-0.1
 		double[] LIC9Falsex = new double[] { 1, 2, 3 };
 		double[] LIC9Falsey = new double[] { 1, 2, 5 };
 		Decide decide2 = new Decide();
