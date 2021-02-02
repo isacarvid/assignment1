@@ -70,6 +70,8 @@ public class TestDecide {
 	 */
 	@Test
 	public void testLIC1() {
+		// the points cannot be contained in circle w radius 3
+		// => return true
 		double[] x = { 0, 4, 9 };
 		double[] y = { 0, 4, 9 };
 		Decide decide = new Decide();
@@ -79,6 +81,8 @@ public class TestDecide {
 		decide.coordinatey = y;
 		assertTrue(decide.LIC1());
 
+		// the points can be contained in circle w radius 10
+		// => return false
 		double[] x2 = { 0, 1, 2 };
 		double[] y2 = { 0, 1, 2 };
 		Decide decide2 = new Decide();
@@ -176,9 +180,12 @@ public class TestDecide {
 	}
 
 	@Test
-	// Returns true if there exists at least two consecutive
-	// data pts (xi yi) and (xj yj) where xj - xi < 0
+	/**
+	 * Check that LIC5 returns true if there exists at least two consecutive
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0
+	 */
 	public void testLIC5() {
+		//
 		double[] LIC5Truex = new double[] { 3, 2, 1 };
 		double[] LIC5Truey = new double[] { 0, -2, 9 };
 		Decide decide = new Decide();
