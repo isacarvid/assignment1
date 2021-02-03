@@ -73,6 +73,8 @@ public class TestDecide {
 	 */
 	@Test
 	public void testLIC1() {
+		// the points cannot be contained in circle w radius 3
+		// => return true
 		double[] x = { 0, 4, 9 };
 		double[] y = { 0, 4, 9 };
 		Decide decide = new Decide();
@@ -82,6 +84,12 @@ public class TestDecide {
 		decide.coordinatey = y;
 		assertTrue(decide.LIC1());
 
+		// return false as radius negative
+		decide.parameters.radius = -3;
+		assertFalse(decide.LIC1());
+
+		// the points can be contained in circle w radius 10
+		// => return false
 		double[] x2 = { 0, 1, 2 };
 		double[] y2 = { 0, 1, 2 };
 		Decide decide2 = new Decide();
