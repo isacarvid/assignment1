@@ -2,6 +2,7 @@ package lab1;
 
 import java.lang.Math;
 import java.util.Arrays;
+
 import static java.awt.geom.Point2D.distance;
 
 public class Decide {
@@ -121,6 +122,9 @@ public class Decide {
 	 * return true
 	 */
 	boolean LIC2() {
+		if(parameters.epsilon < 0 || parameters.epsilon >= Math.PI) {
+				return false;
+		}
 		for (int i = 1; i < numpoints - 1; i++) {
 			if (!((coordinatex[i - 1] == coordinatex[i] && coordinatey[i - 1] == coordinatey[i])
 					|| (coordinatex[i + 1] == coordinatex[i] && coordinatey[i + 1] == coordinatey[i]))) {
@@ -233,6 +237,9 @@ public class Decide {
 	 * at:(https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)
 	 */
 	boolean LIC6() {
+		if(3 > parameters.nPts || parameters.nPts > numpoints || parameters.dist < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints + 1 - parameters.nPts; i++) {
 			double[] startPoint = { coordinatex[i], coordinatey[i] };
 			double[] endPoint = { coordinatex[i + parameters.nPts - 1], coordinatey[i + parameters.nPts - 1] };
