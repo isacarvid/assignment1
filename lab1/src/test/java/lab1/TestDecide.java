@@ -307,8 +307,8 @@ public class TestDecide {
 	/**
 	 * Return true: exists 3 cons pts sep by exactly C_PTS and D_PTS cons
 	 * intervening pts, forming an angle s.t. angle < pi - epsilon or angle >
-	 * pi+epsilon (2nd pt is always vertex) if numpoints < 5 : return false if first
-	 * or 3rd point == vertex : cannot be true for those pts
+	 * pi+epsilon (2nd pt is always vertex) if numpoints < 5 : return false
+	 * if first or 3rd point == vertex : cannot be true for those pts
 	 */
 	public void testLIC9() {
 		// the tested points will be (0,0), (5,6) and (3,5),
