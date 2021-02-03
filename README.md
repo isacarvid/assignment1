@@ -33,7 +33,7 @@ Make a new object of class Decide(). Set all the parameters of the class as wish
 
 ### Daniel Helle
 
-### Something(s) valuable andremarkable that we are proud of  
+### Something(s) valuable and remarkable that we are proud of  
 * Used Travis and Gradle
 * Worked with pair programming
 * Linked all pull requests with issues 
