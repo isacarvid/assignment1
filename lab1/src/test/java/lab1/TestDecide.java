@@ -21,6 +21,21 @@ public class TestDecide {
 	public void setUp() {
 		System.out.println("setup");
 	}
+	
+	/**
+	 * tests that if all elements in fuv are true then assert true. otherwise assert false
+	 * */
+	@Test
+	public void testLaunch() {
+		Decide program = new Decide();
+		for(int i = 0; i < 15; i++) {
+			program.fuv[i] = true;
+		}
+		assertTrue(program.launch());
+		program.fuv[0] = false;
+		
+		assertFalse(program.launch());
+	}
 
 	/**
 	 * Checks  distance between consecutive points is > length parameter set to 0
@@ -683,20 +698,6 @@ public class TestDecide {
 		}
 		assertFalse(result);
 
-	}
-	/**
-	 * tests that if all elements in fuv are true then assert true. otherwise assert false
-	 * */
-	@Test
-	public void testLaunch() {
-		Decide program = new Decide();
-		for(int i = 0; i < 15; i++) {
-			program.fuv[i] = true;
-		}
-		assertTrue(program.launch());
-		program.fuv[0] = false;
-		
-		assertFalse(program.launch());
 	}
 	
 	/**
