@@ -101,6 +101,9 @@ public class Decide {
 	 */
 	boolean LIC1() {
 		double radius1 = parameters.radius;
+		if(radius1 < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints - 2; i++) {
 			double x1 = coordinatex[i];
 			double y1 = coordinatey[i];
