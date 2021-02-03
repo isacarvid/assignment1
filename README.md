@@ -40,8 +40,15 @@ Make a new object of class Decide(). Set all the parameters of the class as wish
 
 ### Daniel Helle
 
+* Function `LIC0()` with corresponding tests
+* Function `LIC4()` with corresponding tests
+* Function `LIC8()` with corresponding tests
+* Function `LIC8()` with corresponding tests
+
+
 ### Something(s) valuable and remarkable that we are proud of  
 * Used Travis and Gradle
 * Worked with pair programming
 * Linked all pull requests with issues 
 * Tried to avoid code duplication and to write clean code 
+
