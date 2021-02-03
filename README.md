@@ -32,3 +32,9 @@ Make a new object of class Decide(). Set all the parameters of the class as wish
 * Worked on making the `TestDecide.java` file compile with Travis & wrote first test
 
 ### Daniel Helle
+
+### Something(s) valuable andremarkable that we are proud of  
+* Used Travis and Gradle
+* Worked with pair programming
+* Linked all pull requests with issues 
+* Tries to avoid code duplication and to write clean code 
