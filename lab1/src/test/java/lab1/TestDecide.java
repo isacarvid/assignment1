@@ -31,12 +31,23 @@ public class TestDecide {
 	@Test
 	public void testLaunch() {
 		Decide program = new Decide();
+		
+		// test for an FUV where all conditions were satisfied
 		for(int i = 0; i < 15; i++) {
 			program.fuv[i] = true;
 		}
 		assertTrue(program.launch());
-		program.fuv[0] = false;
 		
+		// test for an FUV where not all conditions were satisfied
+		program.fuv[0] = false;
+		assertFalse(program.launch());
+		
+		// test for a faulty FUV with more or less than 15 conditions
+		boolean[] faultyFUV = new boolean[14];
+		for(int i = 0; i < 14; i++) {
+			faultyFUV[i] = true;
+		}
+		program.fuv = faultyFUV;
 		assertFalse(program.launch());
 	}
 
