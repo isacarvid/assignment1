@@ -23,8 +23,11 @@ public class TestDecide {
 	}
 	
 	/**
-	 * tests that if all elements in fuv are true then assert true. otherwise assert false
-	 * */
+	 * The TOP-LEVEL function to be called by the DECIDE() function
+	 * Given a boolean[15] vector FUV which is created after reading inputs and creating the PUM matrix
+	 * Tests that if all elements in FUV are true then assert true. otherwise assert false.
+	 * Given a faulty input of a boolean vector of not length != 15 (missing/extra info), returns false
+	 */
 	@Test
 	public void testLaunch() {
 		Decide program = new Decide();
