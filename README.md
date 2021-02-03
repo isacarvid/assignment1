@@ -14,8 +14,21 @@ Make a new object of class Decide(). Set all the parameters of the class as wish
 ## Statement of contribution
 
 ### Ayub Atif
+* Function `LIC3()` with corresponding tests
+* Function `LIC7()` with corresponding tests
+* Function `LIC11()` with corresponding tests
+* Function `LIC13()` with corresponding tests
+* Function `LIC14()` with corresponding tests
+* Function `createFUV()` with corresponding tests
 
 ### Isac Arvidsson
+* Function `LIC2()` with corresponding tests
+* Function `LIC6()` with corresponding tests
+* Function `LIC7()` with corresponding tests
+* Worked on setting up travis, set up yml-file and debugged how the tests were performed
+* "Parprogrammering" on the PUM with corresponding tests with Daniel 
+* Created launch and the decide methods and corresponding test with Ayub
+* Set up the first header file 
 
 ### Eva Despinoy
 * Function `LIC1()` with corresponding tests
@@ -26,7 +39,16 @@ Make a new object of class Decide(). Set all the parameters of the class as wish
 * Worked on making the `TestDecide.java` file compile with Travis & wrote first test
 
 ### Daniel Helle
+
 * Function `LIC0()` with corresponding tests
 * Function `LIC4()` with corresponding tests
 * Function `LIC8()` with corresponding tests
 * Function `LIC8()` with corresponding tests
+
+
+### Something(s) valuable and remarkable that we are proud of  
+* Used Travis and Gradle
+* Worked with pair programming
+* Linked all pull requests with issues 
+* Tried to avoid code duplication and to write clean code 
+
