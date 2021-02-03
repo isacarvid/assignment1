@@ -26,3 +26,7 @@ Make a new object of class Decide(). Set all the parameters of the class as wish
 * Worked on making the `TestDecide.java` file compile with Travis & wrote first test
 
 ### Daniel Helle
+* Function `LIC0()` with corresponding tests
+* Function `LIC4()` with corresponding tests
+* Function `LIC8()` with corresponding tests
+* Function `LIC8()` with corresponding tests
