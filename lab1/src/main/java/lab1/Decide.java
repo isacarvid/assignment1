@@ -323,6 +323,9 @@ public class Decide {
 	 * false if first or 3rd point == vertex : cannot be true for those pts
 	 */
 	boolean LIC9() {
+		if(parameters.cPts < 1 || parameters.dPts < 1) {
+			return false;
+		}
 		int i = 0;
 		int j = i + parameters.cPts + 1;
 		int k = j + parameters.dPts + 1;
