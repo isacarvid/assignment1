@@ -2,8 +2,22 @@ package lab1;
 
 import java.lang.Math;
 import java.util.Arrays;
+
 import static java.awt.geom.Point2D.distance;
 
+
+/**
+ * Contains the method decide and its sub-methods. 
+ * The decide function takes the following variables as input:
+ *  
+ *  NUMPOINTS The number of planar data points.
+ *  POINTS Array containing the coordinates of data points.
+ *  PARAMETERS Struct holding parameters for LIC’s (see below).
+ *  LCM Logical Connector Matrix.
+ *  PUV Preliminary Unlocking Vector.
+ *  
+ *  And decides if a missile should be launched or not. 
+ * */
 public class Decide {
 	enum Connectors {
 		NOTUSED, ORR, ANDD
@@ -96,7 +110,7 @@ public class Decide {
 	}
 
 	/**
-	 * Return true : There exists at least one set of three consecutive data points
+	 * @return true if there exists at least one set of three consecutive data points
 	 * than CANNOT all be contained in a circle of radius radius1
 	 */
 	boolean LIC1() {
@@ -124,6 +138,9 @@ public class Decide {
 	 * return true
 	 */
 	boolean LIC2() {
+		if(parameters.epsilon < 0 || parameters.epsilon >= Math.PI) {
+				return false;
+		}
 		for (int i = 1; i < numpoints - 1; i++) {
 			if (!((coordinatex[i - 1] == coordinatex[i] && coordinatey[i - 1] == coordinatey[i])
 					|| (coordinatex[i + 1] == coordinatex[i] && coordinatey[i + 1] == coordinatey[i]))) {
@@ -215,8 +232,8 @@ public class Decide {
 	}
 
 	/**
-	 * Returns true if there exists at least two consecutive data pts (xi yi) and
-	 * (xj yj) where xj - xi < 0 => xj < xi
+	 * @return true if there exists at least two consecutive data pts (xi yi) and
+	 * (xj yj) where xj - xi < 0 <=> xj < xi
 	 */
 	boolean LIC5() {
 		for (int i = 0; i < numpoints - 1; i++) {
@@ -236,6 +253,9 @@ public class Decide {
 	 * at:(https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)
 	 */
 	boolean LIC6() {
+		if(3 > parameters.nPts || parameters.nPts > numpoints || parameters.dist < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints + 1 - parameters.nPts; i++) {
 			double[] startPoint = { coordinatex[i], coordinatey[i] };
 			double[] endPoint = { coordinatex[i + parameters.nPts - 1], coordinatey[i + parameters.nPts - 1] };
@@ -317,10 +337,11 @@ public class Decide {
 	}
 
 	/**
-	 * Return true if: exist 3 consecutive data pts separated by exactly C_PTS and
+	 * @return true if there exist 3 consecutive data pointts separated by exactly C_PTS and
 	 * D_PTS consecutive intervening pts, forming an angle s.t. angle < pi - epsilon
-	 * or angle > pi+epsilon (2nd pt is always vertex) if numpoints < 5 : return
-	 * false if first or 3rd point == vertex : cannot be true for those pts
+	 * or angle > pi+epsilon (2nd pt is always vertex)
+	 * return false if numpoints < 5
+	 * if first or 3rd point == vertex : cannot be true for those pts
 	 */
 	boolean LIC9() {
 		if(parameters.cPts < 1 || parameters.dPts < 1) {

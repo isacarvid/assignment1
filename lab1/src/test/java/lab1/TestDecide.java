@@ -10,7 +10,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import static org.junit.Assert.assertFalse;
 
-
+/**
+ * Tests all methods in the lab1.Decide class.
+ * Each assert checks if the methods with both valid and invalid inputs.
+ * */
 public class TestDecide {
 
 	// here should probably put arrays which test like all the lics
@@ -125,6 +128,13 @@ public class TestDecide {
 		decide2.coordinatex = x2;
 		decide2.coordinatey = y2;
 		assertTrue(decide2.LIC2());
+		
+		//test invalid input. epsilon < 0
+		decide2.parameters.epsilon = -1;
+		assertFalse(decide2.LIC2());
+		//epsilon > PI
+		decide2.parameters.epsilon = 4;
+		assertFalse(decide2.LIC2());
 	}
 
 	@Test
@@ -195,9 +205,12 @@ public class TestDecide {
 	}
 
 	@Test
-	// Returns true if there exists at least two consecutive
-	// data pts (xi yi) and (xj yj) where xj - xi < 0
+	/**
+	 * Check that LIC5 returns true if there exists at least two consecutive
+	 * data pts (xi yi) and (xj yj) where xj - xi < 0 (xj smaller than xi)
+	 */
 	public void testLIC5() {
+		// xj = 2 smaller than xi = 3 so xj - xi = 2 - 3 < 0 => return true
 		double[] LIC5Truex = new double[] { 3, 2, 1 };
 		double[] LIC5Truey = new double[] { 0, -2, 9 };
 		Decide decide = new Decide();
@@ -206,6 +219,7 @@ public class TestDecide {
 		decide.coordinatey = LIC5Truey;
 		assertTrue(decide.LIC5());
 
+		// xj = 2 bigger than xi = 1 so xj - xi = 2 - 1 > 0 => return false
 		double[] LIC5Falsex = new double[] { 1, 2, 3 };
 		double[] LIC5Falsey = new double[] { 1, 2, 5 };
 		Decide decide2 = new Decide();
@@ -241,6 +255,18 @@ public class TestDecide {
 		decide2.parameters.dist = 3;
 		decide2.coordinatex = x;
 		decide2.coordinatey = y;
+		assertFalse(decide2.LIC6());
+		
+		//test invalid input, dist < 0
+		decide2.parameters.dist = -1;
+		assertFalse(decide2.LIC6());
+		//nPts < 3
+		decide2.parameters.dist = 1;
+		decide2.parameters.nPts = 2;
+		assertFalse(decide2.LIC6());
+		//nPts > numpoints
+		decide2.numpoints = 5;
+		decide2.parameters.nPts = 6;
 		assertFalse(decide2.LIC6());
 
 	}
@@ -398,6 +424,19 @@ public class TestDecide {
 		decide2.parameters.area1 = 2;
 		decide2.coordinatex = x2;
 		decide2.coordinatey = y2;
+		assertFalse(decide2.LIC10());
+		
+		//testing invalid input
+		//	ePts < 1
+		decide2.numpoints = 6;
+		decide2.parameters.ePts = 0;
+		assertFalse(decide2.LIC10());
+		// fPts < 1
+		decide2.parameters.fPts = 0;
+		assertFalse(decide2.LIC10());
+		//ePts + fPts > numpoints-3
+		decide2.parameters.ePts = 5;
+		decide2.parameters.fPts = 5;
 		assertFalse(decide2.LIC10());
 	}
 
