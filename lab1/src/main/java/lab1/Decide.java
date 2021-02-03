@@ -115,6 +115,9 @@ public class Decide {
 	 */
 	boolean LIC1() {
 		double radius1 = parameters.radius;
+		if(radius1 < 0) {
+			return false;
+		}
 		for (int i = 0; i < numpoints - 2; i++) {
 			double x1 = coordinatex[i];
 			double y1 = coordinatey[i];
@@ -341,6 +344,9 @@ public class Decide {
 	 * if first or 3rd point == vertex : cannot be true for those pts
 	 */
 	boolean LIC9() {
+		if(parameters.cPts < 1 || parameters.dPts < 1) {
+			return false;
+		}
 		int i = 0;
 		int j = i + parameters.cPts + 1;
 		int k = j + parameters.dPts + 1;

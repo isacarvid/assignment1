@@ -87,6 +87,10 @@ public class TestDecide {
 		decide.coordinatey = y;
 		assertTrue(decide.LIC1());
 
+		// return false as radius negative
+		decide.parameters.radius = -3;
+		assertFalse(decide.LIC1());
+
 		// the points can be contained in circle w radius 10
 		// => return false
 		double[] x2 = { 0, 1, 2 };
@@ -354,17 +358,32 @@ public class TestDecide {
 	 * if first or 3rd point == vertex : cannot be true for those pts
 	 */
 	public void testLIC9() {
+		// the tested points will be (0,0), (5,6) and (3,5),
+		// the angle they form = 0.154 < pi - 0.01, retrun true
 		double[] LIC9Truex = new double[] { 0, 2, 5, 6, 8, 1, 3 };
 		double[] LIC9Truey = new double[] { 0, 1, 6, 8, 2, 4, 5 };
 		Decide decide = new Decide();
 		decide.parameters.epsilon = 0.1;
-		decide.parameters.cPts = 1; // 0,0 - 5,6 - 3,5
+		decide.parameters.cPts = 1;
 		decide.parameters.dPts = 3;
 		decide.numpoints = 7;
 		decide.coordinatex = LIC9Truex;
 		decide.coordinatey = LIC9Truey;
 		assertTrue(decide.LIC9());
 
+		// the tested points will be (5,5), (2,2) and (3,5),
+		// the angle they form = 0.785 not > pi + 2.5 = 5.6
+		// and not < pi-2.5 = 0.64 so return false
+		decide.coordinatex = new double[] { 5, 2, 2, 6, 8, 1, 3 };
+		decide.coordinatey = new double[] { 5, 1, 2, 8, 2, 4, 5 };
+		decide.parameters.epsilon = 2.5;
+		assertFalse(decide.LIC9());
+
+		// return false as cPts < 1
+		decide.parameters.cPts = 0;
+		assertFalse(decide.LIC9());
+
+		// too few points compared to cPts and dPts, will return false
 		double[] LIC9Falsex = new double[] { 1, 2, 3 };
 		double[] LIC9Falsey = new double[] { 1, 2, 5 };
 		Decide decide2 = new Decide();
