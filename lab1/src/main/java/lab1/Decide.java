@@ -96,7 +96,7 @@ public class Decide {
 	}
 
 	/**
-	 * Return true : There exists at least one set of three consecutive data points
+	 * @return true if there exists at least one set of three consecutive data points
 	 * than CANNOT all be contained in a circle of radius radius1
 	 */
 	boolean LIC1() {
@@ -212,8 +212,8 @@ public class Decide {
 	}
 
 	/**
-	 * Returns true if there exists at least two consecutive data pts (xi yi) and
-	 * (xj yj) where xj - xi < 0 => xj < xi
+	 * @return true if there exists at least two consecutive data pts (xi yi) and
+	 * (xj yj) where xj - xi < 0 <=> xj < xi
 	 */
 	boolean LIC5() {
 		for (int i = 0; i < numpoints - 1; i++) {
@@ -314,10 +314,11 @@ public class Decide {
 	}
 
 	/**
-	 * Return true if: exist 3 consecutive data pts separated by exactly C_PTS and
+	 * @return true if there exist 3 consecutive data pointts separated by exactly C_PTS and
 	 * D_PTS consecutive intervening pts, forming an angle s.t. angle < pi - epsilon
-	 * or angle > pi+epsilon (2nd pt is always vertex) if numpoints < 5 : return
-	 * false if first or 3rd point == vertex : cannot be true for those pts
+	 * or angle > pi+epsilon (2nd pt is always vertex)
+	 * return false if numpoints < 5
+	 * if first or 3rd point == vertex : cannot be true for those pts
 	 */
 	boolean LIC9() {
 		int i = 0;
