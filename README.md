@@ -14,6 +14,12 @@ Make a new object of class Decide(). Set all the parameters of the class as wish
 ## Statement of contribution
 
 ### Ayub Atif
+* Function `LIC3()` with corresponding tests
+* Function `LIC7()` with corresponding tests
+* Function `LIC11()` with corresponding tests
+* Function `LIC13()` with corresponding tests
+* Function `LIC14()` with corresponding tests
+* Function `createFUV()` with corresponding tests
 
 ### Isac Arvidsson
 
