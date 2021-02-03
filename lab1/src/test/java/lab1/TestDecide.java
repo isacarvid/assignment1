@@ -95,8 +95,6 @@ public class TestDecide {
 		decide2.coordinatex = x2;
 		decide2.coordinatey = y2;
 		assertFalse(decide2.LIC1());
-
-
 	}
 
 	/**
