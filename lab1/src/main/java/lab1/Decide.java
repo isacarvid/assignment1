@@ -89,6 +89,20 @@ public class Decide {
 		launch = launch();
 		return launch;
 	}
+	
+	/**
+	 * checks if all elements of fuv is set to true and that the fuv is 15 elements long
+	 */
+	public boolean launch() {
+		if (fuv.length != 15)
+			return false;
+		for (int i = 0; i < 15; i++) {
+			if (fuv[i] == false) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * @return true if there exists consecutive points with a distance greater than length parameter
@@ -642,19 +656,6 @@ public class Decide {
 		}
 		return tmp;
 	}
-
-	/**
-	 * checks if all elements of fuv is set to true.
-	 */
-	public boolean launch() {
-		for (int i = 0; i < 15; i++) {
-			if (fuv[i] == false) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 
 	/**
 	 * Returns true if all points can be contained in circle

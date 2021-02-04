@@ -21,6 +21,35 @@ public class TestDecide {
 	public void setUp() {
 		System.out.println("setup");
 	}
+	
+	/**
+	 * The TOP-LEVEL function to be called by the DECIDE() function
+	 * Given a boolean[15] vector FUV which is created after reading inputs and creating the PUM matrix
+	 * Tests that if all elements in FUV are true then assert true. otherwise assert false.
+	 * Given a faulty input of a boolean vector of not length != 15 (missing/extra info), returns false
+	 */
+	@Test
+	public void testLaunch() {
+		Decide program = new Decide();
+		
+		// test for an FUV where all conditions were satisfied
+		for(int i = 0; i < 15; i++) {
+			program.fuv[i] = true;
+		}
+		assertTrue(program.launch());
+		
+		// test for an FUV where not all conditions were satisfied
+		program.fuv[0] = false;
+		assertFalse(program.launch());
+		
+		// test for a faulty FUV with more or less than 15 conditions
+		boolean[] faultyFUV = new boolean[14];
+		for(int i = 0; i < 14; i++) {
+			faultyFUV[i] = true;
+		}
+		program.fuv = faultyFUV;
+		assertFalse(program.launch());
+	}
 
 	/**
 	 * Checks  distance between consecutive points is > length parameter set to 0
@@ -683,20 +712,6 @@ public class TestDecide {
 		}
 		assertFalse(result);
 
-	}
-	/**
-	 * tests that if all elements in fuv are true then assert true. otherwise assert false
-	 * */
-	@Test
-	public void testLaunch() {
-		Decide program = new Decide();
-		for(int i = 0; i < 15; i++) {
-			program.fuv[i] = true;
-		}
-		assertTrue(program.launch());
-		program.fuv[0] = false;
-		
-		assertFalse(program.launch());
 	}
 	
 	/**
